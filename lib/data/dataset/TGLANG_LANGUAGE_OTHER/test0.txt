@@ -1,0 +1,1 @@
+sorry but in my actual string I don't have any single quotes, this string was just for the example ^^' so it's not the problem of single/double quotes

@@ -1,0 +1,10 @@
+make :random sum 1 random 100
+
+fd :random
+rt 90
+fd :random
+rt 90
+fd :random
+rt 90
+fd :random
+rt 90

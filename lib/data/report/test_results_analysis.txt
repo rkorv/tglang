@@ -1,0 +1,61 @@
+####################   METRICS   ####################
+Accuracy:  0.975  [1918/1968]
+Avg time:  0.013s [min:  0.003s, max:  0.019s]
+#################### EXTRA TIME ####################
+[0.019s]: /data/dataset/TGLANG_LANGUAGE_KEYMAN/test18.txt
+[0.016s]: /data/dataset/TGLANG_LANGUAGE_VERILOG/test19.txt
+[0.016s]: /data/dataset/TGLANG_LANGUAGE_FORTRAN/test10.txt
+[0.016s]: /data/dataset/TGLANG_LANGUAGE_BASIC/test2.txt
+[0.016s]: /data/dataset/TGLANG_LANGUAGE_CSV/test6.txt
+[0.016s]: /data/dataset/TGLANG_LANGUAGE_NIM/test1.txt
+####################   MISCLASS  ####################
+[0.013s] [            TGLANG_LANGUAGE_IDL] /data/dataset/TGLANG_LANGUAGE_PROLOG/test4.txt
+[0.014s] [            TGLANG_LANGUAGE_IDL] /data/dataset/TGLANG_LANGUAGE_PROLOG/test12.txt
+[0.014s] [            TGLANG_LANGUAGE_IDL] /data/dataset/TGLANG_LANGUAGE_PROLOG/test17.txt
+[0.013s] [            TGLANG_LANGUAGE_IDL] /data/dataset/TGLANG_LANGUAGE_PROLOG/test6.txt
+[0.014s] [            TGLANG_LANGUAGE_IDL] /data/dataset/TGLANG_LANGUAGE_PROLOG/test3.txt
+[0.013s] [          TGLANG_LANGUAGE_BASIC] /data/dataset/TGLANG_LANGUAGE_KEYMAN/test12.txt
+[0.013s] [         TGLANG_LANGUAGE_DELPHI] /data/dataset/TGLANG_LANGUAGE_PASCAL/test7.txt
+[0.014s] [         TGLANG_LANGUAGE_DELPHI] /data/dataset/TGLANG_LANGUAGE_PASCAL/test4.txt
+[0.013s] [         TGLANG_LANGUAGE_DELPHI] /data/dataset/TGLANG_LANGUAGE_PASCAL/test10.txt
+[0.013s] [         TGLANG_LANGUAGE_DELPHI] /data/dataset/TGLANG_LANGUAGE_PASCAL/test14.txt
+[0.013s] [         TGLANG_LANGUAGE_DELPHI] /data/dataset/TGLANG_LANGUAGE_PASCAL/test6.txt
+[0.014s] [          TGLANG_LANGUAGE_OTHER] /data/dataset/TGLANG_LANGUAGE_PASCAL/test3.txt
+[0.007s] [          TGLANG_LANGUAGE_OTHER] /data/dataset/TGLANG_LANGUAGE_TEXTILE/test1.txt
+[0.011s] [          TGLANG_LANGUAGE_OTHER] /data/dataset/TGLANG_LANGUAGE_TEXTILE/test18.txt
+[0.014s] [          TGLANG_LANGUAGE_OTHER] /data/dataset/TGLANG_LANGUAGE_TEXTILE/test16.txt
+[0.014s] [          TGLANG_LANGUAGE_OTHER] /data/dataset/TGLANG_LANGUAGE_TEXTILE/test13.txt
+[0.014s] [          TGLANG_LANGUAGE_OTHER] /data/dataset/TGLANG_LANGUAGE_TEXTILE/test6.txt
+[0.013s] [           TGLANG_LANGUAGE_VALA] /data/dataset/TGLANG_LANGUAGE_C/test11.txt
+[0.008s] [            TGLANG_LANGUAGE_SAS] /data/dataset/TGLANG_LANGUAGE_C/test9.txt
+[0.014s] [        TGLANG_LANGUAGE_CRYSTAL] /data/dataset/TGLANG_LANGUAGE_RUBY/test11.txt
+[0.013s] [          TGLANG_LANGUAGE_OCAML] /data/dataset/TGLANG_LANGUAGE_FSHARP/test18.txt
+[0.015s] [              TGLANG_LANGUAGE_C] /data/dataset/TGLANG_LANGUAGE_CPLUSPLUS/test10.txt
+[0.012s] [              TGLANG_LANGUAGE_C] /data/dataset/TGLANG_LANGUAGE_CPLUSPLUS/test14.txt
+[0.014s] [          TGLANG_LANGUAGE_OCAML] /data/dataset/TGLANG_LANGUAGE_WOLFRAM/test15.txt
+[0.013s] [          TGLANG_LANGUAGE_OTHER] /data/dataset/TGLANG_LANGUAGE_WOLFRAM/test17.txt
+[0.013s] [           TGLANG_LANGUAGE_GAMS] /data/dataset/TGLANG_LANGUAGE_OTHER/test15.txt
+[0.014s] [       TGLANG_LANGUAGE_MARKDOWN] /data/dataset/TGLANG_LANGUAGE_OTHER/test5.txt
+[0.015s] [          TGLANG_LANGUAGE_OTHER] /data/dataset/TGLANG_LANGUAGE_1S_ENTERPRISE/test17.txt
+[0.014s] [       TGLANG_LANGUAGE_MARKDOWN] /data/dataset/TGLANG_LANGUAGE_1S_ENTERPRISE/test16.txt
+[0.014s] [            TGLANG_LANGUAGE_SAS] /data/dataset/TGLANG_LANGUAGE_1S_ENTERPRISE/test13.txt
+[0.013s] [         TGLANG_LANGUAGE_FSHARP] /data/dataset/TGLANG_LANGUAGE_DELPHI/test11.txt
+[0.014s] [         TGLANG_LANGUAGE_PASCAL] /data/dataset/TGLANG_LANGUAGE_DELPHI/test15.txt
+[0.013s] [         TGLANG_LANGUAGE_PASCAL] /data/dataset/TGLANG_LANGUAGE_DELPHI/test10.txt
+[0.013s] [         TGLANG_LANGUAGE_PASCAL] /data/dataset/TGLANG_LANGUAGE_DELPHI/test18.txt
+[0.012s] [         TGLANG_LANGUAGE_PASCAL] /data/dataset/TGLANG_LANGUAGE_DELPHI/test17.txt
+[0.013s] [         TGLANG_LANGUAGE_PASCAL] /data/dataset/TGLANG_LANGUAGE_DELPHI/test8.txt
+[0.013s] [         TGLANG_LANGUAGE_PASCAL] /data/dataset/TGLANG_LANGUAGE_DELPHI/test16.txt
+[0.013s] [         TGLANG_LANGUAGE_PASCAL] /data/dataset/TGLANG_LANGUAGE_DELPHI/test19.txt
+[0.013s] [         TGLANG_LANGUAGE_PASCAL] /data/dataset/TGLANG_LANGUAGE_DELPHI/test14.txt
+[0.014s] [         TGLANG_LANGUAGE_PASCAL] /data/dataset/TGLANG_LANGUAGE_DELPHI/test13.txt
+[0.014s] [         TGLANG_LANGUAGE_PASCAL] /data/dataset/TGLANG_LANGUAGE_DELPHI/test9.txt
+[0.013s] [         TGLANG_LANGUAGE_PASCAL] /data/dataset/TGLANG_LANGUAGE_DELPHI/test6.txt
+[0.013s] [         TGLANG_LANGUAGE_PASCAL] /data/dataset/TGLANG_LANGUAGE_DELPHI/test5.txt
+[0.014s] [         TGLANG_LANGUAGE_PASCAL] /data/dataset/TGLANG_LANGUAGE_DELPHI/test3.txt
+[0.012s] [         TGLANG_LANGUAGE_GRADLE] /data/dataset/TGLANG_LANGUAGE_APACHE_GROOVY/test12.txt
+[0.013s] [           TGLANG_LANGUAGE_HTML] /data/dataset/TGLANG_LANGUAGE_PHP/test13.txt
+[0.013s] [          TGLANG_LANGUAGE_OTHER] /data/dataset/TGLANG_LANGUAGE_AUTOHOTKEY/test11.txt
+[0.013s] [          TGLANG_LANGUAGE_OTHER] /data/dataset/TGLANG_LANGUAGE_AUTOHOTKEY/test18.txt
+[0.007s] [          TGLANG_LANGUAGE_OTHER] /data/dataset/TGLANG_LANGUAGE_APPLESCRIPT/test12.txt
+[0.007s] [          TGLANG_LANGUAGE_OTHER] /data/dataset/TGLANG_LANGUAGE_APPLESCRIPT/test8.txt

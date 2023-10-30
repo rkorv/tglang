@@ -1,0 +1,1 @@
+if your actual problem is how to set up the server try this http://www.tonyspencer.com/2007/03/02/setup-a-subversion-server-in-4-minutes/

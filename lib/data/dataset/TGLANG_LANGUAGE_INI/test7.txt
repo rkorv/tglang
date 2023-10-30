@@ -1,0 +1,2 @@
+[LocalizedFileNames]
+nand2X.sp=@nand2X.sp,0

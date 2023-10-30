@@ -1,0 +1,26 @@
+; Saved by version: 1.3.0a
+
+[SpawnAbissal]
+xposition=-15.75
+yposition=5.25
+buttons=1
+event1=EventMoveIn
+monster=MonsterDeepOne
+uniquehealthhero=1
+
+[SpawnManiaco]
+xposition=-29.75
+yposition=8.75
+buttons=1
+event1=EventMoveIn
+monster=MonsterManiac
+uniquehealth=15
+uniquehealthhero=1
+
+[SpawnCaoTindalo]
+xposition=-9.529713
+yposition=-1.221978
+buttons=1
+event1=
+remove=TokenCachorro
+monster=MonsterHoundOfTindalos

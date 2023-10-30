@@ -1,0 +1,358 @@
+﻿c smart keyboard layout for zawgyi
+c zawgyi is unicode font which don't follow standard
+c But it is widely used in Myanmar
+c same layout to win-innwa(ascii) and myanmar(unicode)
+c layout style - yayint before constant (visual style)
+c by PnDaza
+c 2018
+
+store(&NAME)    	   	'mmZawgyi'
+store(&BITMAP) 'mmZawgyi.ico'
+store(&VISUALKEYBOARD) 'mmZawgyi.kvks'
+
+c keys mapping
+
+c 12+12 keys
+store(rowone_en)   	    "`1234567890-=" \
+    	   	   	   	   	"~!@#$%^&*()_+"
+store(rowone_mm)    	U+1029 U+1041 U+1042 U+1043 U+1044 U+1045 U+1046 U+1047 U+1048 U+1049 U+1040 U+002D U+003D \
+    	   	   	   	   	U+102A U+100D U+1091 U+100B U+104E U+1064 U+002F U+101B U+1002 U+0028 U+0029 U+0078 U+002B
+
+c 12+11 keys 
+c SHIFT_R will be assign as yapint+waswe (dual codepoint)
+store(rowtwo_en)    	"qwertyuiop[]" \
+    	   	   	   	   	"QWETYUIOP{}"
+store(rowtwo_mm)    	U+1006 U+1010 U+1014 U+1019 U+1021 U+1015 U+1000 U+1004 U+101E U+1005 U+101F U+2018 \
+    	   	   	   	   	U+1008 U+101D U+1023 U+108A U+1024 U+1025 U+1088 U+1086 U+100F U+1027 U+2019
+ 
+c 12+11 keys
+c SHIFT_F is used as deadkey
+store(rowthree_en)  	"asdfghjkl;'\" \
+    	   	   	   	   	'ASDGHJKL:"|'
+store(rowthree_mm)  	U+1031 U+103A U+102D U+1039 U+102B U+1037 U+103B U+102F U+1030 U+1038 U+1012 U+104F \
+                        U+1017 U+103D U+102E U+103C U+1036 U+1032 U+104C U+104D U+105A U+1013 U+1092
+                        
+c 10+10 keys
+store(rowfour_en)       "zxcvbnm,./" \
+    	   	   	   	   	"ZXCVBNM<>?"                                
+store(rowfour_mm)       U+1016 U+1011 U+1001 U+101C U+1018 U+100A U+102C U+101A U+002C U+104B \
+    	   	   	   	   	U+1007 U+100C U+1003 U+1020 U+100E U+1009 U+1026 U+002C U+003F U+104A
+
+
+c patsint
+store(patsint_en)   "uc*C" \
+    	   	   	   	"pqZQ"\
+    	   	   	   	"#XP'" \
+    	   	   	    '"e' \
+    	   	   	    "yzAbr" \
+    	   	   	    "v"
+store(patsint_mm)   U+1060 U+1061 U+1062 U+1063 \
+    	   	   	   	U+1065 U+1067 U+1068 U+1069 \
+    	   	   	   	U+106C U+106D U+1070 U+1075 \
+    	   	   	   	U+1076 U+1077 \
+    	   	   	   	U+1078 U+1079 U+107A U+107B U+107C \
+    	   	   	   	U+1085
+
+store(patsint_single_codepoint) 	U+1097 U+1092 U+106E U+1091 U+106F U+1086
+c th and tha have two location
+store(patsint_ta_tha)   	   	   	U+1071 U+1072 U+1073 U+1074    	   	   	   	
+store(patsint_all)      	   	   	outs(patsint_mm) outs(patsint_single_codepoint) outs(patsint_ta_tha) 
+c for na_sint( to change na_shape)
+store(ta_wag_key)       	"wx" U+0027 U+0022  "e"
+store(ta_wag_patsint)   	U+1072 U+1074 U+1075 U+1076 U+1077
+    	   	   	
+c ### smart input ###
+store(double_width_en)  'uCqPwxb,vo['
+store(double_width)  	U+1000 U+1003 U+1006 U+100F U+1010 U+1011 U+1018 U+101A U+101C U+101E U+101F    	   	   	   	   	  
+
+store(single_width)   	U+1001 U+1002 U+1004 U+1005 U+1007 U+100E U+1012 U+1013 \
+    	   	   	   	   	U+1015 U+1016 U+1017 U+1019 U+101D U+108F
+store(all_width)    	outs(double_width) outs(single_width)
+   	   	   	   	   	                 
+
+store(na_ra)   	    	   	U+1014 U+101B
+store(short_na_ra)   	   	U+108F U+1090
+store(na_ra_modifier_key)   'klsGST'    
+store(na_ra_modifier)   	U+102F U+1030 U+103A U+103C U+103D U+108A     
+
+store(lonegyitin)   	U+102D 
+store(above_input)  	'dDJ'
+store(above)    	   	U+102D U+102E U+1032
+store(above_all)    	U+102D U+102E U+1032 U+1039 U+108B U+108C U+108D U+108E     	
+
+store(below_input)  	   	   	'GST'
+store(below)    	   	   	   	U+103C U+103D U+108A
+store(below_no_hahtol_input)    'GT'   
+store(below_no_hahtol)      	U+103C U+108A
+
+
+store(ab)   	   	   	outs(above) outs(below) U+1033 U+1034 U+1087
+
+store(normal_ra)    	   	U+103B U+107E
+store(ra_for_above)         U+107F U+1080
+store(ra_for_below) 	   	U+1081 U+1082
+store(ra_for_above_below)   U+1083 U+1084  
+store(single_cut_ra)        U+103B U+107E U+107F U+1080 U+1081 U+1082
+store(all_ra)   	   	   	U+103B U+107E U+107F U+1080 U+1081 U+1082 U+1083 U+1084   
+store(abnormal_single_width_ra) 	U+107F U+1081 U+1083
+store(abnormal_double_width_ra) 	U+1080 U+1082 U+1084
+
+store(short_input)  'kl'
+store(short)    	U+102F U+1030
+store(long) 	   	U+1033 U+1034
+store(long_u)   	U+1033
+store(long_uu)   	U+1034 
+
+store(all_yakauk)   U+101B U+1090
+store(all_nya)  	U+100A U+106B
+ 
+
+c for prevent wrong input order
+store(after_ya) 	   	U+102D U+102E U+102F U+1030 U+1032 U+1036 U+1037 U+103C U+103D 
+store(after_wa) 	   	U+102D U+102E U+102F U+1030 U+1032 U+1036 U+1037 U+103D
+store(after_ha) 	   	U+102D U+102E U+102F U+1030 U+1032 U+1036 U+1037
+store(after_i) 	   	    U+102F
+store(after_u)  	   	U+1036 
+store(stop_tone) 	   	U+1037
+store(before_stop_tone)	'HJk'
+store(seven_zero)   	U+1047 U+1040
+store(invalid_with_seven_zero)   	'SdDgGHJkl'
+
+store(kinzi)    	   	U+1064 
+store(lonegyitin)   	U+102D
+store(taetaetin)    	U+1036
+store(yapint)   	   	U+103A
+store(waswe)    	   	U+103C
+store(hahtol)   	   	U+103D 
+store(small_hahtol) 	U+1087
+
+
+   
+begin Unicode > use(main)
+
+group(main) using keys 
+
+
+c numpad key mapping
++ [NCAPS K_NP0] > U+0030
++ [CAPS K_NP0]  > U+1040
++ [NCAPS K_NP1] > U+0031
++ [CAPS K_NP1]  > U+1041
++ [NCAPS K_NP2] > U+0032
++ [CAPS K_NP2]  > U+1042
++ [NCAPS K_NP3] > U+0033
++ [CAPS K_NP3]  > U+1043
++ [NCAPS K_NP4] > U+0034
++ [CAPS K_NP4]  > U+1044
++ [NCAPS K_NP5] > U+0035
++ [CAPS K_NP5]  > U+1045
++ [NCAPS K_NP6] > U+0036
++ [CAPS K_NP6]  > U+1046
++ [NCAPS K_NP7] > U+0037
++ [CAPS K_NP7]  > U+1047
++ [NCAPS K_NP8] > U+0038
++ [CAPS K_NP8]  > U+1048
++ [NCAPS K_NP9] > U+0039
++ [CAPS K_NP9]  > U+1049
+
++ [K_NPSTAR]  > 	U+002A
++ [K_NPPLUS]  > 	U+002B
++ [K_NPMINUS] > 	U+002D
++ [K_NPDOT]   > 	U+002E
++ [K_NPSLASH] > 	U+002F 
+
+c basic key mapping
++ any(rowone_en)    	> index(rowone_mm,1)
++ any(rowtwo_en)    	> index(rowtwo_mm,1)
++ any(rowthree_en)  	> index(rowthree_mm,1)
++ any(rowfour_en)   	> index(rowfour_mm,1)
++ 'R' > U+107D U+103C  c yapint + waswe
++ "F" > dk(dkey)
+
+c allow to type two key stroke
+U+1005 + 's' > U+1008  c jha
+U+1025 + 'D' > U+1026  c stand alone UU_vowel
+U+103B + 'o' > U+1029  c stand alone O_vowel
+
+
+c ##############################
+c #  prevent wrong input order #
+c ##############################
+
+any(after_ya) + 's' > beep
+any(after_wa) + 'G' > beep
+any(after_ha) + 'S' > beep
+any(after_i) + 'd'  > beep
+any(after_u) + 'k' > beep c taetaetin + u
+$stop_tone + any(before_stop_tone) > beep
+any(seven_zero) + any(invalid_with_seven_zero) > beep
+
+
+c ################
+c ### patsint  ###
+c ################
+
+c nya_sint
+U+1025 dk(dkey) + 'p' 	> U+106A U+1065 
+U+1009 dk(dkey) + 'p' 	> U+106A U+1065
+c patsint ta
+U+1010 dk(dkey) + 'w' > U+1010 U+1071
+c patsint tha
+U+1010 dk(dkey) + 'x' > U+1010  U+1073
+c full na to half na for patsint
+U+1014 dk(dkey) + any(ta_wag_key) > U+108F  index(ta_wag_patsint,3)
+
+c single codepoint patsint
+U+100B dk(dkey) + '#' > U+1097
+c U+100F dk(dkey) + '#' > U+100F U+106C
+c dk(dkey) + '#' > U+1097 
+U+100B dk(dkey) + 'X' > U+1092 
+U+100D dk(dkey) + '!' > U+106E
+U+100F dk(dkey) + '!' > U+1091
+c dk(dkey) + '!' > U+106E 
+U+100D dk(dkey) + 'B' > U+106F
+c dk(dkey) + 'B' > U+106F 
+ 
+
+c U+1025 dk(dkey) + any(patsint_en) > U+106A index(patsint_mm,3)
+U+1009 dk(dkey) + any(patsint_en) > U+106A index(patsint_mm,3)
+dk(dkey) + any(patsint_en) > index(patsint_mm,2)
+
+c twa under na
+U+1072 + 'G' > U+1096
+  
+c ##################
+c ### smart rule ###
+c ##################
+
+c #######################
+c ###  change yayit  ####
+c ###    shape       ####
+c #######################
+
+U+103B + any(double_width_en) > U+107E index(double_width,2) 
+c normal_hathoe to small_hathoe in yayint
+any(normal_ra) any(all_width) + 'S' > index(normal_ra,1) index(all_width,2) $small_hahtol
+c u_vowel + taetaetin
+any(normal_ra) any(all_width) $long_u + 'H' > index(ra_for_above,1) index(all_width,2) $long_u $taetaetin
+c yayint + hathoe + lonegyitin etc
+any(normal_ra) any(all_width) $small_hahtol + any(above_input) > index(ra_for_above,1) index(all_width,2) $small_hahtol index(above,4)
+c yayint + lonegyitin etc
+any(normal_ra) any(all_width) + any(above_input) > index(ra_for_above,1) index(all_width,2) index(above,3)
+c yayint + kinzi 
+any(normal_ra) any(all_width) + 'I' > index(ra_for_above,1) index(all_width,2) $kinzi 
+c yayint + waswe etc
+any(normal_ra) any(all_width) + any(below_input) > index(ra_for_below,1) index(all_width,2) index(below,3)
+c yayint + waswe + lonegyetin etc
+any(ra_for_below) any(all_width) any(below) + any(above_input) > index(ra_for_above_below,1) index(all_width,2) index(below,3) index(above,4)
+c yiyint + lonegyitin + waswe etc
+any(ra_for_above) any(all_width) any(above) + any(below_no_hahtol_input) > index(ra_for_above_below,1) index(all_width,2) index(below_no_hahtol,4) index(above,3)
+
+any(normal_ra) any(all_width) + 'f' > index(ra_for_above,1) index(all_width,2) U+1039
+U+103B U+1014 dk(dkey) + "'" > U+1081 U+108F U+1075 c indre ( yayint + na + da_sint) 
+
+c ###################
+c ### chanhe Nya  ###
+c ###   shape     ###
+c ###################
+U+1009 + 'S' > U+106A $small_hahtol
+U+1025 + 'S' > U+106A $small_hahtol  c this rule fix worong input stand alone u vowel to nya.
+U+100A + 'S' > U+100A $small_hahtol
+U+100A + any(below_input) > U+106B index(below,2)
+
+c ###################
+c ### chanhe Na   ###
+c ###   and Ra    ###
+c ###   shape     ###
+c ###################
+any(na_ra) + any(na_ra_modifier_key) > index(short_na_ra,1) index(na_ra_modifier,2)
+any(na_ra) $lonegyitin + any(na_ra_modifier_key) > index(short_na_ra,1) $lonegyitin index(na_ra_modifier,3)
+any(na_ra) $lonegyitin + 'I' > index(short_na_ra,1) $lonegyitin U+1088
+
+
+c ######################
+c ###  short u, uu   ###
+c ### vowel to long  ###
+c ### ta-chaung-nyin ###
+c ######################
+c after Nya or U ...
+U+100A + any(short_input) > context index(long,2)
+U+100B + any(short_input) > context index(long,2)
+U+100D + any(short_input) > context index(long,2)
+U+1025 + any(short_input) > context index(long,2)
+any(all_nya) any(ab) + any(short_input) > context index(long,3)
+c any(all_nya) $lonegyitin + any(short_input) > index(all_nya,1) $lonegyitin index(long,3)
+any(all_nya) any(below) $lonegyitin + any(short_input) > context index(long,4)
+c after Yapint ... 
+any(all_width) $yapint + any(short_input) > context index(long,3)
+any(all_width) $yapint any(ab) + any(short_input) > context index(long,4)
+any(all_width) $yapint $hahtol $lonegyitin + any(short_input) > context index(long,5)
+c after yapint .... 
+any(all_ra) any(all_width) + any(short_input) > context index(long,3)
+any(all_ra) any(all_width) any(ab) + any(short_input) > context index(long,4)
+any(all_ra) any(all_width) any(ab) any(ab) + any(short_input) > context index(long,5)
+c after waswe ..
+$waswe + any(short_input) > context index(long,2)
+$waswe $lonegyitin + any(short_input) > context index(long,3)
+c after patsint
+any(patsint_all) + any(short_input) > context index(long,2)
+any(patsint_all) $lonegyitin + any(short_input) > context index(long,3)
+U+108B + 'k' > context $long_u  c kinzi + longyitin
+$small_hahtol + 'k' > context $long_u
+$small_hahtol $lonegyitin + 'k' > context $long_u
+$hahtol + 'l' > context $long_uu
+
+c ######################
+c ###     move       ###
+c ### out_ka_myint's ###
+c ###   location     ###
+c ######################
+c any(all_ra) any(all_width) + 'h' > context  U+1037 
+any(all_ra) any(all_width) any(ab) + 'h' > context U+1095
+any(all_ra) any(all_width) any(ab) any(ab) + 'h' > context U+1095
+U+1014 any(above) + 'h' > context U+1094
+U+101B any(above) + 'h' > context U+1095
+U+1014 + 'h' > context U+1094
+U+101B + 'h' > context U+1095
+any(below) any(above) + 'h' > context U+1095
+any(below) + 'h' > context U+1095
+any(short) + 'h' > context U+1094
+any(long)  + 'h' > context U+1095
+U+1088 + 'h' >   context U+1095
+U+1088 U+102D + 'h' >  context U+1095
+U+1014 U+1039 + 'h' >  context U+1094
+$yapint $taetaetin + 'h' > context U+1095
+
+c ##################
+c ####  kinzi ++ ###
+c ##################
+U+1039 + 'f' > $kinzi c for faster tying ( i think it faster than shift + I ( key_I )
+$kinzi + 's' > $yapint $kinzi
+$kinzi + 'd' > U+108B
+$kinzi + 'D' > U+108C
+$kinzi + 'H' > U+108D
+
+c ######################
+c ### combine input  ###
+c ######################
+c lonegyitin + taetaetin
+U+102D + 'H' > U+108E
+c yecha + atat
+U+102B + 'f' > U+105A
+c wa-swal + hahtol
+U+103C + 'S' > U+108A
+c hahtol + u and UU voewl
+U+103D + 'k' > U+1088
+U+103D $lonegyitin + 'k' > $lonegyitin U+1088 
+U+1019 U+103D + 'l' > U+103D U+1034   c ma + hahtol 
+U+101B U+103D + 'l' > U+1089          c ra + hahtol
+
+c nya + asat
+U+1009 + 'f' > U+1025 U+1039
+c redorder yapint + hatoe
+$yapint + 'S' > U+103D U+103A 
+
+
+
+ 
+

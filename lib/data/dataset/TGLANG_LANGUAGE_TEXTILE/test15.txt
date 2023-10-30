@@ -1,0 +1,86 @@
+This release has been boot tested on FVP_VE A15x4 and A9MPx4.  Reaching a login prompt is the only test carried out. This build is expected to run on other models. No UEFI binary exists for dual cluster A15x{1|4}-A7x{1|4}  models; in this case the A15 binary can be used, but the A7 CPUs will be held in reset.
+
+h2. Prerequisites
+
+* Install the model(s) you wish to run. You must have a valid license and the environment set up to run models
+* Install "Linaro image tools":https://wiki.linaro.org/Linaro-Image-Tools
+* Install kpartx which you can get by issuing the following command in your terminal
+
+bc. sudo apt-get install kpartx
+
+Linaro OpemEmbedded images are made up of two components. The "Hardware Pack":https://wiki.linaro.org/HardwarePacks, which contains the kernel, boot loader and/or Device Tree blob and a Root file system (RootFS) of your choice to generate an image.
+
+h3. Install Linaro Image Tools
+
+There are multiple ways you can get the latest Linaro Image Tools:
+
+** Method 1: Install them from the Linaro Image Tools "PPA":https://launchpad.net/~linaro-maintainers/+archive/tools
+
+bc. sudo add-apt-repository ppa:linaro-maintainers/tools
+sudo apt-get update
+sudo apt-get install linaro-image-tools
+
+** Method 2: Building from source
+
+bc. wget http://releases.linaro.org/14.02/components/platform/linaro-image-tools/linaro-image-tools-2014.02.tar.gz
+
+h2. Create a 2GB image file
+
+Fast Models will only deal with file systems up to 2GB in size, however the pre-built image may be larger.  In this case, you can build your own image using the pre-built artifacts as listed below.
+
+Using the following command, you will download the RootFS, the hardware pack.
+
+bc. wget http://releases.linaro.org/14.04/openembedded/vexpress-lsk/hwpack_linaro-lsk-vexpress_20140417-630_armhf_supported.tar.gz
+wget http://releases.linaro.org/14.04/openembedded/vexpress-lsk/linaro-image-alip-genericarmv7a-20140417-248.rootfs.tar.gz
+
+Now you need to create the image using the following commands.
+
+bc. linaro-media-create --image-file linaro.img --image-size 2000M --dev vexpress --hwpack hwpack_linaro-lsk-vexpress_20140417-630_armhf_supported.tar.gz --binary linaro-image-alip-genericarmv7a-20140417-248.rootfs.tar.gz
+
+bc. sudo kpartx -a linaro.img
+mkdir boot
+sudo mount /dev/mapper/loop0p1 boot
+cp boot/uImage .
+cp -ar boot/rtsm rtsm
+sudo umount boot
+sudo kpartx -d linaro.img
+
+note: unless you use kpartx to delete the loop mappings as above, even if you update linaro.img and re-mount it, it will not refresh and you will end up using the old image.
+
+h2. Run Fast Models with UEFI
+
+The instructions for running UEFI on the various models are very similar.  The two differences are the UEFI binary and the model used.  Follow the model specific instruction below, then proceed to the generic instructions in the section "Run the model with UEFI".  Make sure that the model binary is on your path, or alter the MODEL variable definition to include the path to the binary.
+
+h3. Run A9x4 model with UEFI
+
+bc. MODEL=FVP_VE_Cortex-A9_MPx4
+UEFI=rtsm/uefi_rtsm_ve-ca9x4.bin
+
+h3. Run A15x1 model with UEFI
+
+bc. MODEL=FVP_VE_Cortex-A15x1
+UEFI=rtsm/uefi_rtsm_ve-ca15.bin
+
+h3. Run A15x2 model with UEFI
+
+bc. MODEL=FVP_VE_Cortex-A15x2
+UEFI=rtsm/uefi_rtsm_ve-ca15.bin
+
+h3. Run A15x4 model with UEFI
+
+bc. MODEL=FVP_VE_Cortex-A15x4
+UEFI=rtsm/uefi_rtsm_ve-ca15.bin
+
+h3. Run the model with UEFI
+
+bc. touch uefi-vars.fd # create the file if it doesn't already exist
+
+bc. $MODEL \
+-C motherboard.flashloader0.fname=$UEFI \
+-C motherboard.flashloader1.fname=uefi-vars.fd \
+-C motherboard.flashloader1.fnameWrite=uefi-vars.fd \
+-C motherboard.mmc.p_mmc_file=linaro.img \
+-C motherboard.pl011_uart0.unbuffered_output=true \
+-C motherboard.smsc_91c111.enabled=1 \
+-C motherboard.hostbridge.userNetworking=1
+

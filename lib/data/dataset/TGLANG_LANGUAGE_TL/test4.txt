@@ -1,0 +1,100 @@
+createPrivateChat#94434684 user_id:int32 force:Bool = Chat;
+//@user_id User identifier
+pageBlockSubheader#f12bb6e1 text:RichText = PageBlock;
+//@query Text of the query
+//@background_id The background identifier
+//@description Changes the value of the default disable_notification parameter, used when a message is sent to a chat
+//@is_anonymous True, if the poll is anonymous @type Type of the poll
+messageMediaGame#fdb19008 game:Game = MessageMedia;
+//@description A rule to allow all of a user's contacts to do something
+//@description Converts a JsonValue object to corresponding JSON-serialized string. Can be called synchronously
+//@description A request to send a message has reached the Telegram server. This doesn't mean that the message will be sent successfully or even that the send message request will be processed. This update will be sent only if the option "use_quick_ack" is set to true. This update may be sent multiple times for the same message
+updateChannelReadMessagesContents#89893b45 channel_id:int messages:Vector<int> = Update;
+inputGeoPointEmpty#e4c123d6 = InputGeoPoint;
+userPrivacySettingRuleRestrictAll#ac2a9550 = UserPrivacySettingRule;
+inputMessagesFilterPhotoVideo#56e9f0e4 = MessagesFilter;
+//@description The file is a document
+//@file_name Original name of the file; as defined by the sender @mime_type MIME type of the file; as defined by the sender
+pagePart#8e3f9ebe blocks:Vector<PageBlock> photos:Vector<Photo> documents:Vector<Document> = Page;
+//@description Adds new contacts or edits existing contacts by their phone numbers; contacts' user identifiers are ignored
+removeChatActionBar chat_id:int53 = Ok;
+//@description The user is recording a video
+//@description Contains information about the current localization target @language_packs List of available language packs for this application
+//@description The chat is a private or secret chat, which can be reported using the method reportChat, or the other user can be blocked using the method toggleMessageSenderIsBlocked, or the other user can be added to the contact list using the method addContact
+//@id Unique identifier of the query result
+pushMessageContentBasicGroupChatCreate = PushMessageContent;
+// ...
+//@description Returns database statistics
+animation#cc00db3e duration:int32 width:int32 height:int32 file_name:string mime_type:string has_stickers:Bool minithumbnail:minithumbnail thumbnail:thumbnail animation:file = Animation;
+//@description A message was unpinned @message Unpinned message
+inputBotInlineMessageGame#4b425864 flags:# reply_markup:flags.2?ReplyMarkup = InputBotInlineMessage;
+//@description Computes time needed to receive a response from a Telegram server through a proxy. Can be called before authorization
+chatEventMemberJoined#f1f70924 = ChatEventAction;
+//@description A Telegram Passport element to be saved containing the user's temporary registration
+chatEventTitleChanged old_title:string new_title:string = ChatEventAction;
+//@file Information about the animation file
+updateShort#78d4dec1 update:Update date:int = Updates;
+inputMessagesFilterGeo#e7026d0d = MessagesFilter;
+//@restricted_user_count Number of users restricted by the administrator
+messageVoiceNote voice_note:voiceNote caption:formattedText is_listened:Bool = MessageContent;
+getPasswordState = PasswordState;
+updateCall#4fb3d0dd call:call = Update;
+richTextSubscript text:RichText = RichText;
+//@unread_count Number of unread messages in the chat
+account.privacyRules#554abb6f rules:Vector<PrivacyRule> users:Vector<User> = account.PrivacyRules;
+//@reply_markup The new message reply markup; pass null if none; for bots only
+//@day_graph A graph containing distribution of message views per hour
+messages.clearAllDrafts#7e58ee9c = Bool;
+inputPrivacyValueAllowAll#184b35ce = InputPrivacyRule;
+//@description An invisible anchor on a page, which can be used in a URL to open the page from the specified anchor @name Name of the anchor
+createNewStickerSet#f841a664 user_id:int32 title:string name:string is_masks:Bool stickers:vector<InputSticker> = StickerSet;
+//@description Returns all website where the current user used Telegram to log in
+//@total_count Approximate total count of messages found
+//@payload Query payload
+//@cache_time Time during which the result of the query can be cached, in seconds
+//@description Represents one language pack string @key String key @value String value; pass null if the string needs to be taken from the built-in English language pack
+//@unread_unmuted_count Total number of unread messages in unmuted chats
+encryptedCredentials data:bytes hash:bytes secret:bytes = EncryptedCredentials;
+getChat#6f421440 chat_id:int53 = Chat;
+//@generation_id Unique identifier for the generation process
+messages.getDhConfig#26cf8950 version:int random_length:int = messages.DhConfig;
+//@description Changes the owner of a chat. The current user must be a current owner of the chat. Use the method canTransferOwnership to check whether the ownership can be transferred from the current session. Available only for supergroups and channel chats
+removeSavedAnimation#e275a919 animation:InputFile = Ok;
+//@accessible_for If non-zero, the remaining time for which read access is granted to the chat, in seconds
+reportChat#c190fee1 chat_id:int53 reason:ChatReportReason message_ids:vector<int53> = Ok;
+messageEntityPre#73924be0 offset:int length:int language:string = MessageEntity;
+//@description Returns all website where the current user used Telegram to log in
+updateChatReplyMarkup chat_id:int53 reply_markup_message_id:int53 = Update;
+inputMessageContact contact:contact = InputMessageContent;
+//@description Represents a list of stickers @stickers List of stickers
+//@class NotificationGroupType @description Describes the type of notifications in a notification group
+inputAppEvent#770656a8 time:double type:string peer:long data:string = InputAppEvent;
+//@class MaskPoint @description Part of the face, relative to which a mask should be placed
+---functions---
+//@description Represents a group call participant
+//-the download has succeeded, has failed, has been canceled or a new downloadFile request with different offset/limit parameters was sent
+privacyValueDisallowAll#8b73e763 = PrivacyRule;
+textEntityTypeStrikethrough = TextEntityType;
+inputInlineQueryResultAudio id:string title:string performer:string audio_url:string audio_duration:int32 reply_markup:ReplyMarkup input_message_content:InputMessageContent = InputInlineQueryResult;
+//@chat_id Identifier of the chat
+//@background The input background to use, null for filled backgrounds
+account.sentEmailCode#811f854f email_pattern:string length:int = account.SentEmailCode;
+//@description Sets the parameters for TDLib initialization. Works only when the current authorization state is authorizationStateWaitTdlibParameters @parameters Parameters
+//@description The list of recently used stickers was updated
+//@description Sets the result of a shipping query; for bots only @shipping_query_id Identifier of the shipping query @shipping_options Available shipping options @error_message An error message, empty on success
+//@description Stops the uploading of a file. Supported only for files uploaded by using uploadFile. For other files the behavior is undefined @file_id Identifier of the file to stop uploading
+//@description Returns file downloaded prefix size from a given offset
+//@reply_to_message_id Identifier of a message to reply to or 0
+auth.codeTypeFlashCall#226ccefb = auth.CodeType;
+getChatFilterDefaultIconName filter:chatFilter = Text;
+//@height Block height; 0 if unknown
+//@class PageBlock @description Describes a block of an instant view web page
+//@description A full list of available network statistic entries
+messages.featuredStickers#f89d88e5 hash:int sets:Vector<StickerSetCovered> unread:Vector<long> = messages.FeaturedStickers;
+//@class InputFile @description Points to a file
+account.updateProfile#f0888d68 first_name:string last_name:string = User;
+boolFalse#bc799737 = Bool;
+//@chat_instance An identifier uniquely corresponding to the chat a message was sent to
+//@start_parameter Unique invoice bot start_parameter. To share an invoice use the URL https://t.me/{bot_username}?start={start_parameter} @is_test True, if the invoice is a test invoice
+//@description A Telegram Passport element containing the user's email address
+//@limit The maximum number of messages to be returned; up to 100. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached

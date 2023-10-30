@@ -1,0 +1,296 @@
+
+
+^reset ."😏 NFT collection base content: " dup sbits 8 / B@+ swap dup constant collection-nft-data ^cyan  (dump) type cr
+
+subwallet-id (.) 1 ' $+ does : +subwallet
+
+
+get_total PROC:<{
+//
+c4 PUSH	//  _1
+CTOS	//  ds
+64 LDU	//  _8 _7
+DROP	//  total
+}>
+
+// { 0 tuple-len? } : nil?
+
+savefile +".boc" tuck B>file
+
+"TonUtil.fif" include
+
+{ bl word 1 { find 0= abort"word not found" } } :: (')
+
+{ dup abs <# ’ # 9 times char . hold #s rot sign #>
+  nip -trailing0 } : (.GR)
+{ (.GR) ."GR$" type space } : .GR
+-17239000000 .GR
+
+
+"" =: comment  // comment for simple transfers
+
+{ 0 word -trailing scan-until-word 1 'nop } ::_ $<<
+
+{ <b swap s, b> } : s>c
+
+
+boc>B Bx.
+
+
+0x076ef1ea           // magic
+0                    // actions
+0                    // msgs_sent
+0           // unixtime
+1                    // block_lt
+0       // trans_lt
+239                  // randseed
+1000000000 null pair // balance_remaining
+
+$# dup 5 < swap 7 > or ' usage if
+
+swap 0<> abort"exit code"
+
+
+// ' unpair : uncons
+
+c7 // add c7 cell
+
+<s
+^reset ."🤪 NFT type tag: " 8 u@+ swap  ^green (dump) type cr
+
+$1 =: file-path
+
+{ over abs <# rot 1- ' X# swap times X#s rot sign #> nip } : (0X.)
+
+"Asm.fif" include
+
+dest_addr 2dup bounce 7 + .Addr ." = " .addr
+
+// { 3 tuple-len? } : triple?
+
+1 PUSHINT	//  x n _52=1
+exp INLINECALLDICT	//  x n _53
+s1 s2 XCHG	//  n x _53
+GEQ	//  n _54
+IF:<{	//  n
+    INC	//  n
+}>	//  n
+}>
+
+{ not 2 pick @ and xor swap ! } : ~!
+
+{ hole dup 1 { @ execute } does create } : recursive
+
+$3 parse-int =: subwallet-id
+
+{ over abs <# rot 1- ' X# swap times X#s rot sign #> nip } : (0X.)
+
+// { 3 tuple-len? } : triple?
+
+{ bl word 2 2 ' (create) } :: :_
+
+256 1<<1- 15 / constant AllOnes
+
+12345 constant query_id
+
+#!/usr/bin/create-state -s
+
+get_total PROC:<{
+//
+c4 PUSH	//  _1
+CTOS	//  ds
+64 LDU	//  _8 _7
+DROP	//  total
+}>
+
+{ base @ b#s } : base#s
+
+{ base @ B# } : Base#
+
+"Asm.fif" include
+
+^reset ."👿 NFT index: " ^green index (dump) type cr
+"Asm.fif" include
+
+{ over abs <# rot 1- ' X# swap times X#s rot sign #> nip } : (0X.)
+
+$>smca 0= abort"Specify valid send addr"
+
+
+boc>B Bx.
+
+{ char " word 1 { swap { abort } if drop } } ::_ abort"
+
+{ (0x.) type } : 0x._
+
+<b
+	11 32 u, // number
+b>
+
+
+0x076ef1ea           // magic
+0                    // actions
+0                    // msgs_sent
+0           // unixtime
+1                    // block_lt
+0       // trans_lt
+239                  // randseed
+1000000000 null pair // balance_remaining
+
+"Asm.fif" include
+
+true =: allow-bounce
+
+
+
+^reset 2 roll addr@ ."🤗 Collection address: " ^yellow print-addr cr // In stack: owner_address, body, collection address SLICE
+
+variable extra-currencies
+
+
+<b b{1000100} s, wallet_addr addr, 0 Gram, b{00} s,
+   swap B, swap <s s, b>
+
+
+{ show-options-help 1 halt } : usage
+
+{ extra-currencies @ cc+ extra-currencies ! } : extra-cc+!
+
+60 =: timeout   // external message expires in 60 seconds
+
+
+begin-options
+     " <file-path> <dest-addr> <subwallet-id> <seqno> <amount> [-x <extra-amount>*<extra-currency-id>] [-n|-b] [-t<timeout>] [-B <body-boc>] [-C <comment>] [<savefile>]" +cr +tab
+    +"Creates a request to advanced wallet created by new-wallet-v3.fif, with private key loaded from file <file-path> "
+    +"and int validator-id (workchain -1), and saves it into <savefile>.boc ('wallet-query.boc' by default)"
+    disable-digit-options generic-help-setopt
+  "n" "--no-bounce" { false =: allow-bounce } short-long-option
+    "Clears bounce flag" option-help
+  "b" "--force-bounce" { true =: force-bounce } short-long-option
+    "Forces bounce flag" option-help
+  "x" "--extra" { $>xcc extra-cc+! } short-long-option-arg
+    "Indicates the amount of extra currencies to be transfered" option-help
+  "t" "--timeout" { parse-int =: timeout } short-long-option-arg
+    "Sets expiration timeout in seconds (" timeout (.) $+ +" by default)" option-help
+  "B" "--body" { =: body-boc-file } short-long-option-arg
+    "Sets the payload of the transfer message" option-help
+  "C" "--comment" { =: comment } short-long-option-arg
+    "Sets the comment to be sent in the transfer message" option-help
+  "m" "--mode" { parse-int =: send-mode } short-long-option-arg
+    "Sets transfer mode (0..255) for SENDRAWMSG (" send-mode (.) $+ +" by default)"
+    option-help
+  "h" "--help" { usage } short-long-option
+    "Shows a help message" option-help
+parse-options
+
+
+// { 3 untuple } : untriple
+
+subwallet-id (.) 1 ' $+ does : +subwallet
+
+
+"GetOpt.fif" include
+
+// current continuation slice
+
+{ <b swap s, b> } : s>c
+
+// { true (atom) drop } : atom
+
+// a b c d -- a*c b*d
+{ rot * -rot * swap } : R*
+
+// { 1 tuple-len? } : single?
+
+dup hashu wallet_pk ed25519_sign_uint
+
+
+"../build/nft_collection.fif" include constant collection-code
+
+// { over tuple? { swap count = } { 2drop false } cond } : tuple-len?
+
+// { cdr cdr car } : caddr
+
+."Body of transfer message is " body-cell <s csr. cr
+
+
+."(Saved to file " type .")" cr
+"TonUtil.fif" include
+
+
+// { over tuple? { swap count = } { 2drop false } cond } : tuple-len?
+
+true =: allow-bounce
+
+"Lists.fif" include
+
+{ 0 swap ! } : 0!
+
+{ find 0<> dup ' nip if } : (def?)
+
+c7 // add c7 cell
+
+// { bl word dup (def?) { drop skip-to-eof } { 'nop swap 0 (create) } cond } : library
+
+// { 1 tuple } : single
+
+{ bl word 1 { -rot 2 'nop does swap 0 (create) }
+} :: 2=:
+
+{ 16 B#s } : X#s
+
+
+nft-body <s dup sbits 8 / B@ constant nft-data
+
+
+{ bl word 0 2 ' (create) } :: :
+
+dup ."signing message: " <s csr. cr
+
+{ bl (-trailing) } : -trailing
+
+
+true constant bounce
+
+$3 parse-int =: subwallet-id
+
+12345 constant query_id
+
+{ bl word 1 { find 0= abort"word not found" } } :: (')
+
+0b0000 b{0000} 2 exch 4 udict! drop
+
+"TonUtil.fif" include
+
+PROGRAM{
+  DECLPROC power
+  DECLPROC sqrt
+  DECLPROC avg
+  DECLPROC exp
+  DECLPROC log2
+  DECLPROC recv_internal
+  128253 DECLMETHOD get_total
+}END>c
+
+"Asm.fif" include
+
+// ' unpair : uncons
+
+{ 10 hold } : +cr
+
+256 1<<1- 15 / constant AllOnes
+
+
+"../build/nft_collection.fif" include constant collection-code
+
+{ tuck @ swap - swap ! } : -!
+
+."(Saved to file " type .")" cr
+"TonUtil.fif" include
+
+
+3 =: send-mode  // mode for SENDRAWMSG: +1 - sender pays fees, +2 - ignore errors
+
+{ extra-currencies @ cc+ extra-currencies ! } : extra-cc+!
+
+{ dup 10 < { 48 } { 55 } cond + } : Digit

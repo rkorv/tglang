@@ -1,0 +1,37 @@
+# turtles 1, 2, and 3 go forward
+tell [ 1 2 3 ]
+fd 50
+# turtle 4 is now the only one to go forward
+tell [ 4 ]    
+fd 50
+
+
+# iteration 1: turtles 1, 2, and 3 go forward
+# iteration 2: turtle 4 goes forward
+# iteration 3: turtle 5 goes forward
+# after the loop: turtle 6 goes forward
+tell [ 1 2 3 ]
+set :t 4
+repeat 3 [
+  fd 50
+  tell [ :t ]
+  set :t + :t 1
+]
+fd 50
+
+
+# fd 1: turtles 1, 2, and 3 go forward
+# fd 2: turtles 4, 5, and 6 go forward
+# fd 3: turtles 7, 8, and 9 go forward
+# fd 4: turtles 4, 5, and 6 go forward
+# fd 5: turtles 1, 2, and 3 go forward
+tell [ 1 2 3 ]
+fd 50
+ask [ 4 5 6 ] [
+  fd 50
+  ask [ 7 8 9 ] [
+    fd 50
+  ]
+  fd 50
+]
+fd 50

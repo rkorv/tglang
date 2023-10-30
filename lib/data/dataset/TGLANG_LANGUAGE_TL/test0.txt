@@ -1,0 +1,100 @@
+passportElementError type:PassportElementType message:string source:PassportElementErrorSource = PassportElementError;
+addCustomServerLanguagePack language_pack_id:string = Ok;
+pageBlockEmbed#cde200d1 flags:# full_width:flags.0?true allow_scrolling:flags.3?true url:flags.1?string html:flags.2?string poster_photo_id:flags.4?long w:int h:int caption:RichText = PageBlock;
+//@is_masks True, if the stickers in the set are masks
+updateChatFilters chat_filters:vector<chatFilterInfo> = Update;
+//@message_thread_id If not 0, a message thread identifier in which the action was performed
+//@description A simple object containing a vector of objects that hold a number; for testing only @value Vector of objects
+updateMessageEdited#dea602e6 chat_id:int53 message_id:int53 edit_date:int32 reply_markup:ReplyMarkup = Update;
+//@bio A short user bio
+//@is_personal True, if the keyboard is removed only for the mentioned users or the target user of a reply
+//@description A chat member was deleted
+messageMediaGame#fdb19008 game:Game = MessageMedia;
+//@description Returns the owner and administrators
+messageEntityEmail#64e475c2 offset:int length:int = MessageEntity;
+passportElementTypePersonalDetails#c27ad953 = PassportElementType;
+//@creates_join_request True, if the link only creates join request. If true, member_limit must not be specified
+toggleSupergroupIsAllHistoryAvailable supergroup_id:int32 is_all_history_available:Bool = Ok;
+account.getAccountTTL#8fc711d = AccountDaysTTL;
+account.getGlobalPrivacySettings#eb2b4cf6 = GlobalPrivacySettings;
+updateChatParticipantAdd#ea4b0e5c chat_id:int user_id:int inviter_id:int date:int version:int = Update;
+searchMessagesFilterVideoNote = SearchMessagesFilter;
+supergroup id:int53 username:string date:int32 status:ChatMemberStatus member_count:int32 has_linked_chat:Bool has_location:Bool sign_messages:Bool is_slow_mode_enabled:Bool is_channel:Bool is_broadcast_group:Bool is_verified:Bool restriction_reason:string is_scam:Bool is_fake:Bool = Supergroup;
+//@description A preformatted text paragraph @text Paragraph text @language Programming language for which the text should be formatted
+//@sticker File with the animated sticker. Only local or uploaded within a week files are supported. See https://core.telegram.org/animated_stickers#technical-requirements for technical requirements
+//@from_message_id Identifier of the message from which to search; use 0 to get results from the last message
+//@offset_invite_link Invite link starting after which to return invite links; use empty string to get results from the beginning
+//@send_date Date the message will be sent. The date must be within 367 days in the future
+auth.exportAuthorization#e5bfffcd dc_id:int = auth.ExportedAuthorization;
+textUrl#3c2884c1 text:RichText url:string webpage_id:long = RichText;
+//@width Thumbnail width, usually shouldn't exceed 320. Use 0 if unknown
+//@top_senders List of users sent most messages in the last week
+pushMessageContentSticker#5c98bdd3 sticker:sticker emoji:string is_pinned:Bool = PushMessageContent;
+//@description A media album @total_count Number of messages in the album @has_photos True, if the album has at least one photo @has_videos True, if the album has at least one video
+//@call New data about a call
+//@description Represents a command supported by a bot
+inputIdentityDocument#7cf00afe number:string expiry_date:date front_side:InputFile reverse_side:InputFile selfie:InputFile translation:vector<InputFile> = InputIdentityDocument;
+testGetDifference#68226325 = Ok;
+userProfilePhotoEmpty#4f11bae1 = UserProfilePhoto;
+//@is_masks Pass true to return mask sticker sets; pass false to return ordinary sticker sets
+//@description The best available video quality
+messages.setInlineBotResults#eb5ea206 flags:# gallery:flags.0?true private:flags.1?true query_id:long results:Vector<InputBotInlineResult> cache_time:int next_offset:flags.2?string switch_pm:flags.3?InlineBotSwitchPM = Bool;
+//@offset Specify 0 to get results from exactly the from_message_id or a negative offset up to 99 to get additionally some newer messages
+bad_server_salt#edab447b bad_msg_id:long bad_msg_seqno:int error_code:int new_server_salt:long = BadMsgNotification;
+inputReportReasonSpam#58dbcab8 = ReportReason;
+help.noAppUpdate#c45a6536 = help.AppUpdate;
+getMapThumbnailFile location:location zoom:int32 width:int32 height:int32 scale:int32 chat_id:int53 = File;
+//@name Name of the link
+keyboardButtonRequestPoll#bbc7515d flags:# quiz:flags.0?Bool text:string = KeyboardButton;
+//@description The link is a link to the change phone number section of the app
+channelAdminLogEventActionChangeTitle#e6dfb825 prev_value:string new_value:string = ChannelAdminLogEventAction;
+channelAdminLogEventActionChangePhoto#b82f55c3 prev_photo:ChatPhoto new_photo:ChatPhoto = ChannelAdminLogEventAction;
+//@short_name Game short name. To share a game use the URL https://t.me/{bot_username}?game={game_short_name}
+//@id Message identifier; unique for the chat to which the message belongs
+textEntityTypeUrl#b1c0d47c = TextEntityType;
+channels.deleteChannel#c0111fe3 channel:InputChannel = Updates;
+//@description Returns information about a chat filter by its identifier @chat_filter_id Chat filter identifier
+chatEventMessageTtlChanged old_message_ttl:int32 new_message_ttl:int32 = ChatEventAction;
+inputSecureFileUploaded#3334b0f0 id:long parts:int md5_checksum:string file_hash:bytes secret:bytes = InputSecureFile;
+messageMediaGame#fdb19008 game:Game = MessageMedia;
+group id:int title:string last_name:string = Group;
+//@description The user is picking a location or venue to send
+//@chat_list Chat list in which to change the pinned state of the chat @chat_id Chat identifier @is_pinned True, if the chat is pinned
+replacePrimaryChatInviteLink chat_id:int53 = ChatInviteLink;
+//@description Represents a local file
+//@description The message is being sent now, but has not yet been delivered to the server
+passportElementTypeAddress = PassportElementType;
+updateNotificationGroup#2ec53c49 notification_group_id:int32 type:NotificationGroupType chat_id:int53 notification_settings_chat_id:int53 is_silent:Bool total_count:int32 added_notifications:vector<notification> removed_notification_ids:vector<int32> = Update;
+replacePrimaryChatInviteLink chat_id:int53 = ChatInviteLink;
+//@count Number of bytes to read. An error will be returned if there are not enough bytes available in the file from the specified position. Pass 0 to read all available data from the specified position
+//@max_other_file_size The maximum size of other file types to be auto-downloaded
+//@member_user_ids User identifiers of some chat members that may be known to the current user
+authenticationCodeTypeFlashCall pattern:string = AuthenticationCodeType;
+supergroupMembersFilterRecent#4639e5d5 = SupergroupMembersFilter;
+//@description Changes the photo of a chat. Supported only for basic groups, supergroups and channels. Requires can_change_info rights
+languagePackString key:string value:LanguagePackStringValue = LanguagePackString;
+//@progress Upload progress, as a percentage
+getLogStream = LogStream;
+//@description Returns the value of an option by its name. (Check the list of available options on https://core.telegram.org/tdlib/options.) Can be called before authorization
+getSupergroupFullInfo supergroup_id:int32 = SupergroupFullInfo;
+//@one_time True, if the application needs to hide the keyboard after use
+//@description Changes the bio of the current user @bio The new value of the user bio; 0-70 characters without line feeds
+account.changePhone#70c32edb phone_number:string phone_code_hash:string phone_code:string = User;
+messageLink link:string is_public:Bool = MessageLink;
+pageBlockParagraph#467a0766 text:RichText = PageBlock;
+//@max_video_file_size The maximum size of a video file to be auto-downloaded
+messages.getFullChat#3b831c66 chat_id:int = messages.ChatFull;
+//@settings Settings for the authentication of the user's phone number
+secureValueTypeInternalPassport#99a48f23 = SecureValueType;
+inputPassportElementEmailAddress#f12e9425 email_address:string = InputPassportElement;
+//@description Represents a numeric JSON value @value The value
+richTextIcon document:document width:int32 height:int32 = RichText;
+dialogPeer#e56dbf05 peer:Peer = DialogPeer;
+updateServiceNotification#382dd3e4 type:string message:string media:MessageMedia popup:Bool = Update;
+//@is_video True, if the call was a video call
+channels.getAdminLog#33ddf480 flags:# channel:InputChannel q:string events_filter:flags.0?ChannelAdminLogEventsFilter admins:flags.1?Vector<InputUser> max_id:long min_id:long limit:int = channels.AdminLogResults;
+//@name Native name of the country
+//@id Session identifier
+//@description The user was online recently
+//@notification_settings_chat_id Chat identifier, which notification settings must be applied to the added notifications
+sendChatSetTtlMessage#5562c20c chat_id:int53 ttl:int32 = Message;

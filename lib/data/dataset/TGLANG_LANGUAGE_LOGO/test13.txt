@@ -1,0 +1,27 @@
+# move all
+tell [ 1 2 3 4 5 6 7 8 ]
+st
+pd
+rt random 360
+fd 100
+
+# move some
+askwith [ greater? xcor 50 ] [
+  lt random 360
+  bk 100
+]
+
+# move all again
+rt random 360
+fd 100
+
+# move some again
+ask [ 1 8 2 ] [ 
+  lt random 360
+  bk 100
+]
+
+# move a different few
+tell [ 1 2 3 ]
+rt random 360
+fd 100

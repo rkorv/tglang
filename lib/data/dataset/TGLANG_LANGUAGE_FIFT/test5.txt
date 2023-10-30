@@ -1,0 +1,340 @@
+
+."Body of transfer message is " body-cell <s csr. cr
+
+
+."subwallet-id=0x" subwallet-id x.
+
+
+runvm
+
+
+subwallet-id (.) 1 ' $+ does : +subwallet
+
+
+{ swap 10 /mod char 0 + rot swap hold } : #
+
+<b b{1000100} s, wallet_addr addr, 0 Gram, b{00} s,
+   swap B, swap <s s, b>
+dup ."resulting external message: " <s csr. cr
+2 boc+>B dup Bx. cr
+
+{ bl word 1 { find 0= abort"word not found" } } :: (')
+
+64 PUSHINT	//  x n _10=64
+exp INLINECALLDICT	//  x n _11
+s2 s(-1) PUXC	//  x n x _11
+GEQ	//  x n _12
+IF:<{	//  x n
+    SWAP	//  n x
+    64 RSHIFT#	//  n x
+    SWAP	//  x n
+    64 ADDCONST	//  x n
+}>	//  x n
+
+
+begin-options
+     " <file-path> <dest-addr> <subwallet-id> <seqno> <amount> [-x <extra-amount>*<extra-currency-id>] [-n|-b] [-t<timeout>] [-B <body-boc>] [-C <comment>] [<savefile>]" +cr +tab
+    +"Creates a request to advanced wallet created by new-wallet-v3.fif, with private key loaded from file <file-path> "
+    +"and int validator-id (workchain -1), and saves it into <savefile>.boc ('wallet-query.boc' by default)"
+    disable-digit-options generic-help-setopt
+  "n" "--no-bounce" { false =: allow-bounce } short-long-option
+    "Clears bounce flag" option-help
+  "b" "--force-bounce" { true =: force-bounce } short-long-option
+    "Forces bounce flag" option-help
+  "x" "--extra" { $>xcc extra-cc+! } short-long-option-arg
+    "Indicates the amount of extra currencies to be transfered" option-help
+  "t" "--timeout" { parse-int =: timeout } short-long-option-arg
+    "Sets expiration timeout in seconds (" timeout (.) $+ +" by default)" option-help
+  "B" "--body" { =: body-boc-file } short-long-option-arg
+    "Sets the payload of the transfer message" option-help
+  "C" "--comment" { =: comment } short-long-option-arg
+    "Sets the comment to be sent in the transfer message" option-help
+  "m" "--mode" { parse-int =: send-mode } short-long-option-arg
+    "Sets transfer mode (0..255) for SENDRAWMSG (" send-mode (.) $+ +" by default)"
+    option-help
+  "h" "--help" { usage } short-long-option
+    "Shows a help message" option-help
+parse-options
+
+
+-1 AllOnes subwallet-id -  2dup 2constant wallet_addr
+."Source wallet address = " 2dup .addr cr 6 .Addr cr
+file-path load-keypair nip constant wallet_pk
+
+
+log2 PROCREF:<{
+//  x
+0 PUSHINT	//  x n=0
+7 PUSHPOW2	//  x n=0 _3=128
+exp INLINECALLDICT	//  x n=0 _4
+s2 s(-1) PUXC	//  x n=0 x _4
+GEQ	//  x n=0 _5
+IF:<{	//  x n=0
+    DROP	//  x
+    128 RSHIFT#	//  x
+    7 PUSHPOW2	//  x n
+}>	//  x n
+
+{ 0x._ space } : 0x.
+
+{ dup 0< ' negate if } : abs
+
+{ 1 'nop does create } : constant
+
+{ -rot { 2 pick b# over 0<= } until rot drop } : b#s
+
+{ bl word 2 2 ' (create) } :: :_
+
+{ bl word (number) ?dup 0= abort"not a valid Gram amount"
+  1- { Gram swap */r } { Gram * } cond
+  1 ’nop
+} ::_ GR$
+
+4 roll // In stack: index,  collection address, owner_address, body, init?
+
+$3 parse-int =: subwallet-id
+
+// Here goes master message
+
+// { cdr cdr car } : caddr
+
+2constant send_addr // worchain and addr into single constant
+
+{ bl word 1 { -rot 2 'nop does swap 0 (create) }
+} :: 2=:
+
+{ over abs <# rot 1- ' X# swap times X#s rot sign #> nip } : (0X.)
+
+// { 0 { 1+ dup 1 ' $() does over (.) "$" swap $+ 0 (create) } rot times drop } : :$1..n
+
+{ extra-currencies @ cc+ extra-currencies ! } : extra-cc+!
+
+<b
+0 4 u,
+0b111 8 u,
+0b01110101 16 u,
+0b111111111111110001 32 u,
+0b10111110000111111111111110001110101011 64 u,
+0xfffaaffa3445512 128 u,
+0b0111111111111011011 256 u,
+b>
+
+
+^reset ."😏 NFT individual content: "  nft-data ^green  (dump) type cr
+
+// automatically generated
+
+{ 0 word -trailing scan-until-word 1 'nop } ::_ $<<
+
+rot .s
+
+32 PUSHINT	//  x n _17=32
+exp INLINECALLDICT	//  x n _18
+s2 s(-1) PUXC	//  x n x _18
+GEQ	//  x n _19
+
+{ char " word 1 { swap { abort } if drop } } ::_ abort"
+
+
+<b
+  0 32 u, // seqno
+  0 32 u, // subwallet-id
+  public_key B, // add bin public key to cell
+b>
+
+{ "" swap { 0 word 2dup $cmp } { rot swap $+ +cr swap } while 2drop } : scan-until-word
+
+{ minmax nip } : max
+
+$6 "wallet-query" replace-if-null =: savefile
+
+// { 2 [] } : third
+
+avg PROCREF:<{
+//  x y
+ADD	//  _2
+1 RSHIFT#	//  _4
+}>
+
+// ' pair : cons
+
+dictnew
+0b1100 b{1100} 2 exch 4 udict! drop
+
+."(Saved to file " type .")" cr
+"TonUtil.fif" include
+
+
+// { cdr cdr car } : caddr
+
+dup hashu wallet_pk ed25519_sign_uint
+
+{ 16 b#s } : x#s
+
+$1 =: file-path
+
+{ dup * } : square
+
+"Color.fif" include
+
+
+Gram 1000 / constant mGram
+mGram .
+
+$>smca 0= abort"Specify valid send addr"
+
+// TODO:
+
+{ char } word x>B 1 'nop } ::_ B{
+
+$6 "wallet-query" replace-if-null =: savefile
+
+{ 16 B#s } : X#s
+
+1000000000 constant Gram
+{ Gram * } : Gram*
+{ Gram swap */r } : Gram*/
+
+
+^reset ."🐾 NFT data: "  <b collection-nft-data  B, nft-data B, b> <s dup sbits 8 / B@ B>$ ^cyan (dump) type cr
+
+
+dup ."signing message: " <s csr. cr
+
+def? body-boc-file { @' body-boc-file file>B B>boc } { comment simple-transfer-body } cond
+constant body-cell
+
+
+{ bl word 1 { find 0= abort"word not found" } } :: (')
+
+{ -rot { 2 pick B# over 0<= } until rot drop } : B#s
+
+constant nft-body
+
+"TonUtil.fif" include
+
+
+rot .s
+
+20000000 constant forward_amount
+
+."(Saved to file " type .")" cr
+"TonUtil.fif" include
+
+
+drop  // Drop flags
+
+
+// ' unpair : uncons
+
+// { -rot pair swap ! } : 2!
+
+// { bl word dup (def?) { 2drop skip-to-eof } { swap 1 'nop does swap 0 (create) } cond } : library-version
+
+#!/usr/bin/create-state -s
+
+
+
+// Parse data with collection
+
+{ "" swap { 0 word 2dup $cmp } { rot swap $+ +cr swap } while 2drop } : scan-until-word
+
+20000000 constant forward_amount
+
+PROGRAM{
+  DECLPROC power
+  DECLPROC sqrt
+  DECLPROC avg
+  DECLPROC exp
+  DECLPROC log2
+  DECLPROC recv_internal
+  128253 DECLMETHOD get_total
+}END>c
+
+^reset ."🐾 NFT data: "  <b collection-nft-data  B, nft-data B, b> <s dup sbits 8 / B@ ^cyan  (dump) type cr
+
+// { cdr car } : cadr
+
+3 =: send-mode  // mode for SENDRAWMSG: +1 - sender pays fees, +2 - ignore errors
+
+{ 16 B#s } : X#s
+
+// a b --
+{ swap ._ ."/" . } : R.
+1.7 2/3 R- R.
+
+
+^reset ."😏 NFT collection base content: " dup sbits 8 / B@+ swap dup constant collection-nft-data ^cyan  (dump) type cr
+
+^reset ."😏 NFT individual content parsed: " nft-data B>$ (dump) type cr
+
+^reset ."🐾 NFT data: "  <b collection-nft-data  B, nft-data B, b> <s dup sbits 8 / B@ ^cyan  (dump) type cr
+
+// parse new c4 cell
+
+20000000 constant forward_amount
+
+get_total PROC:<{
+//
+c4 PUSH	//  _1
+CTOS	//  ds
+64 LDU	//  _8 _7
+DROP	//  total
+}>
+
+constant index
+
+
+<b b{1000100} s, wallet_addr addr, 0 Gram, b{00} s,
+   swap B, swap <s s, b>
+
+256 1<<1- 15 / constant AllOnes
+
+collection-data // add c4 cell lodaded from lite-client
+
+^reset ."😏 NFT collection base content: " collection-nft-data B>$ ^cyan  (dump) type cr
+
+0b0000 b{0000} 2 exch 4 udict! drop
+
+0b0000 b{0000} 2 exch 4 udict! drop
+
+
+begin-options
+     " <filename-base> <dest-addr> <subwallet-id> <seqno> <amount> [-x <extra-amount>*<extra-currency-id>] [-n|-b] [-t<timeout>] [-B <body-boc>] [-C <comment>] [<savefile>]" +cr +tab
+    +"Creates a request to advanced wallet created by new-wallet-v3.fif, with private key loaded from file <filename-base>.pk "
+    +"and address from <filename-base>.addr, and saves it into <savefile>.boc ('wallet-query.boc' by default)"
+    disable-digit-options generic-help-setopt
+  "n" "--no-bounce" { false =: allow-bounce } short-long-option
+    "Clears bounce flag" option-help
+  "b" "--force-bounce" { true =: force-bounce } short-long-option
+    "Forces bounce flag" option-help
+  "x" "--extra" { $>xcc extra-cc+! } short-long-option-arg
+    "Indicates the amount of extra currencies to be transfered" option-help
+  "t" "--timeout" { parse-int =: timeout } short-long-option-arg
+    "Sets expiration timeout in seconds (" timeout (.) $+ +" by default)" option-help
+  "B" "--body" { =: body-fift-file } short-long-option-arg
+    "Sets the payload of the transfer message" option-help
+  "C" "--comment" { =: comment } short-long-option-arg
+    "Sets the comment to be sent in the transfer message" option-help
+  "m" "--mode" { parse-int =: send-mode } short-long-option-arg
+    "Sets transfer mode (0..255) for SENDRAWMSG (" send-mode (.) $+ +" by default)"
+    option-help
+  "h" "--help" { usage } short-long-option
+    "Shows a help message" option-help
+parse-options
+
+^reset ."🐾 NFT data: "  <b collection-nft-data  B, nft-data B, b> <s dup sbits 8 / B@ ^cyan  (dump) type cr
+
+
+true constant bounce
+
+{ 0X._ space } : 0X.
+
+{ -rot { 2 pick b# over 0<= } until rot drop } : b#s
+
+{ null swap ! } : null!
+
+{ bl word 1 { (def?) not } } :: undef?
+
+
+// In stack: init?, index,  collection address, owner_address, body

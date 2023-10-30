@@ -1,0 +1,28 @@
+server {
+	server_name example.com;
+	return 301 https://example.com$request_uri;
+}
+
+server {
+	listen 443 deferred ssl http2;
+	server_name example.com;
+
+	root /var/www/example;
+	index index.php;
+
+	if ($host ~* ^www\.(.*)$) {
+		rewrite ^(.*)$ https://example.com$1 permanent;
+	}
+
+	ssl_certificate     /etc/nginx/ssl/example.pem;
+	ssl_certificate_key /etc/nginx/ssl/example.key;
+
+	access_log /var/log/nginx/example.access.log;
+	error_log /var/log/nginx/example.error.log;
+
+	include /etc/nginx/custom.d/*.conf;
+
+	location / {
+		try_files $uri $uri/ /index.php?$query_string;
+	}
+}

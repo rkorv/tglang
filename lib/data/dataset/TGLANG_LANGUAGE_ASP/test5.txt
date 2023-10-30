@@ -1,0 +1,310 @@
+<%
+' Any copyright is dedicated to the Public Domain.
+' http://creativecommons.org/publicdomain/zero/1.0/
+Const SqlType_Access = 0
+Const SqlType_MDB = 0
+Const SqlType_ADS_DBF = 1
+Const SqlType_ADS = 1 ' deprecated
+Const SqlType_ADS_ADT = 2
+Const SqlType_ADT = 2 ' deprecated
+Const SqlType_MsSql = 3
+Const SqlType_MySql = 4
+Const SqlType_CSV = 5
+
+Public Function NewSqlEncoder ( ByVal pSqlType )
+	If TypeName(pSqlType) = "SqlEncoder_Ex" Then
+		Set NewSqlEncoder = pSqlType
+		Exit Function
+	End If
+	Set NewSqlEncoder = New SqlEncoder_Ex
+	NewSqlEncoder.SqlType = pSqlType
+	Select Case pSqlType
+	Case SqlType_Access : Set NewSqlEncoder.SqlEncoder = New SqlEncoder_Access
+	Case SqlType_ADS_DBF : Set NewSqlEncoder.SqlEncoder = New SqlEncoder_AdsDbf
+	Case SqlType_ADS_ADT : Set NewSqlEncoder.SqlEncoder = New SqlEncoder_AdsAdt
+	Case SqlType_MsSql : Set NewSqlEncoder.SqlEncoder = New SqlEncoder_MsSql
+	Case SqlType_MySql : Set NewSqlEncoder.SqlEncoder = New SqlEncoder_MySql
+	Case SqlType_CSV : Set NewSqlEncoder.SqlEncoder = New SqlEncoder_Csv
+	Case Else
+		Err.Raise -1, "", "Unknown sql encoder type: " & pSqlType
+		Set NewSqlEncoder = Nothing
+	End Select
+End Function
+
+' SqlEncoder_Ex is responsible for a number of common "functions":
+' 1) detect and output null keyword when appropriate
+' 2) implementation of Guess
+' 3) detect and handle arrays
+Class SqlEncoder_Ex
+	Public SqlEncoder, SqlType
+
+	Public Property Get HasLimit()
+		HasLimit = SqlEncoder.HasLimit
+	End Property
+	Public Property Get HasTop()
+		HasTop = SqlEncoder.HasTop
+	End Property
+	Public Function Field ( ByVal pName )
+		Field = SqlEncoder.Field(pName)
+	End Function
+	Public Function String ( ByVal pVal )
+		If IsEmpty(pVal) Or IsNull(pVal) Then
+			String = "null"
+		ElseIf IsArray(pVal) Then
+			Dim i
+			String = ""
+			For i = 0 To UBound(pVal)
+				String = String & "," & String(pVal(i))
+			Next
+			String = Mid(String,2)
+		Else
+			String = SqlEncoder.String(pVal)
+		End If
+	End Function
+	Public Function Numeric ( ByVal pVal )
+		If IsEmpty(pVal) Or IsNull(pVal) Then
+			Numeric = "null"
+		ElseIf IsArray(pVal) Then
+			Dim i
+			Numeric = ""
+			For i = 0 To UBound(pVal)
+				Numeric = Numeric & "," & Numeric(pVal(i))
+			Next
+			Numeric = Mid(Numeric,2)
+		Else
+			Numeric = SqlEncoder.Numeric(pVal)
+		End If
+	End Function
+	Public Function DateOnly ( ByVal pVal )
+		If IsEmpty(pVal) Or IsNull(pVal) Then
+			DateOnly = "null"
+		ElseIf IsArray(pVal) Then
+			Dim i
+			DateOnly = ""
+			For i = 0 To UBound(pVal)
+				DateOnly = DateOnly & "," & DateOnly(pVal(i))
+			Next
+			DateOnly = Mid(DateOnly,2)
+		Else
+			DateOnly = SqlEncoder.DateOnly(pVal)
+		End If
+	End Function
+	Public Function DateTime ( ByVal pVal )
+		If IsEmpty(pVal) Or IsNull(pVal) Then
+			DateTime = "null"
+		ElseIf IsArray(pVal) Then
+			Dim i
+			DateTime = ""
+			For i = 0 To UBound(pVal)
+				DateTime = DateTime & "," & DateTime(pVal(i))
+			Next
+			DateTime = Mid(DateTime,2)
+		Else
+			DateTime = SqlEncoder.DateTime(pVal)
+		End If
+	End Function
+	Public Function TimeOnly ( ByVal pVal )
+		If IsEmpty(pVal) Or IsNull(pVal) Then
+			TimeOnly = "null"
+		ElseIf IsArray(pVal) Then
+			Dim i
+			TimeOnly = ""
+			For i = 0 To UBound(pVal)
+				TimeOnly = TimeOnly & "," & TimeOnly(pVal(i))
+			Next
+			TimeOnly = Mid(TimeOnly,2)
+		Else
+			TimeOnly = SqlEncoder.TimeOnly(pVal)
+		End If
+	End Function
+	Public Function Guess ( ByVal pVal )
+		If IsArray(pVal) Then
+			Dim i
+			Guess = ""
+			For i = 0 To UBound(pVal)
+				Guess = Guess & "," & Guess(pVal(i))
+			Next
+			Guess = Mid(Guess,2)
+		Else
+			Select Case VarType(pVal)
+			Case 0, 1 ' vbEmpty, vbNull
+				Guess = "null"
+			Case 2, 3, 4, 5, 6 ' vbInteger, vbLong, vbSingle, vbDouble, vbCurrency
+				Guess = SqlEncoder.Numeric ( pVal )
+			Case 7 ' vbDate
+				If DateSerial(Year(pVal),Month(pVal),Day(pVal)) = pVal Then
+					Guess = SqlEncoder.DateOnly ( pVal )
+				Else
+					Guess = SqlEncoder.DateTime ( pVal )
+				End If
+			Case 8 ' vbString
+				Guess = SqlEncoder.String ( pVal )
+			Case Else
+				Err.Raise -1, TypeName(Me) & ".Guess", "Unsupported type: " & VarType(pVal)
+			End Select
+		End If
+	End Function
+End Class
+
+Class SqlEncoder_Access
+	Public Property Get HasLimit()
+		HasLimit = False
+	End Property
+	Public Property Get HasTop()
+		HasTop = True
+	End Property
+	Public Function Field ( ByVal pName )
+		Field = "[" & Replace(pName,"'","''") & "]"
+	End Function
+	Public Function String ( ByVal pVal )
+		String = "'" & Replace(pVal,"'","''") & "'"
+	End Function
+	Public Function Numeric ( ByVal pVal )
+		Numeric = Replace(pVal,"'","''")
+	End Function
+	Public Function DateOnly ( ByVal pVal )
+		DateOnly = "#" & DateSerial ( Year(pVal), Month(pVal), Day(pVal) ) & "#"
+	End Function
+	Public Function DateTime ( ByVal pVal )
+		DateTime = "#" & CDate(pVal) & "#"
+	End Function
+	Public Function TimeOnly ( ByVal pVal )
+		TimeOnly = "#" & TimeSerial ( Hour(pVal), Minute(pVal), Second(pVal) ) & "#"
+	End Function
+End Class
+
+Class SqlEncoder_AdsDbf
+	Public Property Get HasLimit()
+		HasLimit = False
+	End Property
+	Public Property Get HasTop()
+		HasTop = True
+	End Property
+	Public Function Field ( ByVal pName )
+		Field = "[" & Replace(pName,"'","''") & "]"
+	End Function
+	Public Function String ( ByVal pVal )
+		String = "'" & Replace(pVal,"'","''") & "'"
+	End Function
+	Public Function Numeric ( ByVal pVal )
+		Numeric = Replace(pVal,"'","''")
+	End Function
+	Public Function DateOnly ( ByVal pVal )
+		DateOnly = "'" & DateSerial ( Year(pVal), Month(pVal), Day(pVal) ) & "'"
+	End Function
+	Public Function DateTime ( ByVal pVal )
+		Err.Raise -1, TypeName(Me) & ".DateTime", "DateTime field type not supported"
+	End Function
+	Public Function TimeOnly ( ByVal pVal )
+		TimeOnly = "'" & TimeSerial ( Hour(pVal), Minute(pVal), Second(pVal) ) & "'"
+	End Function
+End Class
+
+Class SqlEncoder_AdsAdt
+	Public Property Get HasLimit()
+		HasLimit = False
+	End Property
+	Public Property Get HasTop()
+		HasTop = True
+	End Property
+	Public Function Field ( ByVal pName )
+		Field = "[" & Replace(pName,"'","''") & "]"
+	End Function
+	Public Function String ( ByVal pVal )
+		String = "'" & Replace(pVal,"'","''") & "'"
+	End Function
+	Public Function Numeric ( ByVal pVal )
+		Numeric = Replace(pVal,"'","''")
+	End Function
+	Public Function DateOnly ( ByVal pVal )
+		DateOnly = "'" & Year(pVal) & "-" & Right("0"&Month(pVal),2) & "-" & Right("0"&Day(pVal),2) & "'"
+	End Function
+	Public Function DateTime ( ByVal pVal )
+		DateTime = "'" & Year(pVal) & "-" & Right("0"&Month(pVal),2) & "-" & Right("0"&Day(pVal),2) & " " & Right("0"&Hour(pVal),2) & ":" & Right("0"&Minute(pVal),2) & ":" & Right("0"&Second(pVal),2) & "'"
+	End Function
+	Public Function TimeOnly ( ByVal pVal )
+		TimeOnly = "'" & Right("0"&Hour(pVal),2) & ":" & Right("0"&Minute(pVal),2) & ":" & Right("0"&Second(pVal),2) & "'"
+	End Function
+End Class
+
+Class SqlEncoder_MsSql
+	Public Property Get HasLimit()
+		HasLimit = False
+	End Property
+	Public Property Get HasTop()
+		HasTop = True
+	End Property
+	Public Function Field ( ByVal pName )
+		Field = "[" & Replace(pName,"'","''") & "]"
+	End Function
+	Public Function String ( ByVal pVal )
+		String = "'" & Replace(pVal,"'","''") & "'"
+	End Function
+	Public Function Numeric ( ByVal pVal )
+		Numeric = Replace(pVal,"'","''")
+	End Function
+	Public Function DateOnly ( ByVal pVal )
+		DateOnly = "'" & DateSerial ( Year(pVal), Month(pVal), Day(pVal) ) & "'"
+	End Function
+	Public Function DateTime ( ByVal pVal )
+		DateTime = "'" & CDate(pVal) & "'"
+	End Function
+	Public Function TimeOnly ( ByVal pVal )
+		TimeOnly = "'" & TimeSerial ( Hour(pVal), Minute(pVal), Second(pVal) ) & "'"
+	End Function
+End Class
+
+Class SqlEncoder_MySql
+	Public Property Get HasLimit()
+		HasLimit = True
+	End Property
+	Public Property Get HasTop()
+		HasTop = False
+	End Property
+	Public Function Field ( ByVal pName )
+		Field = "`" & Replace(pName,"'","''") & "`"
+	End Function
+	Public Function String ( ByVal pVal )
+		String = "'" & Replace(pVal,"'","''") & "'"
+	End Function
+	Public Function Numeric ( ByVal pVal )
+		Numeric = Replace(pVal,"'","''")
+	End Function
+	Public Function DateOnly ( ByVal pVal )
+		DateOnly = "'" & Year(pVal) & "-" & Right("0"&Month(pVal),2) & "-" & Right("0"&Day(pVal),2) & "'"
+	End Function
+	Public Function DateTime ( ByVal pVal )
+		DateTime = "'" & Year(pVal) & "-" & Right("0"&Month(pVal),2) & "-" & Right("0"&Day(pVal),2) & " " & Right("0"&Hour(pVal),2) & ":" & Right("0"&Minute(pVal),2) & ":" & Right("0"&Second(pVal),2) & "'"
+	End Function
+	Public Function TimeOnly ( ByVal pVal )
+		TimeOnly = "'" & TimeSerial ( Hour(pVal), Minute(pVal), Second(pVal) ) & "'"
+	End Function
+End Class
+
+Class SqlEncoder_Csv
+	Public Property Get HasLimit()
+		HasLimit = False
+	End Property
+	Public Property Get HasTop()
+		HasTop = True
+	End Property
+	Public Function Field ( ByVal pName )
+		Field = "[" & Replace(pName,"'","''") & "]"
+	End Function
+	Public Function String ( ByVal pVal )
+		String = "'" & Replace(pVal,"'","''") & "'"
+	End Function
+	Public Function Numeric ( ByVal pVal )
+		Numeric = Replace(pVal,"'","''")
+	End Function
+	Public Function DateOnly ( ByVal pVal )
+		DateOnly = "'" & DateSerial ( Year(pVal), Month(pVal), Day(pVal) ) & "'"
+	End Function
+	Public Function DateTime ( ByVal pVal )
+		DateTime = "'" & CDate(pVal) & "'"
+	End Function
+	Public Function TimeOnly ( ByVal pVal )
+		TimeOnly = "'" & TimeSerial ( Hour(pVal), Minute(pVal), Second(pVal) ) & "'"
+	End Function
+End Class
+%>

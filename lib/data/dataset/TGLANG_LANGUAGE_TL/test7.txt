@@ -1,0 +1,100 @@
+//@caption Photo caption
+authenticationCodeTypeCall#61876c67 length:int32 = AuthenticationCodeType;
+updateReadHistoryInbox#9961fd5c peer:Peer max_id:int pts:int pts_count:int = Update;
+//@document Document
+fileTypeSecretThumbnail = FileType;
+//@limit Number of bytes which should be downloaded starting from the "offset" position before the download will be automatically cancelled; use 0 to download without a limit
+updates.state#a56c2a3e pts:int qts:int date:int seq:int unread_count:int = updates.State;
+//@accessible_for If non-zero, the remaining time for which read access is granted to the chat, in seconds
+//@progress Upload progress, as a percentage
+//@is_pinned True, if the message is a pinned message with the specified content
+deviceTokenFirebaseCloudMessaging token:string encrypt:Bool = DeviceToken;
+messageExpiredPhoto#ac46ddf7 = MessageContent;
+//@added_sticker_file_ids File identifiers of the stickers added to the animation, if applicable
+//@new_status New status of the chat member
+messages.archivedStickers#4fcba9c8 count:int sets:Vector<StickerSetCovered> = messages.ArchivedStickers;
+//@description A document message (general file) @document The document description @caption Document caption
+filePart#36594c36 data:bytes = FilePart;
+phone.receivedCall#17d54f61 peer:InputPhoneCall = Bool;
+secureCredentialsEncrypted#33f0ea47 data:bytes hash:bytes secret:bytes = SecureCredentialsEncrypted;
+botInlineResult#9bebaeb9 flags:# id:string type:string title:flags.1?string description:flags.2?string url:flags.3?string thumb_url:flags.4?string content_url:flags.5?string content_type:flags.5?string w:flags.6?int h:flags.6?int duration:flags.7?int send_message:BotInlineMessage = BotInlineResult;
+//@is_current_phone_number Pass true if the authenticated phone number is used on the current device
+setPassportElementErrors user_id:int53 errors:vector<inputPassportElementError> = Ok;
+//@description Removes potentially dangerous characters from the name of a file. The encoding of the file name is supposed to be UTF-8. Returns an empty string on failure. Can be called synchronously
+//@video_width Width of the video
+auth.codeTypeCall#741cd3e3 = auth.CodeType;
+//@description Telegram Passport data has been received; for bots only
+setStickerSetThumbnail user_id:int53 name:string thumbnail:InputFile = StickerSet;
+//@class MessageSender @description Contains information about the sender of a message
+//test.useBadMsgNotification = BadMsgNotification;
+//@restriction_reason If non-empty, contains a human-readable description of the reason why access to this supergroup or channel must be restricted
+inputReportReasonPornography#2e59d922 = ReportReason;
+channels.toggleSignatures#1f69b606 channel:InputChannel enabled:Bool = Updates;
+//@origin Origin of a forwarded message
+//@is_verified True, if the supergroup or channel is verified
+keyboardButtonSwitchInline#568a748 flags:# same_peer:flags.0?true text:string query:string = KeyboardButton;
+stickerSet id:int64 title:string name:string thumbnail:thumbnail thumbnail_outline:vector<closedVectorPath> is_installed:Bool is_archived:Bool is_official:Bool is_animated:Bool is_masks:Bool is_viewed:Bool stickers:vector<sticker> emojis:vector<emojis> = StickerSet;
+//@high Preset with highest settings; supposed to be used by default when connected on Wi-Fi
+//@chat_id Chat identifier
+//@description Contains a list of chat members @total_count Approximate total count of chat members found @members A list of chat members
+chatBannedRights#9f120418 flags:# view_messages:flags.0?true send_messages:flags.1?true send_media:flags.2?true send_stickers:flags.3?true send_gifs:flags.4?true send_games:flags.5?true send_inline:flags.6?true embed_links:flags.7?true send_polls:flags.8?true change_info:flags.10?true invite_users:flags.15?true pin_messages:flags.17?true until_date:int = ChatBannedRights;
+chatInviteLinkCounts invite_link_counts:vector<chatInviteLinkCount> = ChatInviteLinkCounts;
+//@feedback_link An internal link to be opened to leave feedback about the instant view
+acceptTermsOfService terms_of_service_id:string = Ok;
+//@calling_codes List of country calling codes
+//@unread_count Total number of unread messages @unread_unmuted_count Total number of unread messages in unmuted chats
+stickers.setStickerSetThumb#9a364e30 stickerset:InputStickerSet thumb:InputDocument = messages.StickerSet;
+---types---
+//@ttl For self-destructing messages, the message's TTL (Time To Live), in seconds; 0 if none. TDLib will send updateDeleteMessages or updateMessageContent once the TTL expires
+messageMediaPhoto#695150d7 flags:# photo:flags.0?Photo ttl_seconds:flags.2?int = MessageMedia;
+networkTypeMobileRoaming = NetworkType;
+channels.getFullChannel#8736a09 channel:InputChannel = messages.ChatFull;
+inputGameID#32c3e77 id:long access_hash:long = InputGame;
+//@can_pin_messages True, if the user can pin messages
+//@description Edits the content of a message with an animation, an audio, a document, a photo or a video in an inline message sent via a bot; for bots only
+//@description A group containing notifications of type notificationTypeNewMessage and notificationTypeNewPushMessage with ordinary unread messages
+//@chat_id Target chat
+//@offset Specify 0 to get results from exactly the from_message_id or a negative offset up to 99 to get additionally some newer messages
+//@description The title of a chat was changed @chat_id Chat identifier @title The new chat title
+messages.getInlineGameHighScores#f635e1b id:InputBotInlineMessageID user_id:InputUser = messages.HighScores;
+//@username Username of the supergroup or channel; empty for private supergroups or channels
+//@description Returns all available Telegram Passport elements
+wallPaperSolid#63117f24 id:int title:string bg_color:int color:int = WallPaper;
+//@description A new incoming callback query from a message sent via a bot; for bots only
+//@description Describes a chat located nearby @chat_id Chat identifier @distance Distance to the chat location, in meters
+searchMessagesFilterPinned#16294d48 = SearchMessagesFilter;
+//@options Options to be used to send the message; pass null to use default options
+//@description Contains an HTTPS link to a message in a supergroup or channel @link Message link @is_public True, if the link will work for non-members of the chat
+//@config A JSON-encoded call config
+//@description A collapsible block @header Always visible heading for the block @page_blocks Block contents @is_open True, if the block is open by default
+//@set_recovery_email_address Pass true if the recovery email address should be changed
+inputChatPhotoEmpty#1ca48f57 = InputChatPhoto;
+//@use_default_disable_mention_notifications If true, disable_mention_notifications is ignored and the value for the relevant type of chat is used instead
+//@sender_count Number of users who sent messages to the chat
+//@description Represents a date range @start_date Point in time (Unix timestamp) at which the date range begins @end_date Point in time (Unix timestamp) at which the date range ends
+//@positions The new chat positions in the chat lists
+//@description Animated variant of a chat photo in MPEG4 format
+//@input_message_text Content of the message draft; this should always be of type inputMessageText
+messages.messagesSlice#b446ae3 count:int messages:Vector<Message> chats:Vector<Chat> users:Vector<User> = messages.Messages;
+//@description Contains information about interactions with a message
+updateReadFeaturedStickers#571d2742 = Update;
+//@description Describes a user profile photo
+validateOrderInfo chat_id:int53 message_id:int53 order_info:orderInfo allow_save:Bool = ValidatedOrderInfo;
+messageActionBotAllowed#abe9affe domain:string = MessageAction;
+//@description A Telegram Passport element containing the user's passport
+//@description Changes the password for the user. If a new recovery email address is specified, then the change will not be applied until the new recovery email address is confirmed
+//@description Represents a user contact
+account.cancelPasswordEmail#c1cbd5b6 = Bool;
+messageBasicGroupChatCreate title:string member_user_ids:vector<int53> = MessageContent;
+updateMessageInteractionInfo chat_id:int53 message_id:int53 interaction_info:messageInteractionInfo = Update;
+//@chat_id Chat identifier; 0 if none
+//@description Sets the verbosity level of the internal logging of TDLib. Can be called synchronously
+messageEntityUnknown#bb92ba95 offset:int length:int = MessageEntity;
+//@class DeviceToken @description Represents a data needed to subscribe for push notifications through registerDevice method. To use specific push notification service, the correct application platform must be specified and a valid server authentication data must be uploaded at https://my.telegram.org
+//@background Background file to use. Only inputFileLocal and inputFileGenerated are supported. The file must be in JPEG format for wallpapers and in PNG format for patterns
+//@input_message_contents Contents of messages to be sent
+//@photo_width Width of the photo
+deviceTokenBlackBerryPush token:string = DeviceToken;
+//@description Represents a date range
+//@chat_id The chat the message belongs to @message_id Identifier of the message @reply_markup The new message reply markup; for bots only @location New location content of the message; may be null. Pass null to stop sharing the live location
+//@description Returns only failed to send messages. This filter can be used only if the message database is used

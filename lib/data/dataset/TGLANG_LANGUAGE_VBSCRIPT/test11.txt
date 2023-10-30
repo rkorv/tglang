@@ -1,0 +1,1 @@
+x=msgbox("This program is not compatible with Windows 8.1. Please choose a different Virtual Machine with windows 10 or higher. Compatibility error", 2+16, "CRITICAL! Installation Failure")

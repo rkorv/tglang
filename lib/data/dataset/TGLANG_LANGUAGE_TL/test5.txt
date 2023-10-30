@@ -1,0 +1,100 @@
+payments.validatedRequestedInfo#d1451883 flags:# id:flags.0?string shipping_options:flags.1?Vector<ShippingOption> = payments.ValidatedRequestedInfo;
+//@description Represents a user contact @id Unique identifier of the query result @contact User contact @thumbnail_url URL of the result thumbnail, if it exists @thumbnail_width Thumbnail width, if known @thumbnail_height Thumbnail height, if known
+msg_new_detailed_info#809db6df answer_msg_id:long bytes:int status:int = MsgDetailedInfo;
+chatEventMessageDeleted message:message = ChatEventAction;
+//@description Deletes a file from the TDLib file cache @file_id Identifier of the file to delete
+//@country_code A two-letter ISO 3166-1 alpha-2 country code
+fileTypeSecret#906d14f7 = FileType;
+long ? = Long;
+//@reply_markup The new message reply markup; pass null if none; for bots only
+topPeerCategoryBotsPM#ab661b5b = TopPeerCategory;
+//@query Query to search for. If empty, searchChatMessages must be used instead
+updateChatReplyMarkup chat_id:int53 reply_markup_message_id:int53 = Update;
+//@chat_id Chat identifier of the message with the button @message_id Message identifier of the message with the button @button_id Button identifier
+searchBackground name:string = Background;
+updateMessageSendFailed#c277ce5d message:message old_message_id:int53 error_code:int32 error_message:string = Update;
+inputStickerSetID#9de7a269 id:long access_hash:long = InputStickerSet;
+//@for_comment True, if the message is linked as a channel post comment or from a message thread
+//@description Terminates all other sessions of the current user
+callProblemSilentRemote#2230f89a = CallProblem;
+boolTrue#997275b5 = Bool;
+server_DH_params_ok#d0e8075c nonce:int128 server_nonce:int128 encrypted_answer:string = Server_DH_Params;
+updatesTooLong#e317af7e = Updates;
+//@code The verification code received via SMS, Telegram message, phone call, or flash call
+inputDocumentEmpty#72f0eaae = InputDocument;
+//@description The thumbnail is in TGS format. It will be used only for animated sticker sets
+emojiLanguage#b3fb5361 lang_code:string = EmojiLanguage;
+//@description The user is picking a location or venue to send
+//@description A background from the server @background_id The background identifier
+account.resendPasswordEmail#7a7f2a15 = Bool;
+inputDocument#18798952 id:long access_hash:long = InputDocument;
+//@id Unique background identifier
+fileTypeWallpaper = FileType;
+//@description Returns an existing chat corresponding to a known supergroup or channel @supergroup_id Supergroup or channel identifier @force If true, the chat will be created without network request. In this case all information about the chat except its type, title and photo can be incorrect
+channels.readMessageContents#eab5dc38 channel:InputChannel id:Vector<int> = Bool;
+chatActionBarSharePhoneNumber = ChatActionBar;
+//@is_password_pending True, if a password is needed to complete authorization of the session
+contacts.getSaved#82f1e39f = Vector<SavedContact>;
+inputPhoneContact#f392b7f4 client_id:long phone:string first_name:string last_name:string = InputContact;
+//@bank_statement The bank statement to be saved
+help.configSimple#5a592a6c date:int expires:int rules:vector<AccessPointRule> = help.ConfigSimple;
+inputChatPhotoEmpty#1ca48f57 = InputChatPhoto;
+auth.codeTypeCall#741cd3e3 = auth.CodeType;
+//@banned_user_count Number of users banned by the administrator
+//@description An empty block separating a page
+//@description The chat description was changed @old_description Previous chat description @new_description New chat description
+//@description The call has ended successfully @reason The reason, why the call has ended @need_rating True, if the call rating must be sent to the server @need_debug_information True, if the call debug information must be sent to the server
+updateNewInlineQuery id:int64 sender_user_id:int32 user_location:location query:string offset:string = Update;
+//@description Sends a Telegram Passport authorization form, effectively sharing data with the service. This method must be called after getPassportAuthorizationFormAvailableElements if some previously available elements are going to be reused
+//@description The link contains a message draft text. A share screen needs to be shown to the user, then the chosen chat must be opened and the text is added to the input field
+messageMediaGeo#56e0d474 geo:GeoPoint = MessageMedia;
+//@email_address Email address of the user
+//@last_name Last name of the user written in English; 1-255 characters
+chatEventMessagePinned#1a26ad1a message:message = ChatEventAction;
+//@description The file is a file from Secure storage used for storing Telegram Passport files
+//@can_read_all_group_messages True, if the bot can read all messages in basic group or supergroup chats and not just those addressed to the bot. In private and channel chats a bot can always read all messages
+//@is_password_pending True, if a password is needed to complete authorization of the session
+inputReportReasonSpam#58dbcab8 = ReportReason;
+bankCardInfo#2bc7da9f title:string actions:vector<bankCardActionOpenUrl> = BankCardInfo;
+//@downloaded_prefix_size If is_downloading_completed is false, then only some prefix of the file starting from download_offset is ready to be read. downloaded_prefix_size is the size of that prefix
+richTextIcon#a7c42b02 document:document width:int32 height:int32 = RichText;
+//@inviter_user_id Identifier of a user that invited/promoted/banned this member in the chat; 0 if unknown
+//@selfie Selfie with the document; may be null
+getSupergroup supergroup_id:int53 = Supergroup;
+richTextStrikethrough text:RichText = RichText;
+messages.messageEditData#26b5dde6 flags:# caption:flags.0?true = messages.MessageEditData;
+getJsonValue#92fa5a05 json:string = JsonValue;
+//@description The title of a chat was changed @chat_id Chat identifier @title The new chat title
+pushReceiverId id:int64 = PushReceiverId;
+getRemoteFile remote_file_id:string file_type:FileType = File;
+//@background The background to be used in chats; may be null
+//@offset Offset of the entity, in UTF-16 code units
+//@description Returns a list of public chats of the specified type, owned by the user @type Type of the public chats to return
+messageEntityBotCommand#6cef8ac7 offset:int length:int = MessageEntity;
+//@video_note The video note description
+//@description Represents a file
+channels.exportInvite#c7560885 channel:InputChannel = ExportedChatInvite;
+//@description Represents a list of chats located nearby @users_nearby List of users nearby @supergroups_nearby List of location-based supergroups nearby
+auth.sentCodeTypeFlashCall#ab03c6d9 pattern:string = auth.SentCodeType;
+help.termsOfService#780a0310 flags:# popup:flags.0?true id:DataJSON text:string entities:Vector<MessageEntity> min_age_confirm:flags.1?int = help.TermsOfService;
+//@banned_until_date Point in time (Unix timestamp) when the user will be unbanned; 0 if never. If the user is banned for more than 366 days or for less than 30 seconds from the current time, the user is considered to be banned forever
+//@description A category containing frequently used chats used for calls
+//@description Represents the result of an ImportContacts request @user_ids User identifiers of the imported contacts in the same order as they were specified in the request; 0 if the contact is not yet a registered user
+//@description Chat permissions was changed @chat_id Chat identifier @permissions The new chat permissions
+proxyTypeHttp username:string password:string http_only:Bool = ProxyType;
+setCommands commands:vector<botCommand> = Ok;
+//@duration Duration of the voice note, in seconds
+//@can_be_deleted_only_for_self True, if the chat messages can be deleted only for the current user while other users will continue to see the messages
+auth.requestPasswordRecovery#d897bc66 = auth.PasswordRecovery;
+//@description Represents information about a venue
+//@chat_list The chat list in which to return chats; pass null to get chats from the main chat list @limit The maximum number of chats to be returned
+passportElementInternalPassport internal_passport:identityDocument = PassportElement;
+//@date Point in time (Unix timestamp) when the link was created
+//@name The option name
+secureValueTypeEmail#8e3ca7ee = SecureValueType;
+//@description A new member joined the chat via an invite link @invite_link Invite link used to join the chat
+//@type Image type (see https://core.telegram.org/constructor/photoSize)
+matrix {m n : #} a : m* [ n* [ double ] ] = Matrix m n;
+//@description A dice message. The dice value is randomly generated by the server
+//-and then call sendBotStartMessage with the given start parameter after the button is pressed
+importedContact#d0028438 user_id:int client_id:long = ImportedContact;

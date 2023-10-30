@@ -1,0 +1,317 @@
+
+// { sbitrefs rot brembitrefs rot >= -rot <= and } : s-fits?
+
+// a b --
+{ swap ._ ."/" . } : R.
+1.7 2/3 R- R.
+
+// { def? ' skip-to-eof if } : skip-ifdef
+
+{ 16 b#s } : x#s
+
+60 =: timeout   // external message expires in 60 seconds
+
+1 PUSHINT	//  x n _52=1
+exp INLINECALLDICT	//  x n _53
+s1 s2 XCHG	//  n x _53
+GEQ	//  n _54
+IF:<{	//  n
+    INC	//  n
+}>	//  n
+}>
+
+{ bl word 0 2 ' (create) } :: :
+
+$6 "wallet-query" replace-if-null =: savefile
+
+// { null ' cons rot times } : list
+
+$4 parse-int =: seqno
+
+dest_addr 2dup bounce 7 + .Addr ." = " .addr
+
+{ bl (-trailing) } : -trailing
+
+$4 parse-int =: seqno
+
+"Asm.fif" include
+
+{ dup abs <# ’ # 9 times char . hold #s rot sign #>
+  nip -trailing0 } : (.GR)
+{ (.GR) ."GR$" type space } : .GR
+-17239000000 .GR
+
+{ 0X._ space } : 0X.
+
+// { 3 tuple-len? } : triple?
+
+PROGRAM{
+  DECLPROC power
+  DECLPROC sqrt
+  DECLPROC avg
+  DECLPROC exp
+  DECLPROC log2
+  DECLPROC recv_internal
+  128253 DECLMETHOD get_total
+}END>c
+
+<s
+^reset ."🤪 NFT type tag: " 8 u@+ swap  ^green (dump) type cr
+
+"Asm.fif" include
+
+$6 "wallet-query" replace-if-null =: savefile
+
+{ -1 swap +! } : 1-!
+
+// TODO:
+
+{ 1 'nop does create } : constant
+
+// { bl word dup (def?) { 2drop skip-to-eof } { swap 1 'nop does swap 0 (create) } cond } : library-version
+
+1000000000 constant Gram
+{ Gram * } : Gram*
+{ Gram swap */r } : Gram*/
+
+
+."Body of transfer message is " body-cell <s csr. cr
+
+
+{ base @ b#s } : base#s
+
+// current continuation slice
+
+
+nft-body <s dup sbits 8 / B@ constant nft-data
+
+
+sqrt PROCREF:<{
+    //  x
+    DUP	//  x x
+    0 EQINT	//  x _2
+    IFJMP:<{	//  x
+      DROP	//
+      0 PUSHINT	//  _3=0
+    }>	//  x
+    DUP	//  x x
+    4 LESSINT	//  x _5
+    IFJMP:<{	//  x
+      DROP	//
+      1 PUSHINT	//  _6=1
+    }>	//  x
+    DUP	//  x x
+    INC	//  x _9
+    1 RSHIFT#	//  x z
+    OVER	//  x z y
+    WHILE:<{
+      2DUP	//  x z y z y
+      LESS	//  x z y _13
+    }>DO<{	//  x z y
+      DROP	//  x z
+      s0 s1 s0 PUSH3	//  x z y x z
+      DIV	//  x z y _14
+      ROT	//  x y _14 z
+      ADD	//  x y _15
+      1 RSHIFT#	//  x y z
+      SWAP	//  x z y
+    }>	//  x z y
+    2 1 BLKDROP2	//  y
+  }>
+
+
+{ (0x.) type } : 0x._
+
+
+"TonUtil.fif" include
+
+10 constant ten
+
+^reset ."👋 NFT is inited: " ^magenta (dump) type cr
+
+
+"TonUtil.fif" include
+
+<s 64 u@ // get message from second cell
+swap // get seqno from cell to top
+// you will see that integer and cell slice are in stack
+// print seqno (it is just int in stack)
+
+2 PUSHINT	//  x n _45=2
+exp INLINECALLDICT	//  x n _46
+s2 s(-1) PUXC	//  x n x _46
+GEQ	//  x n _47
+IF:<{	//  x n
+    SWAP	//  n x
+    2 RSHIFT#	//  n x
+    SWAP	//  x n
+    2 ADDCONST	//  x n
+}>	//  x n
+
+{ bl word 1 {
+  dup find { " -?" $+ abort } ifnot nip execute
+} } :: @'
+
+// { 1 tuple } : single
+
+60 =: timeout   // external message expires in 60 seconds
+
+// { 2 untuple } : unpair
+
+constant index
+
+constant nft-body
+
+"Lists.fif" include
+
+{ char " word 1 ' $+ } ::_ +"
+
+{ char } word x>B 1 'nop } ::_ B{
+
+10 constant ten
+
+"Asm.fif" include
+
+{ rot swap /mod Digit rot swap hold } : B#
+
+
+<b b{1000100} s, wallet_addr addr, 0 Gram, b{00} s,
+   swap B, swap <s s, b>
+
+<b nft_owner_address Addr, b> <s   // myself
+null            // global_config
+10 tuple 1 tuple constant c7 // save as c7 cell
+
+
+1 2 3 4 .s
+
+"./collection-data.fif" include constant collection-data
+
+{ 16 base ! } : hex
+
+cr ."ok!" cr
+
+"" constant <#
+
+^reset ."😏 NFT individual content parsed: " nft-data B>$ (dump) type cr
+
+"GetOpt.fif" include
+
+// { 1 untuple } : unsingle
+
+rot .s
+
+collection-data // add c4 cell lodaded from lite-client
+
+"TonUtil.fif" include
+
+// { 0 [] } : car
+
+0xf8a7ea5 constant op_transfer
+
+
+{ dup 10 < { 48 } { 55 } cond + } : Digit
+
+{ char " word 1 ' type } ::_ ."
+
+avg PROCREF:<{
+//  x y
+ADD	//  _2
+1 RSHIFT#	//  _4
+}>
+
+{ 0X._ space } : 0X.
+
+0b0000 b{0000} 2 exch 4 udict! drop
+
+// msg slice
+
+"TonUtil.fif" include
+
+^reset ."🐾 NFT data: "  <b collection-nft-data  B, nft-data B, b> <s dup sbits 8 / B@ B>$ ^cyan (dump) type cr
+
+
+0x35 runvmx // Runvm, in stack now seqno
+2drop drop
+
+<b
+  0x595f07bc 32 u, // op::burn
+  12345 64 u, // query_id
+  5000000000 Gram, // Burning 5 jettons
+  0 3 u, // addr_none for resp_dst and no custom payload
+b>
+
+// { 3 tuple-len? } : triple?
+
+savefile +".boc" tuck B>file
+
+subwallet-id (.) 1 ' $+ does : +subwallet
+
+
+{ swap ({) over 2+ -roll swap (compile) (}) } : does
+
+{ 9 hold } : +tab
+
+// { cdr car } : cadr
+
+{ not 2 pick @ and xor swap ! } : ~!
+
+{ over abs <# rot 1- ' X# swap times X#s rot sign #> nip } : (0X.)
+
+
+// In stack: init?, index,  collection address, owner_address, body
+
+{ swap 10 /mod char 0 + rot swap hold } : #
+
+{ bl word 3 2 ' (create) } :: ::_
+
+{ base @ B# } : Base#
+
+<b
+0 4 u,
+0b111 8 u,
+0b01110101 16 u,
+0b111111111111110001 32 u,
+0b10111110000111111111111110001110101011 64 u,
+0xfffaaffa3445512 128 u,
+0b0111111111111011011 256 u,
+b>
+
+// { bl word dup (def?) { 2drop skip-to-eof } { swap 1 'nop does swap 0 (create) } cond } : library-version
+
+{ dup =: x dup * =: y } : setxy
+3 setxy x . y . x y + .
+7 setxy x . y . x y + .
+
+{ dup abs <# ’ # 9 times char . hold #s rot sign #>
+  nip -trailing0 } : (.GR)
+{ (.GR) ."GR$" type space } : .GR
+-17239000000 .GR
+
+
+// In stack: init?, index,  collection address, owner_address, body
+
+{ dup * } : square
+
+
+boc>B Bx.
+
+{ hole dup 1 { @ execute } does create } : recursive
+
+#!/usr/bin/fift -s
+
+// { 3 tuple-len? } : triple?
+
+// { cdr cdr } : cddr
+
+"EQDRebAnF1pvH1YsKNp7mtpsz+CLs6WxaffUojt1ijyrazkg" constant receiver_address
+
+PROGRAM{
+  DECLPROC power
+  DECLPROC sqrt
+  DECLPROC avg
+  DECLPROC exp
+  DECLPROC log2
+  DECLPROC recv_internal
+  128253 DECLMETHOD get_total
+}END>c

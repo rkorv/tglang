@@ -1,0 +1,1 @@
+.*\bTriple\b.*\bX[A-Za-z]*\b.*

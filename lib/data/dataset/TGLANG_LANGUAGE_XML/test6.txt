@@ -1,0 +1,434 @@
+<root>
+	<blitz>
+		<smallIconPath>~res:/Gfx/UI/BattleScreenHUD/SmallTankIcons/ussr-Object_252_fearless</smallIconPath>
+		<bigIconPath>~res:/Gfx/UI/BigTankIcons/ussr-Object_252_fearless</bigIconPath>
+		<blitzModelPath>Tanks/USSR/Object_252_fearless.sc2</blitzModelPath>
+		<engineSoundPC>tanks/pc/engine/ussr/ht</engineSoundPC>
+		<engineSoundNPC>tanks/npc/engine/ussr/ht</engineSoundNPC>
+		<smokeEffectPath>FX/smoke_tank_type_black_new_2.sc2</smokeEffectPath>
+		<fireEffectPathAlive>FX/SmokeFire_tank_movement_new.sc2</fireEffectPathAlive>
+		<fireEffectPathDead>FX/Fire_and_Smoke.sc2</fireEffectPathDead>
+		<collisionMesh>CollisionMeshes/ussr-Object252_Fearless.sc2</collisionMesh>
+		<customEffects/>
+	</blitz>
+	<crew>
+		<commander>radioman</commander>
+		<gunner/>
+		<driver/>
+		<loader/>
+	</crew>
+	<isUnlocked>true</isUnlocked>
+	<speedLimits>
+		<forward>35</forward>
+		<backward>14</backward>
+	</speedLimits>
+	<invisibility>
+		<moving>0.061</moving>
+		<still>0.122</still>
+		<firePenalty>0.183</firePenalty>
+	</invisibility>
+	<repairCost>0</repairCost>
+	<crewXpFactor>1.0</crewXpFactor>
+	<consumableSlots>3</consumableSlots>
+	<provisionSlots>3</provisionSlots>
+	<optDevicePreset>defaultPreset</optDevicePreset>
+	<enrichmentBoost>0.0000</enrichmentBoost>
+	<turretBlowEnabled>true</turretBlowEnabled>
+	<effects>
+		<destruction>mediumDestruction</destruction>
+		<explosion>mediumExplosion</explosion>
+		<flaming>largeFlaming</flaming>
+		<collision/>
+	</effects>
+	<camouflage>
+		<priceFactor>1.6</priceFactor>
+		<tiling>1 1 0 0</tiling>
+		<exclusionMask>vehicles/russian/R61_Object252_Fearless/Object_252_CM.dds</exclusionMask>
+	</camouflage>
+	<emblems>
+		<default>ussr_star</default>
+		<lodDist>MEDIUM</lodDist>
+		<alpha>0.88</alpha>
+	</emblems>
+	<horns>
+		<priceFactor>1</priceFactor>
+		<distanceFactor>1</distanceFactor>
+		<volumeFactor>1</volumeFactor>
+	</horns>
+	<hull>
+		<blitz>
+			<armorScale>0.0521 0.0521 0.0521</armorScale>
+			<pushNormalsScale/>
+			<averageThickness>
+				<turret_01>156.430725</turret_01>
+			</averageThickness>
+			<blitzPartName>hull</blitzPartName>
+			<bbox>
+				<min>-1.701119 -3.548028 0.454446</min>
+				<max>1.701119 3.368582 1.631527</max>
+			</bbox>
+			<points>
+				<normal>-0.000002 0.000522 0.000419</normal>
+			</points>
+			<detachedTurret>
+				<cylinderPos>0.000000 0.000000 -0.042000</cylinderPos>
+				<cylinderXYScale>0.930000</cylinderXYScale>
+			</detachedTurret>
+		</blitz>
+		<models>
+			<undamaged>vehicles/russian/R61_Object252_Fearless/normal/lod0/Hull.model</undamaged>
+			<destroyed>vehicles/russian/R61_Object252_Fearless/normal/lod0/Hull.model</destroyed>
+			<exploded>vehicles/russian/R61_Object252_Fearless/normal/lod0/Hull.model</exploded>
+		</models>
+		<swinging>
+			<lodDist>FAR</lodDist>
+			<pitchParams>0.20 36.00 0.36 1.00 0.04 0.26</pitchParams>
+			<rollParams>1.00 0.10 36.00 0.36 1.00 0.01 0.26</rollParams>
+			<sensitivityToImpulse>0.13</sensitivityToImpulse>
+		</swinging>
+		<exhaust>
+			<pixie>particles/Tank/engine_exit_diesel.xml</pixie>
+			<nodes>HP_Track_Exhaus_1 HP_Track_Exhaus_2</nodes>
+			<rates>6.0 16.0 44.0</rates>
+		</exhaust>
+		<turretPositions>
+			<turret>0.0 1.49 0.5733</turret>
+		</turretPositions>
+		<hitTester>
+			<collisionModel>vehicles/russian/R61_Object252_Fearless/collision/Hull.model</collisionModel>
+		</hitTester>
+		<armor>
+			<armor_1>110</armor_1>
+			<armor_2>120</armor_2>
+			<armor_3>100</armor_3>
+			<armor_4>60</armor_4>
+			<armor_5>50</armor_5>
+			<armor_6>20</armor_6>
+			<armor_7>100</armor_7>
+			<armor_8>50</armor_8>
+			<armor_9>20</armor_9>
+			<armor_10>100</armor_10>
+			<armor_11>100<vehicleDamageFactor>0.0</vehicleDamageFactor>
+			</armor_11>
+			<armor_12>30<vehicleDamageFactor>0.0</vehicleDamageFactor>
+			</armor_12>
+			<armor_13>0</armor_13>
+			<armor_16>80</armor_16>
+		</armor>
+		<primaryArmor>armor_1 armor_3 armor_4</primaryArmor>
+		<weight>24280</weight>
+		<maxHealth>1480</maxHealth>
+		<ammoBayHealth>
+			<maxHealth>220</maxHealth>
+			<maxRegenHealth>150</maxRegenHealth>
+			<repairCost>0</repairCost>
+			</ammoBayHealth>
+		<emblemSlots>
+			<clan>
+				<rayStart>0.466882 0.752889 2.49805</rayStart>
+				<rayEnd>0.466882 0.38926 2.33139</rayEnd>
+				<rayUp>0.000000 0.000000 -1</rayUp>
+				<size>0.26</size>
+				<hideIfDamaged>false</hideIfDamaged>
+			</clan>
+		</emblemSlots>
+	</hull>
+	<chassis>
+		<Chassis_IS-6_Fearless>
+			<blitz>
+				<blitzPartName>chassis</blitzPartName>
+				<bbox>
+					<min>-1.693456 -3.401681 -0.000000</min>
+					<max>1.693456 3.432621 0.987842</max>
+				</bbox>
+				<points>
+					<normal>0.000000 -0.007446 0.001602</normal>
+				</points>
+				<soundPC>tanks/pc/treads/ht</soundPC>
+				<soundNPC>tanks/npc/treads/ht</soundNPC>
+			</blitz>
+			<userString>#ussr_vehicles:Chassis_IS-6</userString>
+			<description>#ussr_vehicles:Chassis_IS-6_descr</description>
+			<tags/>
+			<level>8</level>
+			<price>0</price>
+			<notInShop>true</notInShop>
+			<models>
+				<undamaged>vehicles/russian/R61_Object252_Fearless/normal/lod0/Chassis.model</undamaged>
+				<destroyed>vehicles/russian/R61_Object252_Fearless/normal/lod0/Chassis.model</destroyed>
+				<exploded>vehicles/russian/R61_Object252_Fearless/normal/lod0/Chassis.model</exploded>
+			</models>
+			<traces>
+				<lodDist>FAR</lodDist>
+				<bufferPrefs>largeTank</bufferPrefs>
+				<textureSet>ussr_01</textureSet>
+				<size>0.44 0.7</size>
+			</traces>
+			<tracks>
+				<lodDist>MEDIUM</lodDist>
+				<leftMaterial>track_mat_L_skinned</leftMaterial>
+				<rightMaterial>track_mat_R_skinned</rightMaterial>
+				<textureScale>0.568000</textureScale>
+			</tracks>
+			<wheels>
+				<lodDist>MEDIUM</lodDist>
+				<wheel>
+					<isLeft>false</isLeft>
+					<name>WD_R0</name>
+					<radius>0.282705</radius>
+				</wheel>
+				<wheel>
+					<isLeft>false</isLeft>
+					<name>WD_R1</name>
+					<radius>0.405314</radius>
+				</wheel>
+				<group>
+					<isLeft>false</isLeft>
+					<template>W_R</template>
+					<radius>0.379406</radius>
+					<startIndex>0</startIndex>
+					<count>6</count>
+				</group>
+				<wheel>
+					<isLeft>true</isLeft>
+					<name>WD_L0</name>
+					<radius>0.282705</radius>
+				</wheel>
+				<wheel>
+					<isLeft>true</isLeft>
+					<name>WD_L1</name>
+					<radius>0.405314</radius>
+				</wheel>
+				<group>
+					<isLeft>true</isLeft>
+					<template>W_L</template>
+					<radius>0.379406</radius>
+					<startIndex>0</startIndex>
+					<count>6</count>
+				</group>
+			</wheels>
+			<drivingWheels>WD_L0 WD_L1</drivingWheels>
+			<effects>
+				<lodDist>MEDIUM</lodDist>
+				<dust>largeTankDust</dust>
+				<mud>largeTankMud</mud>
+			</effects>
+			<sound>/vehicles/tanks/treads/treads_3</sound>
+			<hullPosition>0.0 0.0 0.0</hullPosition>
+			<hitTester>
+				<collisionModel>vehicles/russian/R61_Object252_Fearless/collision/Chassis.model</collisionModel>
+			</hitTester>
+			<armor>
+				<leftTrack>20</leftTrack>
+				<rightTrack>20</rightTrack>
+			</armor>
+			<topRightCarryingPoint>1.33799 2.37163</topRightCarryingPoint>
+			<maxClimbAngle>25</maxClimbAngle>
+			<navmeshGirth>6.0</navmeshGirth>
+			<weight>11000</weight>
+			<maxLoad>59900</maxLoad>
+			<terrainResistance>1.2 1.5 1.76</terrainResistance>
+			<brakeForce>39500</brakeForce>
+			<rotationIsAroundCenter>false</rotationIsAroundCenter>
+			<rotationSpeed>26</rotationSpeed>
+			<shotDispersionFactors>
+				<vehicleMovement>0.23</vehicleMovement>
+				<vehicleRotation>0.23</vehicleRotation>
+			</shotDispersionFactors>
+			<bulkHealthFactor>3.0</bulkHealthFactor>
+			<maxHealth>220</maxHealth>
+			<maxRegenHealth>165</maxRegenHealth>
+			<repairCost>0</repairCost>
+			</Chassis_IS-6_Fearless>
+	</chassis>
+	<turrets0>
+		<Turret_IS-6_Fearless>
+			<blitz>
+				<armorScale>0.0718 0.0577 0.0225</armorScale>
+				<pushNormalsScale/>
+				<blitzPartName>turret_01</blitzPartName>
+				<bbox>
+					<min>-1.169584 -1.617686 -0.314373</min>
+					<max>1.169584 1.427636 0.922170</max>
+				</bbox>
+				<points>
+					<normal>0.000000 -0.575014 -1.492737</normal>
+				</points>
+				<clipParams>
+					<clippingPlaneZPos>1.446000</clippingPlaneZPos>
+					<textureScaleFactor>0.782000</textureScaleFactor>
+					<shouldClipGun>false</shouldClipGun>
+				</clipParams>
+			</blitz>
+			<userString>#ussr_vehicles:Turret_IS-6</userString>
+			<description>#ussr_vehicles:Turret_IS-6_descr</description>
+			<tags/>
+			<level>8</level>
+			<price>0</price>
+			<notInShop>true</notInShop>
+			<models>
+				<undamaged>vehicles/russian/R61_Object252_Fearless/normal/lod0/Turret_01.model</undamaged>
+				<destroyed>vehicles/russian/R61_Object252_Fearless/normal/lod0/Turret_01.model</destroyed>
+				<exploded>vehicles/russian/R61_Object252_Fearless/normal/lod0/Turret_01.model</exploded>
+			</models>
+			<hitTester>
+				<collisionModel>vehicles/russian/R61_Object252_Fearless/collision/Turret_01.model</collisionModel>
+			</hitTester>
+			<yawLimits>-180 180</yawLimits>
+			<gunPosition>0.0 0.3752 1.2439</gunPosition>
+			<armor>
+				<armor_1>150</armor_1>
+				<armor_2>150</armor_2>
+				<armor_3>150</armor_3>
+				<armor_4>100</armor_4>
+				<armor_5>30</armor_5>
+				<armor_6>30</armor_6>
+				<armor_7>150</armor_7>
+				<armor_16>30</armor_16>
+			</armor>
+			<primaryArmor>armor_1 armor_3 armor_4</primaryArmor>
+			<weight>12500</weight>
+			<maxHealth>370</maxHealth>
+			<rotationSpeed>20</rotationSpeed>
+			<turretRotatorHealth>
+				<maxHealth>160</maxHealth>
+				<maxRegenHealth>80</maxRegenHealth>
+				<repairCost>0</repairCost>
+				</turretRotatorHealth>
+			<circularVisionRadius>240</circularVisionRadius>
+			<surveyingDeviceHealth>
+				<maxHealth>110</maxHealth>
+				<maxRegenHealth>55</maxRegenHealth>
+				<repairCost>0</repairCost>
+				</surveyingDeviceHealth>
+			<guns>
+				<_122-mm_D-30>shared<blitz>
+						<armorScale>0.0394 0.0394 0.0394</armorScale>
+						<pushNormalsScale/>
+						<blitzPartName>gun_02</blitzPartName>
+						<bbox>
+							<min>-0.508170 -0.789899 -0.281159</min>
+							<max>0.324764 4.490592 0.241026</max>
+						</bbox>
+						<points>
+							<normal>-0.000000 -1.817259 -1.865295</normal>
+						</points>
+					</blitz>
+					<unlocks>
+						<gun>_122-mm_D-30A<cost>100</cost>
+						</gun>
+					</unlocks>
+					<maxAmmo>30</maxAmmo>
+					<models>
+						<undamaged>vehicles/russian/R61_Object252_Fearless/normal/lod0/Gun_02.model</undamaged>
+						<destroyed>vehicles/russian/R61_Object252_Fearless/normal/lod0/Gun_02.model</destroyed>
+						<exploded>vehicles/russian/R61_Object252_Fearless/normal/lod0/Gun_02.model</exploded>
+					</models>
+					<hitTester>
+						<collisionModel>vehicles/russian/R61_Object252_Fearless/collision/Gun_02.model</collisionModel>
+					</hitTester>
+					<armor>
+						<armor_1>160<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						</armor_1>
+						<gun>50</gun>
+					</armor>
+					<shotDispersionRadius>0.43</shotDispersionRadius>
+					<reloadTime>12.06</reloadTime>
+					<shotDispersionFactors>
+						<turretRotation>0.12</turretRotation>
+						<afterShot>4</afterShot>
+						<whileGunDamaged>2.0</whileGunDamaged>
+					</shotDispersionFactors>
+					<aimingTime>3.1</aimingTime>
+					<pitchLimits>-20 6</pitchLimits>
+					<extraPitchLimits>
+						<back>-20 4 20</back>
+					</extraPitchLimits>
+					<invisibilityFactorAtShot>0.19</invisibilityFactorAtShot>
+					<fitsRatingBattle>true</fitsRatingBattle>
+				</_122-mm_D-30>
+				<_122-mm_D-30A>shared<blitz>
+						<armorScale>0.0437 0.0437 0.0437</armorScale>
+						<pushNormalsScale/>
+						<blitzPartName>gun_02</blitzPartName>
+						<bbox>
+							<min>-0.508170 -0.789899 -0.281159</min>
+							<max>0.324764 4.490592 0.241026</max>
+						</bbox>
+						<points>
+							<normal>-0.000000 -1.817259 -1.865295</normal>
+						</points>
+					</blitz>
+					<maxAmmo>30</maxAmmo>
+					<models>
+						<undamaged>vehicles/russian/R61_Object252/normal/lod0/Gun_02.model</undamaged>
+						<destroyed>vehicles/russian/R61_Object252/normal/lod0/Gun_02.model</destroyed>
+						<exploded>vehicles/russian/R61_Object252/normal/lod0/Gun_02.model</exploded>
+					</models>
+					<hitTester>
+						<collisionModel>vehicles/russian/R61_Object252/collision/Gun_02.model</collisionModel>
+					</hitTester>
+					<armor>
+						<armor_1>160<vehicleDamageFactor>0.0</vehicleDamageFactor>
+						</armor_1>
+						<gun>50</gun>
+					</armor>
+					<shotDispersionRadius>0.43</shotDispersionRadius>
+					<reloadTime>14.8</reloadTime>
+					<shotDispersionFactors>
+						<turretRotation>0.16</turretRotation>
+						<afterShot>4</afterShot>
+						<whileGunDamaged>2.0</whileGunDamaged>
+					</shotDispersionFactors>
+					<aimingTime>3.1</aimingTime>
+					<pitchLimits>-20 6</pitchLimits>
+					<extraPitchLimits>
+						<back>-20 4 20</back>
+					</extraPitchLimits>
+					<invisibilityFactorAtShot>0.19</invisibilityFactorAtShot>
+				</_122-mm_D-30A>
+			</guns>
+			<emblemSlots>
+				<player>
+					<rayStart>-1.3383 0.563671 0.83086</rayStart>
+					<rayEnd>-0.40307 0.295461 0.599933</rayEnd>
+					<rayUp>0.000000 1 0.000000</rayUp>
+					<size>0.26</size>
+					<hideIfDamaged>false</hideIfDamaged>
+				</player>
+				<player>
+					<rayStart>1.3383 0.563671 0.83086</rayStart>
+					<rayEnd>0.40307 0.295461 0.599933</rayEnd>
+					<rayUp>0.000000 1 0.000000</rayUp>
+					<size>0.26</size>
+					<hideIfDamaged>true</hideIfDamaged>
+				</player>
+				<inscription>
+					<rayStart>1.27521 0.465237 -0.293181</rayStart>
+					<rayEnd>0.900914 0.330426 -0.334724</rayEnd>
+					<rayUp>0.000000 1 0.000000</rayUp>
+					<size>0.68</size>
+					<hideIfDamaged>true</hideIfDamaged>
+				</inscription>
+				<inscription>
+					<rayStart>-1.27521 0.465237 -0.293181</rayStart>
+					<rayEnd>-0.900914 0.330426 -0.334724</rayEnd>
+					<rayUp>0.000000 1 0.000000</rayUp>
+					<size>0.68</size>
+					<hideIfDamaged>true</hideIfDamaged>
+				</inscription>
+			</emblemSlots>
+			<showEmblemsOnGun>false</showEmblemsOnGun>
+			<physicsShape>1.000 0.000 1.000 0.000 1.000 0.000 0.500 0.100 0.500 0.500 0.500 0.500 0.600 0.100 0.500</physicsShape>
+		</Turret_IS-6_Fearless>
+	</turrets0>
+	<engines>
+		<V-12A>shared</V-12A>
+	</engines>
+	<fuelTanks>
+		<Heavy>shared</Heavy>
+	</fuelTanks>
+	<radios>
+		<_10RKM>shared</_10RKM>
+	</radios>
+</root>

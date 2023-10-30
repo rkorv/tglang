@@ -1,0 +1,114 @@
+buildscript {
+    ext {
+        springBootVersion     = "2.0.2.RELEASE"
+        gradleDockerVersion   = "1.2"
+    }
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven {
+            url uri('C:/Users/elenla.REDMOND/.m2/repository')
+        }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath group: 'lenala.azure', name: 'azure-webapp-gradle-plugin',
+                version: '1.0'
+        classpath 'com.bmuschko:gradle-docker-plugin:3.2.1'
+    }
+}
+
+plugins {
+    id "lenala.azure.azurewebapp" version "1.0"
+}
+
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: "org.springframework.boot"
+apply plugin: 'com.bmuschko.docker-remote-api'
+apply plugin: 'lenala.azure.azurewebapp'
+
+import com.bmuschko.gradle.docker.tasks.image.*
+
+dependencies {
+    compile group: 'commons-io', name: 'commons-io', version: '1.4'
+    compile group: 'log4j', name: 'log4j', version: '1.2.15', ext: 'jar'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version:'2.0.2.RELEASE'
+    compile group: 'com.microsoft.azure', name: 'spring-data-documentdb', version: '2.0.2'
+    compile group: 'com.microsoft.azure', name: 'azure-documentdb-spring-boot-starter', version:'0.2.0'
+}
+
+version = 'v0.18'
+def projectArtifactId = "myimage"
+def dockerImage = serverId + "/" + projectArtifactId + ":" + version
+
+description = "todo-app-java-on-azure"
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+jar {
+    baseName = "todo-app-java-on-azure"
+    manifest { attributes "Main-Class": "lenala.azure.sample.TodoApplication" }
+}
+
+task createDockerfile(type: Dockerfile) {
+    dependsOn build
+    destFile = project.file('./build/Dockerfile')
+    from 'java'
+    volume '/tmp'
+    addFile('libs/*.jar','/app.jar')
+    entryPoint "java", "-jar", "/app.jar", "--server.port=80"
+}
+
+task buildImage(type: DockerBuildImage) {
+    dependsOn createDockerfile
+    noCache = false
+    remove = true
+    inputDir file('./build')   //createDockerfile.destFile.parentFile + "/lib"
+    tag dockerImage
+}
+
+task dockerPushImage(type: DockerPushImage) {
+    dependsOn buildImage
+    imageName dockerImage
+}
+
+docker {
+    registryCredentials {
+        url = 'http://' + serverId
+        username = serverUsername
+        password = serverPassword
+        email = 'lena.lakhno@gmail.com'
+    }
+}
+
+azureWebApp {
+    resourceGroup = 'resourceGroup12'
+    appName = 'appName12'
+    pricingTier = 'S1'
+    region = 'southcentralus'
+
+    appService = {
+        type = 'docker'
+        imageName = dockerImage
+        serverId = project.property('serverId')
+        registryUrl = "https://" + serverId
+        username = project.property('serverUsername')
+        password = project.property('serverPassword')
+    }
+
+    authentication = {
+        type = "file"
+        file = "C:/stuff/my2.azureauth"
+    }
+
+    deployment = {
+        type = "none"
+    }
+}
+
+repositories {
+     maven { url "http://repo.maven.apache.org/maven2" }
+}

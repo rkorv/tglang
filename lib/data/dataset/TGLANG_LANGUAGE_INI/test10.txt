@@ -1,0 +1,213 @@
+; Saved by version: 1.3.0
+
+[SpawnMerriods11A]
+xposition=10
+yposition=4
+buttons=1
+event1=EventSetupEncounter1Complete
+audio=AudioButton1
+monster=MonsterMerriod
+
+[SpawnGoblinArchers10A4]
+xposition=3
+yposition=4
+buttons=1
+event1=EventCropsFlavor4
+audio=AudioButton1
+monster=CustomMonsterGoblinThief
+placement2=MPlaceGoblinArcherMinionTL MPlaceGoblinArcherMinionTR MPlaceGoblinArcherMinionBL MPlaceGoblinArcherMasterBR
+placement3=MPlaceGoblinArcherMinionTL MPlaceGoblinArcherMinionTR MPlaceGoblinArcherMinionBL MPlaceGoblinArcherMasterBR
+placement4=MPlaceGoblinArcherMinionTL MPlaceGoblinArcherMinionTR MPlaceGoblinArcherMinionBL MPlaceGoblinArcherMasterBR
+
+[SpawnGoblinArchers10A3]
+xposition=3
+yposition=4
+buttons=1
+event1=EventCropsFlavor3
+audio=AudioButton1
+monster=CustomMonsterGoblinThief
+placement2=MPlaceGoblinArcherMinionTR MPlaceGoblinArcherMinionBL MPlaceGoblinArcherMasterBR
+placement3=MPlaceGoblinArcherMinionTR MPlaceGoblinArcherMinionBL MPlaceGoblinArcherMasterBR
+placement4=MPlaceGoblinArcherMinionTR MPlaceGoblinArcherMinionBL MPlaceGoblinArcherMasterBR
+
+[SpawnGoblinArchers10A2]
+xposition=3
+yposition=4
+buttons=1
+event1=EventCropsFlavor2
+audio=AudioButton1
+monster=CustomMonsterGoblinThief
+placement2=MPlaceGoblinArcherMinionBL MPlaceGoblinArcherMasterBR
+placement3=MPlaceGoblinArcherMinionBL MPlaceGoblinArcherMasterBR
+placement4=MPlaceGoblinArcherMinionBL MPlaceGoblinArcherMasterBR
+
+[SpawnGoblinArchers10A1]
+xposition=3
+yposition=4
+buttons=1
+event1=EventCropsFlavor1
+audio=AudioButton1
+monster=CustomMonsterGoblinThief
+placement2=MPlaceGoblinArcherMasterBR
+placement3=MPlaceGoblinArcherMasterBR
+placement4=MPlaceGoblinArcherMasterBR
+
+[SpawnCaveSpiders15B]
+xposition=25
+yposition=8
+buttons=1
+event1=EventSetupEncounter2Complete
+audio=AudioButton1
+monster=MonsterCaveSpider
+
+[SpawnOpenGroup2]
+xposition=27
+yposition=1
+buttons=1
+event1=EventE2Objective2
+audio=AudioButton1
+monster=MonsterCaveSpider MonsterGoblinArcher
+traitpool=cave building
+
+[SpawnSplig11B]
+xposition=16
+yposition=2
+buttons=1
+event1=SpawnGoblinGuards11B
+operations=SpligSpawned,=,1
+conditions=OverlordRelicShieldOfZoreksFavor,==,0
+audio=AudioButton1
+monster=CustomMonsterSpligTheKing
+placement2=MPlaceSplig11B
+placement3=MPlaceSplig11B
+placement4=MPlaceSplig11B
+
+[SpawnSplig11BShield]
+xposition=16
+yposition=2
+buttons=1
+event1=SpawnGoblinGuards11B
+operations=SpligSpawned,=,1
+conditions=OverlordRelicShieldOfZoreksFavor,==,1
+audio=AudioButton1
+monster=CustomMonsterSpligTheKing
+placement2=MPlaceSplig11B
+placement3=MPlaceSplig11B
+placement4=MPlaceSplig11B
+
+[SpawnGoblinGuards11B]
+xposition=18
+yposition=2
+buttons=1
+event1=EventPlaceSearchToken26B
+audio=AudioButton1
+monster=CustomMonsterGoblinGuard
+
+[SpawnSplig9B]
+xposition=25
+yposition=1
+buttons=1
+event1=SpawnGoblinGuards9B
+operations=SpligSpawned,=,1
+conditions=OverlordRelicShieldOfZoreksFavor,==,0 RevealedTortureChamber,==,0
+audio=AudioButton1
+monster=CustomMonsterSpligTheKing
+placement2=MPlaceSplig9B
+placement3=MPlaceSplig9B
+placement4=MPlaceSplig9B
+
+[SpawnSplig9BShield]
+xposition=25
+yposition=1
+buttons=1
+event1=SpawnGoblinGuards9B
+operations=SpligSpawned,=,1
+conditions=OverlordRelicShieldOfZoreksFavor,==,1 RevealedTortureChamber,==,0
+audio=AudioButton1
+monster=CustomMonsterSpligTheKing
+placement2=MPlaceSplig9B
+placement3=MPlaceSplig9B
+placement4=MPlaceSplig9B
+
+[SpawnGoblinGuards9B]
+xposition=25
+yposition=2
+buttons=1
+event1=EventPlaceSearchToken26B
+audio=AudioButton1
+monster=CustomMonsterGoblinGuard
+
+[SpawnSplig27B]
+xposition=27
+yposition=4
+buttons=1
+event1=SpawnGoblinGuards27B
+operations=SpligSpawned,=,1
+conditions=OverlordRelicShieldOfZoreksFavor,==,0 RevealedCave,==,0
+audio=AudioButton1
+monster=CustomMonsterSpligTheKing
+placement2=MPlaceSplig27B
+placement3=MPlaceSplig27B
+placement4=MPlaceSplig27B
+
+[SpawnSplig27BShield]
+xposition=27
+yposition=4
+buttons=1
+event1=SpawnGoblinGuards27B
+operations=SpligSpawned,=,1
+conditions=OverlordRelicShieldOfZoreksFavor,==,1 RevealedCave,==,0
+audio=AudioButton1
+monster=CustomMonsterSpligTheKing
+placement2=MPlaceSplig27B
+placement3=MPlaceSplig27B
+placement4=MPlaceSplig27B
+
+[SpawnGoblinGuards27B]
+xposition=27
+yposition=4
+buttons=1
+event1=
+audio=AudioButton1
+monster=CustomMonsterGoblinGuard
+
+[SpawnReinforcementsGoblinArchers]
+xposition=1
+yposition=7
+buttons=1
+event1=EventMonsterReinforcements
+operations=ReinforcementThresholdGoblinArchers,=,0
+conditions=SpokenToFarmer,==,1 Encounter2,==,0 ReinforcementThresholdGoblinArchers,>=,1
+audio=AudioButton1
+monster=CustomMonsterGoblinThief
+
+[SpawnReinforcementsGoblinArchersHighThreat]
+xposition=4
+yposition=2
+buttons=1
+event1=EventMonsterReinforcements
+operations=ReinforcementThresholdGoblinArchersHighThreat,=,0
+conditions=SpokenToFarmer,==,1 Encounter2,==,0 ThreatLevel,>=,4 ReinforcementThresholdGoblinArchersHighThreat,>=,1
+audio=AudioButton1
+monster=CustomMonsterGoblinThief
+
+[SpawnReinforcementsMerriods]
+xposition=5
+yposition=9
+buttons=1
+event1=EventMonsterReinforcements
+operations=ReinforcementThresholdMerriods,=,0
+conditions=ReinforcementThresholdMerriods,>=,2 SpokenToFarmer,==,1 Encounter2,==,0
+audio=AudioButton1
+monster=MonsterMerriod
+
+[SpawnReinforcementsOpenGroup1]
+xposition=10
+yposition=-1
+buttons=1
+event1=EventMonsterReinforcements
+operations=ReinforcementThresholdOpenGroup1,=,0
+conditions=ReinforcementThresholdOpenGroup1,>=,4 SpokenToFarmer,==,1 Encounter2,==,0 ThreatLevel,>=,7
+audio=AudioButton1
+monster=MonsterMerriod MonsterGoblinArcher
+traitpool=wilderness

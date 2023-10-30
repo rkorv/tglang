@@ -1,0 +1,1 @@
+([^A-Za-z]*\b[A-Za-z]+\b[^A-Za-z]*){0,2}[^A-Za-z]*\bape\b.*

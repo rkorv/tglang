@@ -1,0 +1,100 @@
+//@description Represents the current state of 2-step verification
+account.changePhone#70c32edb phone_number:string phone_code_hash:string phone_code:string = User;
+//@description A voice note @voice_note Voice note; may be null @caption Voice note caption
+updateMessageID#4e90bfd6 id:int random_id:long = Update;
+//@description Contains information about a tg: deep link @text Text to be shown to the user @need_update_application True, if the user must be asked to update the application
+//@can_manage_video_chats True, if the administrator can manage video chats
+//@description Contains information about a language pack
+//@location The new location of the user
+//@height Thumbnail height, usually doesn't exceed 40
+//@unread_message_count Approximate number of unread messages in the message thread
+//@description Describes actions that a user is allowed to take in a chat
+//@description The value of the default disable_notification parameter, used when a message is sent to the chat, was changed @chat_id Chat identifier @default_disable_notification The new default_disable_notification value
+//@description A new high score was achieved in a game @title Game title, empty for pinned message @score New score, 0 for pinned message @is_pinned True, if the message is a pinned message with the specified content
+userPrivacySettingShowStatus#6f0884fe = UserPrivacySetting;
+//@description Edits the content of a message with an animation, an audio, a document, a photo or a video. The media in the message can't be replaced if the message was set to self-destruct. Media can't be replaced by self-destructing media. Media in an album can be edited only to contain a photo or a video. Returns the edited message after the edit is completed on the server side
+//@description A Telegram Passport element to be saved containing the user's passport registration @passport_registration The passport registration page to be saved
+notifyPeer#9fd40bd8 peer:Peer = NotifyPeer;
+//@description A mobile network
+messageForwardOriginHiddenUser#efd4eee3 sender_name:string = MessageForwardOrigin;
+channelParticipantAdmin#a82fa898 flags:# can_edit:flags.0?true user_id:int inviter_id:int promoted_by:int date:int admin_rights:ChannelAdminRights = ChannelParticipant;
+//@member_restrictions True, if member restricted/unrestricted/banned/unbanned events should be returned
+notification id:int32 date:int32 is_silent:Bool type:NotificationType = Notification;
+publicChatTypeHasUsername = PublicChatType;
+server_DH_params_fail#79cb045d nonce:int128 server_nonce:int128 new_nonce_hash:int128 = Server_DH_Params;
+updateMessagePollVote#42f88f2c poll_id:long user_id:int options:Vector<bytes> = Update;
+account.updateProfile#78515775 flags:# first_name:flags.0?string last_name:flags.1?string about:flags.2?string = User;
+//@chat_id Chat identifier
+updateBasicGroup basic_group:basicGroup = Update;
+loginUrlInfoRequestConfirmation#96fb909a url:string domain:string bot_user_id:int32 request_write_access:Bool = LoginUrlInfo;
+//@from_chat_id For messages forwarded to the chat with the current user (Saved Messages), to the Replies bot chat, or to the channel's discussion group, the identifier of the chat from which the message was forwarded last time; 0 if unknown
+//@option_ids 0-based identifiers of answer options, chosen by the user
+invoice#4bdf09c currency:string price_parts:vector<labeledPricePart> is_test:Bool need_name:Bool need_phone_number:Bool need_email_address:Bool need_shipping_address:Bool send_phone_number_to_provider:Bool send_email_address_to_provider:Bool is_flexible:Bool = Invoice;
+chatEventMemberJoined#f1f70924 = ChatEventAction;
+//@file_id Identifier of the file to get
+deleteAllCallMessages revoke:Bool = Ok;
+contacts.resolveUsername#f93ccba3 username:string = contacts.ResolvedPeer;
+//@class BackgroundFill @description Describes a fill of a background
+//@description The content should be bottom-aligned
+replyKeyboardMarkup#3502758c flags:# resize:flags.0?true single_use:flags.1?true selective:flags.2?true rows:Vector<KeyboardButtonRow> = ReplyMarkup;
+//@description Describes an image in JPEG format @type Image type (see https://core.telegram.org/constructor/photoSize)
+//@description Creates a new secret chat. Returns the newly created chat @user_id Identifier of the target user
+//@class ThumbnailFormat @description Describes format of the thumbnail
+joinChatByInviteLink invite_link:string = Chat;
+getInlineGameHighScores inline_message_id:string user_id:int53 = GameHighScores;
+//@description A list of privacy rules. Rules are matched in the specified order. The first matched rule defines the privacy setting for a given user. If no rule matches, the action is not allowed @rules A list of rules
+par_pair {X Y : Type} x:!X y:!Y = Pair X Y; // functional wrapper for parallel computation
+//@description A Telegram Passport element to be saved containing the user's driver license @driver_license The driver license to be saved
+pageBlockFooter footer:RichText = PageBlock;
+//@url URL
+channelForbidden#289da732 flags:# broadcast:flags.5?true megagroup:flags.8?true id:int access_hash:long title:string until_date:flags.16?int = Chat;
+chatEventLinkedChatChanged#6b2271af old_linked_chat_id:int53 new_linked_chat_id:int53 = ChatEventAction;
+//@description A message was pinned @message Pinned message
+inputMediaDocument#5acb668e flags:# id:InputDocument caption:string ttl_seconds:flags.0?int = InputMedia;
+//@compare_sound If true, also chats with non-default sound will be returned
+inputBotInlineMessageMediaGeo#c1b15d65 flags:# geo_point:InputGeoPoint period:int reply_markup:flags.2?ReplyMarkup = InputBotInlineMessage;
+//@is_full True, if the instant view contains the full page. A network request might be needed to get the full web page instant view
+//@banned_user_count Number of users banned by the administrator
+//@invite_link Primary invite link for this group; may be null. For chat administrators with can_invite_users right only. Updated only after the basic group is opened
+channels.createChannel#f4893d7f flags:# broadcast:flags.0?true megagroup:flags.1?true title:string about:string = Updates;
+authenticationCodeInfo phone_number:string type:AuthenticationCodeType next_type:AuthenticationCodeType timeout:int32 = AuthenticationCodeInfo;
+//@forward_text If non-empty, new text of the button in forwarded messages
+//@reply_markup The message reply markup; pass null if none. Must be of type replyMarkupInlineKeyboard or null
+callId id:int32 = CallId;
+//@expected_size Expected file size in case the exact file size is unknown, but an approximate size is known. Can be used to show download/upload progress
+//@description An animation in MPEG4 format; must be square, at most 10 seconds long, have width between 160 and 800 and be at most 2MB in size
+pageBlockUnsupported#13567e8a = PageBlock;
+//@description Returns messages in a chat. The messages are returned in a reverse chronological order (i.e., in order of decreasing message_id).
+//@description The thumbnail is in TGS format. It will be used only for animated sticker sets
+//@description A static photo in JPEG format
+//@offset_chat_id Chat identifier to return chats from
+//@bot_user_id User identifier of a bot linked with the website
+channels.editAbout#13e27f1e channel:InputChannel about:string = Bool;
+inputMessagesFilterRoundVoice#7a7c17a4 = MessagesFilter;
+//@description Deletes saved credentials for all payment provider bots
+//@description A message with a game; not supported for channels or secret chats @bot_user_id User identifier of the bot that owns the game @game_short_name Short name of the game
+pushMessageContentPoll question:string is_regular:Bool is_pinned:Bool = PushMessageContent;
+//@big A big (640x640) chat photo variant in JPEG format. The file can be downloaded only before the photo is changed
+authorizationStateWaitEncryptionKey#247bf548 is_encrypted:Bool = AuthorizationState;
+//@file Information about the animation file
+long#22076cba ? = Long;
+sessions sessions:vector<session> inactive_session_ttl_days:int32 = Sessions;
+//@description Returns users banned from the chat; can be used only by administrators in a supergroup or in a channel
+//@description Creates a new secret chat. Returns the newly created chat @user_id Identifier of the target user
+//@average_character_count Average number of characters in sent messages
+pageBlockAudio audio:audio caption:pageBlockCaption = PageBlock;
+//@period A period to which the statistics applies
+//@redirect_stderr Pass true to additionally redirect stderr to the log file. Ignored on Windows
+phoneCallEmpty#5366c915 id:long = PhoneCall;
+account.getAuthorizations#e320c158 = account.Authorizations;
+inputMessagesFilterVoice#50f5c392 = MessagesFilter;
+//@description Edits the text of an inline text or game message sent via a bot; for bots only @inline_message_id Inline message identifier @reply_markup The new message reply markup @input_message_content New text content of the message. Should be of type InputMessageText
+//@photo Message content; may be null
+inputIdentityDocument number:string expiry_date:date front_side:InputFile reverse_side:InputFile selfie:InputFile translation:vector<InputFile> = InputIdentityDocument;
+//@performer Performer of the audio; 0-64 characters, may be replaced by the server @caption Audio caption; 0-GetOption("message_caption_length_max") characters
+pinChatMessage#79475baf chat_id:int53 message_id:int53 disable_notification:Bool only_for_self:Bool = Ok;
+updateNewShippingQuery#cf465386 id:int64 sender_user_id:int32 invoice_payload:string shipping_address:address = Update;
+//@description A text message
+updateNewChosenInlineResult sender_user_id:int32 user_location:location query:string result_id:string inline_message_id:string = Update;
+messageUnsupported = MessageContent;
+contacts.unblock#e54100bd id:InputUser = Bool;

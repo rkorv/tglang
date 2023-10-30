@@ -1,0 +1,100 @@
+//-Cannot be used in secret chats or with searchMessagesFilterFailedToSend filter without an enabled message database
+//@description Returns approximate number of messages of the specified type in the chat @chat_id Identifier of the chat in which to count messages @filter Filter for message content; searchMessagesFilterEmpty is unsupported in this function @return_local If true, returns count that is available locally without sending network requests, returning -1 if the number of messages is unknown
+//@audio_source_id User's audio channel synchronization source identifier
+//@description Sends a code to verify a phone number to be added to a user's Telegram Passport
+//@description Returns information about currently used log stream for internal logging of TDLib. Can be called synchronously
+messages.getStickers#43d4f2c emoticon:string hash:int = messages.Stickers;
+terminateAllOtherSessions = Ok;
+//@description The user needs to confirm authorization on another logged in device by scanning a QR code with the provided link @link A tg:// URL for the QR code. The link will be updated frequently
+//@unread_message_count Approximate number of unread messages in the message thread
+//@description Returns the received vector of objects containing a number; for testing only. This is an offline method. Can be called before authorization @x Vector of objects to return
+transferChatOwnership#8d421ca9 chat_id:int53 user_id:int32 password:string = Ok;
+callServer id:int64 ip_address:string ipv6_address:string port:int32 type:CallServerType = CallServer;
+messages.createChat#9cb126e users:Vector<InputUser> title:string = Updates;
+secureValueTypePassportRegistration#99e3806a = SecureValueType;
+toggleSupergroupSignMessages#deba989b supergroup_id:int32 sign_messages:Bool = Ok;
+importedContacts user_ids:vector<int53> importer_count:vector<int32> = ImportedContacts;
+messages.setBotPrecheckoutResults#9c2dd95 flags:# success:flags.1?true query_id:long error:flags.0?string = Bool;
+//@description Returns network data usage statistics. Can be called before authorization
+peerChannel#bddde532 channel_id:int = Peer;
+messages.getHistory#dcbb8260 peer:InputPeer offset_id:int offset_date:int add_offset:int limit:int max_id:int min_id:int hash:int = messages.Messages;
+//@input_message_content The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageAudio, InputMessageLocation, InputMessageVenue or InputMessageContact
+updateFileGenerationStop#8f14fdeb generation_id:int64 = Update;
+//@description A Telegram Passport element to be saved containing the user's internal passport @internal_passport The internal passport to be saved
+//@exclude_muted True, if muted chats need to be excluded
+//@description Checks the phone number verification code for Telegram Passport
+//@description Returns an HTML code for embedding the message. Available only for messages in supergroups and channels with a username
+//@description The link is a link to an unsupported proxy. An alert can be shown to the user
+userProfilePhoto#d559d8c8 photo_id:long photo_small:FileLocation photo_big:FileLocation = UserProfilePhoto;
+//@text Text of the button
+//@description Stops the uploading of a file. Supported only for files uploaded by using uploadFile. For other files the behavior is undefined @file_id Identifier of the file to stop uploading
+supergroupMembersFilterBanned query:string = SupergroupMembersFilter;
+messages.archivedStickers#4fcba9c8 count:int sets:Vector<StickerSetCovered> = messages.ArchivedStickers;
+//@description Enables a proxy. Only one proxy can be enabled at a time. Can be called before authorization @proxy_id Proxy identifier
+//@ip IP address from which the user was logged in, in human-readable format
+//@description Contains active notifications that was shown on previous application launches. This update is sent only if the message database is used. In that case it comes once before any updateNotification and updateNotificationGroup update
+updateReadChannelInbox#4214f37f channel_id:int max_id:int = Update;
+//@description Represents a list of message senders @total_count Approximate total count of messages senders found @senders List of message senders
+messages.sentEncryptedMessage#560f8935 date:int = messages.SentEncryptedMessage;
+//@description A button that sends the user's location when pressed; available only in private chats
+//@open_period Amount of time the poll will be active after creation, in seconds; for bots only
+inputChatPhotoPrevious#160e9d1 chat_photo_id:int64 = InputChatPhoto;
+closeSecretChat secret_chat_id:int32 = Ok;
+//@udp_p2p True, if UDP peer-to-peer connections are supported
+//@file_name Original name of the file; as defined by the sender @mime_type MIME type of the file, usually "image/gif" or "video/mp4"
+pageBlockHeader header:RichText = PageBlock;
+//@description Contains the description of an error in a Telegram Passport element; for bots only
+joinChat chat_id:int53 = Ok;
+getLogTagVerbosityLevel#38af2d83 tag:string = LogVerbosityLevel;
+//@limit The maximum number of messages to be returned; must be positive and can't be greater than 100. Fewer messages may be returned than specified by the limit, even if the end of the list has not been reached
+//@length Animation width and height
+inputPassportElementErrorSourceTranslationFile#1e268a7b file_hash:bytes = InputPassportElementErrorSource;
+messageEntityCashtag#4c4e743f offset:int length:int = MessageEntity;
+//@username Username to be resolved
+inputPrivacyKeyForwards#a4dd4c08 = InputPrivacyKey;
+account.webAuthorizations#ed56c9fc authorizations:Vector<WebAuthorization> users:Vector<User> = account.WebAuthorizations;
+inputPrivacyValueAllowUsers#131cc67f users:Vector<InputUser> = InputPrivacyRule;
+//@value The value
+//@code Verification code
+//@sender_user_id Identifier of the user who sent the query
+//@description The user is uploading a video @progress Upload progress, as a percentage
+channelFull#76af5481 flags:# can_view_participants:flags.3?true can_set_username:flags.6?true can_set_stickers:flags.7?true hidden_prehistory:flags.10?true id:int about:string participants_count:flags.0?int admins_count:flags.1?int kicked_count:flags.2?int banned_count:flags.2?int read_inbox_max_id:int read_outbox_max_id:int unread_count:int chat_photo:Photo notify_settings:PeerNotifySettings exported_invite:ExportedChatInvite bot_info:Vector<BotInfo> migrated_from_chat_id:flags.4?int migrated_from_max_id:flags.4?int pinned_msg_id:flags.5?int stickerset:flags.8?StickerSet available_min_id:flags.9?int = ChatFull;
+//@title Title of the chat
+messages.saveRecentSticker#392718f8 flags:# attached:flags.0?true id:InputDocument unsave:Bool = Bool;
+//@offset The offset from which to read the file
+messages.sendMessage#fa88427a flags:# no_webpage:flags.1?true silent:flags.5?true background:flags.6?true clear_draft:flags.7?true peer:InputPeer reply_to_msg_id:flags.0?int message:string random_id:long reply_markup:flags.2?ReplyMarkup entities:flags.3?Vector<MessageEntity> = Updates;
+//@reply_markup Reply markup for the message; may be null
+//@forward_info Information about the initial message sender; may be null
+messageLocation location:location live_period:int32 expires_in:int32 heading:int32 proximity_alert_radius:int32 = MessageContent;
+updateChannelMessageViews#98a12b4b channel_id:int id:int views:int = Update;
+//@id Unique identifier of the query result
+//@description A Telegram Passport element containing the user's address
+getPreferredCountryLanguage country_code:string = Text;
+//@for_import True, if the supergroup is created for importing messages using importMessage
+//@query Query to search for
+//@is_pinned True, if the message is pinned
+//@height Map height in pixels before applying scale; 16-1024
+//@description The other side kept disappearing
+countryInfo country_code:string name:string english_name:string is_hidden:Bool calling_codes:vector<string> = CountryInfo;
+chatPermissions can_send_messages:Bool can_send_media_messages:Bool can_send_polls:Bool can_send_other_messages:Bool can_add_web_page_previews:Bool can_change_info:Bool can_invite_users:Bool can_pin_messages:Bool = ChatPermissions;
+//@input_message_content The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
+//@performer Performer of the audio; 0-64 characters, may be replaced by the server @caption Audio caption; 0-GetOption("message_caption_length_max") characters
+messages.setEncryptedTyping#791451ed peer:InputEncryptedChat typing:Bool = Bool;
+updateChatIsMarkedAsUnread#57853334 chat_id:int53 is_marked_as_unread:Bool = Update;
+pageBlockPullQuote#1d38810d text:RichText credit:RichText = PageBlock;
+//@animation The animation file to be added. Only animations known to the server (i.e. successfully sent via a message) can be added to the list
+//@force_full If true, the full instant view for the web page will be returned
+chatPhotos total_count:int32 photos:vector<chatPhoto> = ChatPhotos;
+//@is_scam True, if many users reported this user as a scam
+searchMessagesFilterChatPhoto#b5a0d35f = SearchMessagesFilter;
+inputMediaPhoto#b3ba0635 flags:# id:InputPhoto ttl_seconds:flags.0?int = InputMedia;
+//@limit The maximum number of messages to be returned; up to 100. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached
+passportElementTypePhoneNumber#c4abfe6c = PassportElementType;
+help.appUpdate#8987f311 id:int critical:Bool url:string text:string = help.AppUpdate;
+//@sender_user_id Identifier of the user who sent the query
+updateDialogPinned#19d27f3c flags:# pinned:flags.0?true peer:DialogPeer = Update;
+//@has_stickers True, if stickers were added to the animation. The list of corresponding sticker set can be received using getAttachedStickerSets
+messageActionChatJoinedByLink#f89cf5e8 inviter_id:int = MessageAction;
+storageStatisticsByFileType file_type:FileType size:int53 count:int32 = StorageStatisticsByFileType;
+pushMessageContentGame title:string is_pinned:Bool = PushMessageContent;
+testNetwork = Ok;

@@ -1,0 +1,25 @@
+plugins {
+    id 'org.scoverage'
+}
+
+repositories {
+    mavenCentral()
+}
+
+description = 'a single-module Scala project with no check configured'
+
+apply plugin: 'java'
+apply plugin: 'scala'
+
+dependencies {
+    implementation group: 'org.scala-lang', name: 'scala-library', version: "${scalaVersionMajor}.${scalaVersionMinor}.${scalaVersionBuild}"
+
+    testRuntimeOnly group: 'org.junit.vintage', name: 'junit-vintage-engine', version: junitVersion
+    testImplementation group: 'org.junit.platform', name: 'junit-platform-runner', version: junitPlatformVersion
+
+    testImplementation group: 'org.scalatest', name: "scalatest_${scalaVersionMajor}.${scalaVersionMinor}", version: scalatestVersion
+}
+
+test {
+    useJUnitPlatform()
+}

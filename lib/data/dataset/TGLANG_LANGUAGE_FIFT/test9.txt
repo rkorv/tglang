@@ -1,0 +1,321 @@
+
+
+<b b{1000100} s, wallet_addr addr, 0 Gram, b{00} s,
+   swap B, swap <s s, b>
+
+// { 3 tuple-len? } : triple?
+
+"TonUtil.fif" include
+
+{ over abs <# rot 1- ' x# swap times x#s rot sign #> nip } : (0x.)
+
+{ char " word 1 ' $+ } ::_ +"
+
+dest_addr 2dup bounce 7 + .Addr ." = " .addr
+
+// { over tuple? { swap count = } { 2drop false } cond } : tuple-len?
+
+{ (0x.) type } : 0x._
+
+{ 9 hold } : +tab
+
+256 1<<1- 15 / constant AllOnes
+
+// { 0 { 1+ dup 1 ' $() does over (.) "$" swap $+ 0 (create) } rot times drop } : :$1..n
+
+2 PUSHINT	//  x n _45=2
+exp INLINECALLDICT	//  x n _46
+s2 s(-1) PUXC	//  x n x _46
+GEQ	//  x n _47
+IF:<{	//  x n
+    SWAP	//  n x
+    2 RSHIFT#	//  n x
+    SWAP	//  x n
+    2 ADDCONST	//  x n
+}>	//  x n
+
+// { cdr cdr } : cddr
+
+<b subwallet-id 32 u, now timeout + 32 u, seqno 32 u, send-mode 8 u, swap ref, b>
+
+
+begin-options
+     " <file-path> <dest-addr> <subwallet-id> <seqno> <amount> [-x <extra-amount>*<extra-currency-id>] [-n|-b] [-t<timeout>] [-B <body-boc>] [-C <comment>] [<savefile>]" +cr +tab
+    +"Creates a request to advanced wallet created by new-wallet-v3.fif, with private key loaded from file <file-path> "
+    +"and int validator-id (workchain -1), and saves it into <savefile>.boc ('wallet-query.boc' by default)"
+    disable-digit-options generic-help-setopt
+  "n" "--no-bounce" { false =: allow-bounce } short-long-option
+    "Clears bounce flag" option-help
+  "b" "--force-bounce" { true =: force-bounce } short-long-option
+    "Forces bounce flag" option-help
+  "x" "--extra" { $>xcc extra-cc+! } short-long-option-arg
+    "Indicates the amount of extra currencies to be transfered" option-help
+  "t" "--timeout" { parse-int =: timeout } short-long-option-arg
+    "Sets expiration timeout in seconds (" timeout (.) $+ +" by default)" option-help
+  "B" "--body" { =: body-boc-file } short-long-option-arg
+    "Sets the payload of the transfer message" option-help
+  "C" "--comment" { =: comment } short-long-option-arg
+    "Sets the comment to be sent in the transfer message" option-help
+  "m" "--mode" { parse-int =: send-mode } short-long-option-arg
+    "Sets transfer mode (0..255) for SENDRAWMSG (" send-mode (.) $+ +" by default)"
+    option-help
+  "h" "--help" { usage } short-long-option
+    "Shows a help message" option-help
+parse-options
+
+
+// internal_transfer
+
+
+// parse new c4 cell
+
+
+
+// Parse data with collection
+
+PROGRAM{
+  DECLPROC power
+  DECLPROC sqrt
+  DECLPROC avg
+  DECLPROC exp
+  DECLPROC log2
+  DECLPROC recv_internal
+  128253 DECLMETHOD get_total
+}END>c
+
+{ dup 0< ' negate if } : abs
+
+{ extra-currencies @ cc+ extra-currencies ! } : extra-cc+!
+
+{ 9 hold } : +tab
+
+{ find 0<> dup ' nip if } : (def?)
+
+{ bl word 1 { find 0= abort"word not found" } } :: (')
+
+."(Saved to file " type .")" cr
+"TonUtil.fif" include
+
+
+"EQDRebAnF1pvH1YsKNp7mtpsz+CLs6WxaffUojt1ijyrazkg" constant receiver_address
+
+{ tuck @ swap - swap ! } : -!
+
+dup hashu wallet_pk ed25519_sign_uint
+
+// { @ unpair } : 2@
+
+{ 16 B#s } : X#s
+
+dest_addr 2dup bounce 7 + .Addr ." = " .addr
+
+{ 2 'nop does create } : 2constant
+
+^reset ."👻 NFT owner: "  addr@ -rot 2constant nft_owner_address nft_owner_address rot ^green  print-addr cr //  In stack: collection address SLICE, body SLICE, owner_address SLICE
+
+<b
+  0x595f07bc 32 u, // op::burn
+  12345 64 u, // query_id
+  5000000000 Gram, // Burning 5 jettons
+  0 3 u, // addr_none for resp_dst and no custom payload
+b>
+
+
+"TonUtil.fif" include
+
+// { 0 [] } : first
+
+
+"TonUtil.fif" include
+
+."Query expires in " timeout . ."seconds" cr
+
+<b subwallet-id 32 u, now timeout + 32 u, seqno 32 u, send-mode 8 u, swap ref, b>
+
+"Asm.fif" include
+
+^reset ."😏 NFT individual content parsed: " nft-data B>$ (dump) type cr
+
+// { cdr car } : cadr
+
+// { 1 [] } : cdr
+
+{ bl word 1 ' (def?) } :: def?
+
+."subwallet-id=0x" subwallet-id x.
+
+."Query expires in " timeout . ."seconds" cr
+
+{ base @ B#s } : Base#s
+
+#!/usr/bin/fift -s
+
+^reset ."🐾 NFT data: "  <b collection-nft-data  B, nft-data B, b> <s dup sbits 8 / B@ ^cyan  (dump) type cr
+
+{ dup 0< ' negate if } : abs
+
+variable base
+
+{ 16 base ! } : hex
+
+
+"../build/nft_collection.fif" include constant collection-code
+
+constant nft-body
+
+
+3 roll // In stack: collection address, owner_address, body, index
+
+{ 1 'nop does create } : constant
+
+{ char " word 1 { swap { abort } if drop } } ::_ abort"
+
+{ bl (-trailing) } : -trailing
+
+64 PUSHINT	//  x n _10=64
+exp INLINECALLDICT	//  x n _11
+s2 s(-1) PUXC	//  x n x _11
+GEQ	//  x n _12
+IF:<{	//  x n
+    SWAP	//  n x
+    64 RSHIFT#	//  n x
+    SWAP	//  x n
+    64 ADDCONST	//  x n
+}>	//  x n
+
+{ "" swap { 0 word 2dup $cmp } { rot swap $+ +cr swap } while 2drop } : scan-until-word
+
+^reset ."🐾 NFT data: "  <b collection-nft-data  B, nft-data B, b> <s dup sbits 8 / B@ ^cyan  (dump) type cr
+
+"Lists.fif" include
+
+$>smca 0= abort"Specify valid send addr"
+
+"Asm.fif" include
+
+$6 "wallet-query" replace-if-null =: savefile
+
+"Hello, world!" constant hello
+hello type cr
+
+{ base @ B#s } : Base#s
+
+// { 1 [] } : cdr
+
+// current continuation slice
+
+{ hole dup 1 { @ execute } does create } : recursive
+
+2constant send_addr // worchain and addr into single constant
+
+{ bl word 1 ' (def?) } :: def?
+
+PROGRAM{
+  DECLPROC power
+  DECLPROC sqrt
+  DECLPROC avg
+  DECLPROC exp
+  DECLPROC log2
+  DECLPROC recv_internal
+  128253 DECLMETHOD get_total
+}END>c
+
+// { 2 tuple-len? } : pair?
+
+// TODO:
+
+2constant send_addr // worchain and addr into single constant
+"Asm.fif" include
+
+"./collection-data.fif" include constant collection-data
+
+
+"../build/nft_collection.fif" include constant collection-code
+
+{ bl word (number) ?dup 0= abort"not a valid Gram amount"
+  1- { Gram swap */r } { Gram * } cond
+  1 ’nop
+} ::_ GR$
+
+5 square .
+
+
+<b
+  0 32 u, // seqno
+  0 32 u, // subwallet-id
+  public_key B, // add bin public key to cell
+b>
+
+' $reverse : #>
+
+
+3 roll // In stack: collection address, owner_address, body, index
+
+"TonUtil.fif" include
+
+{ dup * } : square
+
+def? body-boc-file { @' body-boc-file file>B B>boc } { comment simple-transfer-body } cond
+constant body-cell
+
+
+{ not 2 pick @ and xor swap ! } : ~!
+
+64 PUSHINT	//  x n _10=64
+exp INLINECALLDICT	//  x n _11
+s2 s(-1) PUXC	//  x n x _11
+GEQ	//  x n _12
+IF:<{	//  x n
+    SWAP	//  n x
+    64 RSHIFT#	//  n x
+    SWAP	//  x n
+    64 ADDCONST	//  x n
+}>	//  x n
+
+{ dup 10 < { 48 } { 55 } cond + } : Digit
+
+{ minmax nip } : max
+
+PROGRAM{
+  DECLPROC power
+  DECLPROC sqrt
+  DECLPROC avg
+  DECLPROC exp
+  DECLPROC log2
+  DECLPROC recv_internal
+  128253 DECLMETHOD get_total
+}END>c
+
+// { @ unpair } : 2@
+
+exp PROCREF:<{
+//  x
+DUP	//  x x
+-1 GTINT	//  x _2
+IF:<{	//  x
+    POW2	//  _3
+}>ELSE<{	//  x
+    1 PUSHINT	//  x _6=1
+    SWAP	//  _6=1 x
+    NEGATE	//  _6=1 _8
+    RSHIFT	//  _3
+}>
+}>
+
+get_total PROC:<{
+//
+c4 PUSH	//  _1
+CTOS	//  ds
+64 LDU	//  _8 _7
+DROP	//  total
+}>
+
+{ 0 swap ! } : 0!
+
+' $reverse : #>
+
+{ minmax drop } : min
+
+"Lists.fif" include
+
+20000000 constant forward_amount

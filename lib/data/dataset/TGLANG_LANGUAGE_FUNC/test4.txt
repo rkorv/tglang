@@ -1,0 +1,593 @@
+
+;; ~load_op returns opcode stored in cell slice.
+(slice, int) ~load_op(slice s) inline { return s.load_uint(32); }
+
+
+#include "params.fc";
+
+
+
+;; Auxiliary function
+
+
+;;; Computes the hash of a `slice s` and returns it as a 256-bit unsigned integer `x`.
+;;; The result is the same as if an ordinary cell containing only data and references from `s` had been created
+;;; and its hash computed by [cell_hash].
+int slice_hash(slice s) asm "HASHSU";
+
+
+;; State Init
+cell calculate_nft_item_state_init(int item_index, cell nft_item_code) {
+  cell data = begin_cell().store_uint(item_index, 64).store_slice(my_address()).end_cell();
+  return begin_cell().store_uint(0, 2).store_dict(nft_item_code).store_dict(data).store_uint(0, 1).end_cell();
+}
+
+
+;;; Unpacks a tuple of length one
+forall X -> X unsingle([X] t) asm "UNSINGLE";
+
+
+;;; Creates a tuple of length three with given arguments as elements.
+forall X, Y, Z -> [X, Y, Z] triple(X x, Y y, Z z) asm "TRIPLE";
+
+;; Jettons
+
+;;; Parses slice [s] containing a valid `MsgAddressInt` (usually a `msg_addr_std`),
+;;; applies rewriting from the anycast (if present) to the same-length prefix of the address,
+;;; and returns both the workchain and the 256-bit address as integers.
+;;; If the address is not 256-bit, or if [s] is not a valid serialization of `MsgAddressInt`,
+;;; throws a cell deserialization exception.
+(int, int) parse_std_addr(slice s) asm "REWRITESTDADDR";
+
+const int error::already_exists = 409;
+
+int __test_modulo_multiplication_short() {
+  return invoke_gas(mul_mod, [5, 3, 7]);
+}
+
+
+;; NFTEditable
+
+() store_data(slice treasury_admin_address, slice nft_item_address, slice owner_address, int balance) impure {
+    set_data(
+        begin_cell()
+                    .store_slice(treasury_admin_address)
+                    .store_slice(nft_item_address)
+                    .store_slice(owner_address)
+                    .store_coins(balance)
+                    .end_cell()
+    );
+}
+
+
+slice calculate_user_jetton_wallet_address(slice owner_address, slice jetton_master_address, cell jetton_wallet_code) inline {
+    return calculate_jetton_wallet_address(calculate_jetton_wallet_state_init(owner_address, jetton_master_address, jetton_wallet_code));
+}
+
+
+;;; Creates a tuple of length four with given arguments as elements.
+forall X, Y, Z, W -> [X, Y, Z, W] tuple4(X x, Y y, Z z, W w) asm "4 TUPLE";
+
+
+;; Before passing control to recv_internal TVM puts the following elements on stack.
+;; my_balance -> Smart contract balance (in nanoTons)
+;; msg_value -> Incoming message balance (in nanoTons)
+;; in_msg_full -> Cell with an incoming message
+;; in_msg_body -> Incoming message body, slice type
+() recv_internal(int my_balance, int msg_value, cell in_msg_full, slice in_msg_body) impure {
+    if (in_msg_body.slice_empty?()) { ;; ignore all empty messages
+        return ();
+    }
+
+    slice cs = in_msg_full.begin_parse();
+    int flags = cs~load_uint(4); ;; the first four bits of serialized message contain certain flags, one of which indicates whether the message is bounced
+    ;; a message is bounced when a contract receives a bounceable message and throws during its processing
+    ;; the bounced message is then returned to sender with `bounced` bit set, this is a way to handle errors in TON
+
+    if (flags & 1) { ;; ignore all bounced messages
+        return ();
+    }
+
+    ;; Every message has a strict layout, thus by parsing it, we can get the sender’s address
+    ;; first, we need to read some tech flags and then take the address using load_msg_addr (from stdlib)
+    slice sender_addr = cs~load_msg_addr();
+
+    load_data(); ;; here we populate the storage variables
+
+    int op = in_msg_body~load_uint(32); ;; by convention, the first 32 bits of incoming message is the op
+    int query_id = in_msg_body~load_uint(64); ;; also by convention, the next 64 bits contain the "query id", although this is not always the case
+
+    ;; check the caller (sender_addr) is the contract owner (ctx_owner) first
+    if (equal_slice_bits(sender_addr, ctx_owner)) {
+        ;; in this case, it could also be done in the single op::increase handler, but generally you would want
+        ;; to populate storage variables as soon as all preliminary checks which do not need storage pass
+        ;; some contracts do not use query_id at all and do not have it in their messages, but for this one we will be reading it, but not using it
+
+        if (op == op::add) { ;; handle op::increase
+            int a = in_msg_body~load_uint(32); ;; read 'a' value
+            int b = in_msg_body~load_uint(32); ;; read 'b' value
+
+            ctx_result = sum(a,b);
+
+            save_data(); ;; when we change storage variables, we need to store the changed variables, so we call save_data()
+
+            msg::send_result(
+                ctx_tracker_contract_addr,
+                ctx_result,
+                op::accumulate,
+                msg::send_mode::carry_remaining_value
+            );
+
+            return (); ;; this message is handled so we return
+        }
+
+    }
+
+    if(op == op::check_signature) {
+        ~strdump("*** IN check_signature");
+        slice data = in_msg_body~load_ref().begin_parse(); ;; first ref contains actual message that was signed
+        int hash = in_msg_body~load_uint(256);
+        slice signature = in_msg_body~load_ref().begin_parse();
+        int public_key = in_msg_body~load_uint(256);
+
+        ;; ~dump(hash);
+        ;; ~dump(signature);
+        ;; ~dump(public_key);
+
+        ;; call check_signature (-1 is valid / 0 is NOT valid)
+        int valid = check_signature(hash, signature, public_key);
+
+        ~dump(valid);
+
+        slice owner_addr = data~load_msg_addr();
+        int id = data~load_uint(32);
+        int result = data~load_uint(32);
+        slice tracker_contract_addr = data~load_msg_addr();
+
+        ;; ~dump(result);
+        ;; check the message was sgined by the owner
+        ;; then check the message was signed by a specific account
+    }
+
+    throw(0xffff); ;; if the message contains an op that is not known to this contract, we throw
+    ;; if the message is bounceable, the contract will then bounce the message to the sender
+    ;; and the sender will receive unspent coins and will know that this message failed
+    ;; provided of course that the sender has code to handle bounced messages
+}
+
+const msg::send_mode::carry_remaining_value = 64;
+
+(int, int, slice, slice, slice, cell) get_nft_data() method_id {
+  (int init?, int index, slice collection_address, slice owner_address, slice nexton_address, cell content) = load_data();
+  return (init?, index, collection_address, owner_address, nexton_address, content);
+}
+
+;;; Creates an output action that would change this smart contract code to that given by cell new_code. Notice that this change will take effect only after the successful termination of the current run of the smart contract
+
+
+() recv_internal(cell in_msg_full, slice in_msg_body) impure {
+    if (in_msg_body.slice_empty?()) { ;; ignore empty messages
+        return ();
+    }
+    slice cs = in_msg_full.begin_parse();
+    int flags = cs~load_uint(4);
+
+    if (flags & 1) { ;; ignore all bounced messages
+        return ();
+    }
+    slice sender_address = cs~load_msg_addr();
+
+    int op = in_msg_body~load_uint(32);
+    int query_id = in_msg_body~load_uint(64);
+
+    var (owner_address, next_item_index, content, nft_item_code, lending_protocol_address) = load_data();
+
+    if (op == 1) { ;; deploy new nft
+        int item_index = in_msg_body~load_uint(64);
+        throw_unless(402, item_index <= next_item_index);
+        var is_last = item_index == next_item_index;
+        if (is_last) {
+            deploy_nft_item(item_index, nft_item_code, in_msg_body~load_coins(), in_msg_body~load_ref(), lending_protocol_address);
+            next_item_index += 1;
+            save_data(owner_address, next_item_index, content, nft_item_code, lending_protocol_address);
+        }
+        return ();
+    }
+
+    if (op == 3) { ;; change owner
+        throw_unless(401, equal_slices(sender_address, owner_address));
+        slice new_owner = in_msg_body~load_msg_addr();
+        save_data(new_owner, next_item_index, content, nft_item_code, lending_protocol_address);
+        return ();
+    }
+    throw(0xffff);
+}
+
+
+() recv_internal(int my_balance, int msg_value, cell in_msg_full, slice in_msg_body) impure {
+    if (in_msg_body.slice_empty?()) { ;; ignore empty messages
+        return ();
+    }
+
+    slice cs = in_msg_full.begin_parse();
+    int flags = cs~load_uint(4);
+
+    if (flags & 1) { ;; ignore all bounced messages
+        return ();
+    }
+    slice sender_address = cs~load_msg_addr();
+
+    cs~load_msg_addr(); ;; skip dst
+    cs~load_coins(); ;; skip value
+    cs~skip_bits(1); ;; skip extracurrency collection
+    cs~load_coins(); ;; skip ihr_fee
+    int fwd_fee = muldiv(cs~load_coins(), 3, 2); ;; we use message fwd_fee for estimation of forward_payload costs
+
+
+    (int init?, int index, slice collection_address, slice owner_address, cell content) = load_data();
+    if (~ init?) {
+      throw_unless(405, equal_slices(collection_address, sender_address));
+      store_data(index, collection_address, in_msg_body~load_msg_addr(), in_msg_body~load_ref());
+      return ();
+    }
+
+    int op = in_msg_body~load_uint(32);
+    int query_id = in_msg_body~load_uint(64);
+
+    if (op == op::transfer()) {
+      transfer_ownership(my_balance, index, collection_address, owner_address, content, sender_address, query_id, in_msg_body, fwd_fee);
+      return ();
+    }
+    if (op == op::get_static_data()) {
+      send_msg(sender_address, 0, op::report_static_data(), query_id, begin_cell().store_uint(index, 256).store_slice(collection_address), 64);  ;; carry all the remaining value of the inbound message
+      return ();
+    }
+    throw(0xffffff);
+}
+
+
+cell pack_jetton_wallet_data(int balance, slice owner_address, slice jetton_master_address, cell jetton_wallet_code) inline {
+    return  begin_cell()
+            .store_coins(balance)
+            .store_slice(owner_address)
+            .store_slice(jetton_master_address)
+            .store_ref(jetton_wallet_code)
+            .end_cell();
+}
+
+
+int op::transfer_notification() asm "0x7362d09c PUSHINT";
+
+(int, slice, slice, slice, int) load_data() {
+    slice ds = get_data().begin_parse();
+    var (treasury_admin_address, nft_item_address) = (ds~load_msg_addr(), ds~load_msg_addr());
+    if (ds.slice_bits() > 0) {
+        return (-1, treasury_admin_address, nft_item_address, ds~load_msg_addr(), ds~load_coins());
+    } else {
+        return (0, treasury_admin_address, nft_item_address, null(), 0); ;; pool not initialized yet
+    }
+}
+
+
+const op::start = 0x4349f57a;
+
+int op::mint() asm "21 PUSHINT";
+
+;;; Returns the number of cell references already stored in `builder` [b]
+int builder_refs(builder b) asm "BREFS";
+
+
+{-
+
+    NOTE that this tokens can be transferred within the same workchain.
+
+    This is suitable for most tokens, if you need tokens transferable between workchains there are two solutions:
+
+    1) use more expensive but universal function to calculate message forward fee for arbitrary destination (see `misc/forward-fee-calc.cs`)
+
+    2) use token holder proxies in target workchain (that way even 'non-universal' token can be used from any workchain)
+
+-}
+
+#include "imports/stdlib.fc";
+
+#include "imports/nft_op_codes.fc";
+
+int mul(int a, int b) asm "MUL";
+
+
+;; storage binary format is defined as TL-B in companion .tlb file
+
+
+int dict_empty?(cell c) asm "DICTEMPTY";
+
+;;; Loads the first reference from the slice.
+(slice, cell) load_ref(slice s) asm( -> 1 0) "LDREF";
+
+#pragma version >=0.2.0;
+
+
+int min_tons_for_storage() asm "50000000 PUSHINT"; ;; 0.05 TON
+
+
+cell udict_set(cell dict, int key_len, int index, slice value) asm(value index dict key_len) "DICTUSET";
+
+(cell, int) udict_add?(cell dict, int key_len, int index, slice value) asm(value index dict key_len) "DICTUADD";
+
+
+(int, int, slice, slice, cell) get_nft_data() method_id {
+  (int init?, int index, slice collection_address, slice owner_address, cell content) = load_data();
+  return (init?, index, collection_address, owner_address, content);
+}
+
+int __test_six() {
+  return 0xA;
+}
+
+;;; Sets the random seed to unsigned 256-bit seed.
+
+
+;;; Returns the starting logical time of the current block.
+int block_lt() asm "BLOCKLT";
+
+int op::get_royalty_params() asm "0x693d3950 PUSHINT";
+
+int op::excesses() asm "0xd53276db PUSHINT";
+
+
+;;; Returns the first element of a triple tuple.
+forall X, Y, Z -> X triple_first([X, Y, Z] p) asm "FIRST";
+
+int op::burn_notification() asm "0x7bdd97de PUSHINT";
+
+;; Deploy a single NFT
+() deploy_nft_item(int item_index, cell nft_item_code, int amount, cell item_content) impure {
+  cell state_init = calculate_nft_item_state_init(item_index, nft_item_code); ;; owner addres is in the state_init
+  slice item_address = calculate_nft_item_address(workchain(), state_init);
+  var msg = begin_cell()
+            .store_uint(0x18, 6)
+            .store_slice(item_address)
+            .store_coins(amount)  ;; value
+            .store_uint(4 + 2 + 1, 1 + 4 + 4 + 64 + 32 + 1 + 1 + 1)
+            .store_ref(state_init)
+            ;; msg_body
+            .store_ref(item_content);
+  send_raw_message(msg.end_cell(), 1); ;; pay transfer fees separately, revert on errors
+}
+
+
+int workchain() asm "0 PUSHINT";
+
+#include "imports/stdlib.fc";
+
+{-
+  # Builder size primitives
+-}
+
+int workchain() asm "0 PUSHINT";
+
+
+{-
+// This function creates a new treasury pool, which is a contract that allows users to send tokens to the pool, and receive tokens from the pool in exchange.
+// The pool code is the code of the contract that will be deployed to the address of the pool.
+// The send amount is the amount of nanograms of the pool currency that will be sent to the pool.
+// The pool content is the initial state of the pool. It must contain a public key, and the pool address. In addition, it may contain any other data that the pool code requires.
+-}
+() create_pool(slice nft_item_address, cell pool_code, int send_amount, cell pool_content) impure {
+    cell state_init = calculate_treasury_pool_state_init(my_address(), nft_item_address, pool_code);
+    slice pool_address = calculate_treasury_pool_address_by_state(state_init);
+    var msg = begin_cell()
+            .store_uint(0x18, 6)
+            .store_slice(pool_address)
+            .store_coins(send_amount)
+            .store_uint(4 + 2 + 1, 1 + 4 + 4 + 64 + 32 + 1 + 1 + 1)
+            .store_ref(state_init)
+            .store_ref(pool_content);
+    send_raw_message(msg.end_cell(), 1); ;; pay transfer fees separately, revert on errors
+}
+
+
+;; Send royalty parameters
+() send_royalty_params(slice to_address, int query_id, slice data) impure inline {
+  var msg = begin_cell()
+    .store_uint(0x10, 6) ;; nobounce - int_msg_info$0 ihr_disabled:Bool bounce:Bool bounced:Bool packages:MsgAddress -> 011000
+    .store_slice(to_address)
+    .store_coins(0)
+    .store_uint(0, 1 + 4 + 4 + 64 + 32 + 1 + 1)
+    .store_uint(op::report_royalty_params(), 32)
+    .store_uint(query_id, 64)
+    .store_slice(data);
+  send_raw_message(msg.end_cell(), 64); ;; carry all the remaining value of the inbound message
+}
+
+
+{-
+  # Builder size primitives
+-}
+
+const error::insufficient_balance = 103;
+
+
+;;; Returns the third element of a triple tuple.
+forall X, Y, Z -> Z triple_third([X, Y, Z] p) asm "THIRD";
+
+
+;;; Returns the first `0 ≤ len ≤ 1023` bits of `slice` [s].
+slice first_bits(slice s, int len) asm "SDCUTFIRST";
+
+cell idict_set_builder(cell dict, int key_len, int index, builder value) asm(value index dict key_len) "DICTISETB";
+
+;;; Returns the persistent contract storage cell. It can be parsed or modified with slice and builder primitives later.
+cell get_data() asm "c4 PUSH";
+
+
+() send_grams(slice address, int amount) impure {
+  cell msg = begin_cell()
+    .store_uint (0x18, 6) ;; bounce
+    .store_slice(address) ;; 267 bit address
+    .store_grams(amount)
+    .store_uint(0, 107) ;; 106 zeroes +  0 as an indicator that there is no cell with the data
+    .end_cell();
+  send_raw_message(msg, 3); ;; mode, 2 for ignoring errors, 1 for sender pays fees, 64 for returning inbound message value
+}
+
+
+;;; Transforms a `slice` [s] into a simple ordinary continuation `c`, with `c.code = s` and an empty stack and savelist.
+cont bless(slice s) impure asm "BLESS";
+
+
+;;; Returns the current Unix time as an Integer
+int now() asm "NOW";
+
+
+int get_result() method_id {
+    load_data();
+    return ctx_result;
+}
+
+
+
+() glory_to_winner(slice winner_address) impure {
+  var (_, _, _, charity_address) = load_data();
+  var [balance, _] = get_balance();
+  ;; TODO Calculate fees for renting
+  var winner_amount = balance / 100 * 90;
+  var charity_amount = balance / 100 * 10;
+  send_grams(winner_address, winner_amount);
+  send_grams(charity_address, charity_amount);
+}
+
+
+;;; Not implemented
+;;() buy_gas(int gram) impure asm "BUYGAS";
+
+
+;; message binary format is defined as TL-B in companion .tlb file
+
+#include "imports/nft_op_codes.fc";
+
+() set_gas_limit(int limit) impure asm "SETGASLIMIT";
+
+
+;;; Returns the first element of a pair tuple.
+forall X, Y -> X pair_first([X, Y] p) asm "FIRST";
+
+global slice ctx_tracker_contract_addr;
+
+
+int workchain() asm "0 PUSHINT";
+
+const op::accumulate = "op::accumulate"c;
+
+;;; Preloads a signed [len]-bit integer from a slice [s].
+;; int preload_int(slice s, int len) asm "PLDIX";
+
+;;; Loads a dictionary `D` (HashMapE) from `slice` [s].
+;;; (returns `null` if `nothing` constructor is used).
+(slice, cell) load_dict(slice s) asm( -> 1 0) "LDDICT";
+
+;;; Sets the value associated with [key_len]-bit key signed index in dictionary [dict] to [value] (cell),
+;;; and returns the resulting dictionary.
+
+#include "imports/nft_op_codes.fc";
+
+{-
+  # Dictionary primitives
+-}
+
+
+(int, int, slice) royalty_params() method_id {
+     var (_, _, _, _, royalty) = load_data();
+     slice rs = royalty.begin_parse();
+     return (rs~load_uint(16), rs~load_uint(16), rs~load_msg_addr());
+}
+
+;;; Stores a reference to `cell` [c] into `builder` [b].
+builder store_ref(builder b, cell c) asm(c b) "STREF";
+
+() store_data(int index, slice collection_address, slice owner_address, slice nexton_address, cell content) impure {
+    set_data(
+        begin_cell()
+            .store_uint(index, 64)
+            .store_slice(collection_address)
+            .store_slice(owner_address)
+            .store_slice(nexton_address)
+            .store_ref(content)
+            .end_cell()
+    );
+}
+
+
+(int, int, slice, slice, slice, cell) get_nft_data() method_id {
+  (int init?, int index, slice collection_address, slice owner_address, slice nexton_address, cell content) = load_data();
+  return (init?, index, collection_address, owner_address, nexton_address, content);
+}
+
+const msg::mode::ignore_errors = 2;
+
+int __test_better_modulo_multiplication_short() {
+  return invoke_gas(mul_mod_better, [5, 3, 7]);
+}
+
+(cell, int) idict_add_builder?(cell dict, int key_len, int index, builder value) asm(value index dict key_len) "DICTIADDB";
+
+
+slice calculate_nft_item_address(int wc, cell state_init) {
+    return begin_cell().store_uint(4, 3)
+                     .store_int(wc, 8)
+                     .store_uint(cell_hash(state_init), 256)
+                     .end_cell()
+                     .begin_parse();
+}
+
+
+;; message binary format is defined as TL-B in companion .tlb file
+
+(slice, int, cell, cell, cell) load_data() inline {
+  var ds = get_data().begin_parse();
+  return
+    (ds~load_msg_addr(), ;; collection owner_address
+     ds~load_uint(64), ;; next_item_index
+     ds~load_ref(), ;; content
+     ds~load_ref(), ;; nft_item_code
+     ds~load_ref()  ;; royalty_params
+     );
+}
+
+
+(cell, (int, slice, int)) ~udict::delete_get_max(cell dict, int key_len) asm(-> 0 2 1 3) "DICTUREMMAX" "NULLSWAPIFNOT2";
+
+int op::transfer_editorship() asm "0x1c04412a PUSHINT";
+
+int op::report_royalty_params() asm "0xa8cb00ad PUSHINT";
+
+
+;;; Checks whether [signature] is a valid Ed25519-signature of the data portion of `slice data` using `public_key`,
+;;; similarly to [check_signature].
+;;; If the bit length of [data] is not divisible by eight, throws a cell underflow exception.
+;;; The verification of Ed25519 signatures is the standard one,
+;;; with sha256 used to reduce [data] to the 256-bit number that is actually signed.
+int check_data_signature(slice data, slice signature, int public_key) asm "CHKSIGNS";
+
+#include "imports/stdlib.fc";
+
+
+;; =============== getters =============================
+
+int __test_modulo_multiplication_short() {
+  return invoke_gas(mul_mod, [5, 3, 7]);
+}
+
+int rand(int range) impure asm "RAND";
+
+cell udict_set_builder(cell dict, int key_len, int index, builder value) asm(value index dict key_len) "DICTUSETB";
+
+
+;;; Returns the starting logical time of the current block.
+int block_lt() asm "BLOCKLT";
+
+(cell, int) udict_replace?(cell dict, int key_len, int index, slice value) asm(value index dict key_len) "DICTUREPLACE";
+
+const int error::not_an_oracle = 402;
+
+;;; Checks whether a dictionary is empty. Equivalent to cell_null?.

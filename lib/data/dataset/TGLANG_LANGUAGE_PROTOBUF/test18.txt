@@ -1,0 +1,58 @@
+// This file is copied directly from the protobuf homepage.
+// See https://developers.google.com/protocol-buffers/docs/overview
+package tutorial;
+
+option java_package = "com.example.tutorial";
+option java_outer_classname = "AddressBookProtos";
+
+// This message describes the personal contact information of a person in
+// the database. The person contact information includes names, emails and
+// other various contact information.
+message Person {
+
+  // This field describes the full name of the person. It should be in
+  // lastname/firstname format, and may or may not be unique.
+  required string name = 1; 
+  
+  // This field describes the unique ID number for this person. 
+  required int64 id = 2; // Seriously, this field must be globally unique, otherwise horrible things will happen.
+  
+  // This field describes the email address of this person. If this person 
+  // does not have a email addres, omit it.
+  optional string email = 3;
+
+  // This enumeration describes the different type of phone number for this
+  // person.
+  enum PhoneType {
+  
+	// Mobile cell phone type
+    MOBILE = 0;
+	
+	// Home phone type
+    HOME = 1;
+	
+	// Work phone type
+    WORK = 2;
+  }
+
+  // This message describes the phone number of a person.
+  message PhoneNumber {
+  
+    // The number is required, and should be in (area code)-number format.
+    required string number = 1;
+	
+	// The type of this phone number. By default, pretend this is a home phone number.
+    optional PhoneType type = 2 [default = HOME];
+  }
+
+  // Nowadays, a person may have more than one phone. So this field allows for 0-n 
+  // number of phones.
+  repeated PhoneNumber phone = 4;
+}
+
+// Our address book file is just one of these.
+message AddressBook {
+
+  // The person list in the address book.
+  repeated Person person = 1;
+}

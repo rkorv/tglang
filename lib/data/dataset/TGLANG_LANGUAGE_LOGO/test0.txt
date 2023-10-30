@@ -1,0 +1,7 @@
+make :distance 100
+make :angle 90
+
+repeat quotient 360 :angle [
+  fd :distance
+  rt :angle
+]

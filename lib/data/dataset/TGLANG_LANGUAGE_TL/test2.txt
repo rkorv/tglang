@@ -1,0 +1,100 @@
+//@description A personal document, containing some information about a user @files List of files containing the pages of the document @translation List of files containing a certified English translation of the document
+userStatusLastMonth#77ebc742 = UserStatus;
+//msg_container#73f1f8dc messages:vector<%Message> = MessageContainer;
+inputBotInlineMessageMediaGeo#96929a85 flags:# geo_point:InputGeoPoint heading:flags.0?int period:flags.1?int proximity_notification_radius:flags.3?int reply_markup:flags.2?ReplyMarkup = InputBotInlineMessage;
+//@sender_name Name of the sender
+tls.natConst value:int = tls.NatExpr;
+//@description Disconnects all websites from the current user's Telegram account
+paymentForm#f40ddc4a invoice:invoice url:string payments_provider:paymentsProviderStripe saved_order_info:orderInfo saved_credentials:savedCredentials can_save_credentials:Bool need_password:Bool = PaymentForm;
+//@photo The photo description
+inlineQueryResultVideo id:string video:video title:string description:string = InlineQueryResult;
+//@description The log is written nowhere
+//@description Blocks an original sender of a message in the Replies chat
+//@message_id Message identifier
+scopeNotificationSettings#e69a2c3f mute_for:int32 sound:string show_preview:Bool disable_pinned_message_notifications:Bool disable_mention_notifications:Bool = ScopeNotificationSettings;
+//@length Video width and height; must be positive and not greater than 640
+getMessagePublicForwards#6006a949 chat_id:int53 message_id:int53 offset:string limit:int32 = FoundMessages;
+//@chat_id Identifier of the channel chat. Pass 0 to remove a link from the supergroup passed in the second argument to a linked channel chat (requires can_pin_messages rights in the supergroup)
+searchCallMessages from_message_id:int53 limit:int32 only_missed:Bool = Messages;
+//@description Returns information about a basic group by its identifier. This is an offline request if the current user is not a bot @basic_group_id Basic group identifier
+//@description Constructs a persistent HTTP URL for a background @name Background name @type Background type
+deletePassportElement type:PassportElementType = Ok;
+canTransferOwnership = CanTransferOwnershipResult;
+messages.stickerSetInstallResultSuccess#38641628 = messages.StickerSetInstallResult;
+getAllPassportElements#86782aeb password:string = PassportElements;
+//@description A Telegram Passport element to be saved containing the user's identity card @identity_card The identity card to be saved
+//@description A video message @video Message content; may be null @caption Video caption @is_secret True, if the video is secret @is_pinned True, if the message is a pinned message with the specified content
+//@audio_source_id User's audio channel synchronization source identifier
+//@notification_id Identifier of removed notification
+connectionStateWaitingForNetwork = ConnectionState;
+messages.sentEncryptedMessage#560f8935 date:int = messages.SentEncryptedMessage;
+authorizationStateWaitRegistration terms_of_service:termsOfService = AuthorizationState;
+//@description Describes an animation file. The animation must be encoded in GIF or MPEG4 format @duration Duration of the animation, in seconds; as defined by the sender @width Width of the animation @height Height of the animation
+messages.setBotCallbackAnswer#d58f130a flags:# alert:flags.1?true query_id:long message:flags.0?string url:flags.2?string cache_time:int = Bool;
+voiceNote duration:int32 waveform:bytes mime_type:string voice:file = VoiceNote;
+messages.allStickersNotModified#e86602c3 = messages.AllStickers;
+//@unread_count Total number of unread messages @unread_unmuted_count Total number of unread messages in unmuted chats
+getMe = User;
+inputPassportElementUtilityBill#52cd9181 utility_bill:inputPersonalDocument = InputPassportElement;
+//@description A language pack string which has different forms based on the number of some object it mentions. See https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html for more info
+account.checkUsername#2714d86c username:string = Bool;
+//@filter Filter for message content. Filters searchMessagesFilterEmpty, searchMessagesFilterMention and searchMessagesFilterUnreadMention are unsupported in this function
+messageChatJoinByLink = MessageContent;
+inputEncryptedFileBigUploaded#2dc173c8 id:long parts:int key_fingerprint:int = InputEncryptedFile;
+//@can_send_messages True, if the user can send text messages, contacts, locations, and venues
+//@chat_id Identifier of the chat to which the poll belongs @message_id Identifier of the message containing the poll
+updateRecentStickers#9a422c20 = Update;
+//@description Describes a venue @location Venue location; as defined by the sender @title Venue name; as defined by the sender @address Venue address; as defined by the sender @provider Provider of the venue database; as defined by the sender. Currently, only "foursquare" and "gplaces" (Google Places) need to be supported
+//@chat_ids List of chat identifiers
+channels.joinChannel#24b524c5 channel:InputChannel = Updates;
+setChatTheme chat_id:int53 theme_name:string = Ok;
+//@data The data
+toggleGroupCallIsMyVideoEnabled group_call_id:int32 is_my_video_enabled:Bool = Ok;
+//@original_path Local path to a file from which the file is generated; may be empty if there is no such file
+account.updatePasswordSettings#a59b102f password:InputCheckPasswordSRP new_settings:account.PasswordInputSettings = Bool;
+//@video_height Height of the video
+inputWebFileGeoPointLocation#9f2221c9 geo_point:InputGeoPoint access_hash:long w:int h:int zoom:int scale:int = InputWebFileLocation;
+getBankCardInfo bank_card_number:string = BankCardInfo;
+int ? = Int;
+messageActionGeoProximityReached#98e0d697 from_id:Peer to_id:Peer distance:int = MessageAction;
+messages.getStickerSet#2619a90e stickerset:InputStickerSet = messages.StickerSet;
+//@invite_link Invite link to get
+//@description Sends a callback query to a bot and returns an answer. Returns an error with code 502 if the bot fails to answer the query before the query timeout expires @chat_id Identifier of the chat with the message @message_id Identifier of the message from which the query originated @payload Query payload
+close = Ok;
+//@phone_number The phone number of the user, in international format
+inputChatPhotoEmpty#1ca48f57 = InputChatPhoto;
+photoSize#77bfb61b type:string location:FileLocation w:int h:int size:int = PhotoSize;
+//@public_service_announcement_type The type of a public service announcement for the forwarded message
+//@description A secret chat with a user @secret_chat_id Secret chat identifier @user_id User identifier of the secret chat peer
+//@member_id Member identifier
+//@description A Telegram Passport element containing the user's bank statement
+//@description An authorization confirmation dialog needs to be shown to the user
+inputMediaDocumentExternal#fb52dc99 flags:# url:string ttl_seconds:flags.0?int = InputMedia;
+topChatCategoryForwardChats = TopChatCategory;
+//@sticker Sticker file to delete from the list
+vector#1cb5c415 {t:Type} # [ t ] = Vector t;
+//@description Deletes the account of the current user, deleting all information associated with the user from the server. The phone number of the account can be used to create a new account. Can be called before authorization when the current authorization state is authorizationStateWaitPassword @reason The reason why the account was deleted; optional
+messageActionGameScore#92a72876 game_id:long score:int = MessageAction;
+//@description Contains a list of language pack strings
+inputGameShortName#c331e80a bot_id:InputUser short_name:string = InputGame;
+//@description A detailed statistics about a message @message_interaction_graph A graph containing number of message views and shares
+//@description The link is a link to app settings
+//@total_voter_count Total number of voters, participating in the poll @recent_voter_user_ids User identifiers of recent voters, if the poll is non-anonymous
+//@include_non_contacts True, if non-contact users need to be included
+//@description New call signaling data arrived @call_id The call identifier @data The data
+//@class StatisticsGraph @description Describes a statistics graph
+textEntityTypeEmailAddress = TextEntityType;
+//@secret_chat_id Secret chat identifier
+//@reply_markup The new message reply markup; pass null if none; for bots only
+auth.importAuthorization#e3ef9613 id:int bytes:bytes = auth.Authorization;
+searchCallMessages from_message_id:int53 limit:int32 only_missed:Bool = Messages;
+//@mime_type MIME type of the file; as defined by the sender
+//@data The data
+//@description Returns suggested name for saving a file in a given directory @file_id Identifier of the file @directory Directory in which the file is supposed to be saved
+contacts.getContacts#c023849f hash:int = contacts.Contacts;
+//@description A collage @page_blocks Collage item contents @caption Block caption
+chatActionBarReportSpam can_unarchive:Bool = ChatActionBar;
+//@description The call is pending, waiting to be accepted by a user @is_created True, if the call has already been created by the server @is_received True, if the call has already been received by the other party
+//@description The chat is a private or secret chat with a mutual contact and the user's phone number can be shared with the other user using the method sharePhoneNumber
+accessPointRule#4679b65f phone_prefix_rules:string dc_id:int ips:vector<IpPort> = AccessPointRule;
+messages.sentEncryptedFile#9493ff32 date:int file:EncryptedFile = messages.SentEncryptedMessage;

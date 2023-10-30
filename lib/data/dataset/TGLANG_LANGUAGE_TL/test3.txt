@@ -1,0 +1,100 @@
+//@description A Telegram Passport element containing the user's phone number
+//@description Represents one member of a JSON object @key Member's key @value Member's value
+channels.deleteHistory#af369d42 channel:InputChannel max_id:int = Bool;
+//@progress Upload progress, as a percentage
+//@include_non_contacts True, if non-contact users need to be included
+//@since_date Point in time (Unix timestamp) from which the statistics are collected
+phone.discardCall#78d413a6 peer:InputPhoneCall duration:int reason:PhoneCallDiscardReason connection_id:long = Updates;
+notificationTypeNewSecretChat#4771c6b0 = NotificationType;
+closeSecretChat secret_chat_id:int32 = Ok;
+//@description The secret chat is ready to use
+messageVideoNote#396b2486 video_note:videoNote is_viewed:Bool is_secret:Bool = MessageContent;
+//@type Type of the button
+//@is_chosen True, if the option was chosen by the user @is_being_chosen True, if the option is being chosen by a pending setPollAnswer request
+//@strings A list of language pack strings
+paymentCharge#ea02c27e id:string provider_charge_id:string = PaymentCharge;
+tls.schema_v2 version:int date:int types_num:# types:types_num*[tls.Type]
+contactStatus#d3680c61 user_id:int status:UserStatus = ContactStatus;
+messageMediaVideo#a2d24290 video:Video = MessageMedia;
+updateUnreadChatCount#76e19242 chat_list:ChatList total_count:int32 unread_count:int32 unread_unmuted_count:int32 marked_as_unread_count:int32 marked_as_unread_unmuted_count:int32 = Update;
+getInstalledStickerSets is_masks:Bool = StickerSets;
+//@username Username of the user
+//@file_count Approximate number of files
+//@video_duration Duration of the video, in seconds
+//@is_full_width True, if the block should be full width
+//@description Contains information about an invoice payment form @invoice Full information of the invoice @url Payment form URL @payments_provider Contains information about the payment provider, if available, to support it natively without the need for opening the URL; may be null
+//@description Returns full information about a supergroup or a channel by its identifier, cached for up to 1 minute @supergroup_id Supergroup or channel identifier
+account.getTmpPassword#449e0b51 password:InputCheckPasswordSRP period:int = account.TmpPassword;
+//@description Adds or changes a custom local language pack to the current localization target @info Information about the language pack. Language pack ID must start with 'X', consist only of English letters, digits and hyphens, and must not exceed 64 characters. Can be called before authorization @strings Strings of the new language pack
+updateChatIsMarkedAsUnread chat_id:int53 is_marked_as_unread:Bool = Update;
+//@need_country True, if the user country must be provided
+//@description Represents a URL linking to an internal Telegram entity @url URL @type Type of the URL
+//@description Contains information about a proxy server
+inputPaymentCredentials#3417d728 flags:# save:flags.0?true data:DataJSON = InputPaymentCredentials;
+webAuthorization#cac943f2 hash:long bot_id:int domain:string browser:string platform:string date_created:int date_active:int ip:string region:string = WebAuthorization;
+account.authorizationForm#ad2e1cd8 flags:# required_types:Vector<SecureRequiredType> values:Vector<SecureValue> errors:Vector<SecureValueError> users:Vector<User> privacy_policy_url:flags.0?string = account.AuthorizationForm;
+inputPrivacyKeyStatusTimestamp#4f96cb18 = InputPrivacyKey;
+//@description The user has been successfully authorized. TDLib is now ready to answer queries
+textEntityTypeCode = TextEntityType;
+//@description Returns users banned from the chat; can be used only by administrators in a supergroup or in a channel
+//@address Location address; 1-64 characters, as defined by the chat owner
+//@total_string_count Total number of non-deleted strings from the language pack @translated_string_count Total number of translated strings from the language pack
+//@query Text of the query
+gameHighScore position:int32 user_id:int32 score:int32 = GameHighScore;
+messages.getDialogs#b098aee6 flags:# exclude_pinned:flags.0?true offset_date:int offset_id:int offset_peer:InputPeer limit:int hash:int = messages.Dialogs;
+pushMessageContentSticker sticker:sticker emoji:string is_pinned:Bool = PushMessageContent;
+//@class ProxyType @description Describes the type of a proxy server
+supergroup#fffe6d4d id:int32 username:string date:int32 status:ChatMemberStatus member_count:int32 has_linked_chat:Bool has_location:Bool sign_messages:Bool is_slow_mode_enabled:Bool is_channel:Bool is_verified:Bool restriction_reason:string is_scam:Bool = Supergroup;
+fileTypeVideo#5548871b = FileType;
+//@chat_filter_id Chat filter identifier
+messages.readMessageContents#36a73f77 id:Vector<int> = messages.AffectedMessages;
+keyboardButtonRequestPhone#b16a6c29 text:string = KeyboardButton;
+//@is_verified True, if the user is verified
+pingProxy proxy_id:int32 = Seconds;
+//@description A cubic Bézier curve to a given point @start_control_point The start control point of the curve @end_control_point The end control point of the curve @end_point The end point of the curve
+bad_msg_notification#a7eff811 bad_msg_id:long bad_msg_seqno:int error_code:int = BadMsgNotification;
+//@other_user_ids List of user identifiers of other users currently using the application
+inputClientProxy#75588b3f address:string port:int = InputClientProxy;
+getSupportUser#98acec9c = User;
+//@description Answers a custom query; for bots only @custom_query_id Identifier of a custom query @data JSON-serialized answer to the query
+//@supports_turn True, if the server supports TURN
+chatEvent#dba579ac id:int64 date:int32 user_id:int32 action:ChatEventAction = ChatEvent;
+messages.getCommonChats#d0a48c4 user_id:InputUser max_id:int limit:int = messages.Chats;
+//@description Returns detailed statistics about a message. Can be used only if message.can_get_statistics == true @chat_id Chat identifier @message_id Message identifier @is_dark Pass true if a dark theme is used by the application
+getBackgrounds for_dark_theme:Bool = Backgrounds;
+//@version Version of the instant view, currently can be 1 or 2
+//@status Current online status of the user
+passportElementIdentityCard identity_card:identityDocument = PassportElement;
+channels.exportMessageLink#ceb77163 channel:InputChannel id:int grouped:Bool = ExportedMessageLink;
+messages.getStickerSet#2619a90e stickerset:InputStickerSet = messages.StickerSet;
+//@description Represents a JSON object
+saveApplicationLogEvent type:string chat_id:int53 data:JsonValue = Ok;
+//@description A file generated by the application @original_path Local path to a file from which the file is generated; may be empty if there is no such file
+//@description Accepts an incoming call
+//@description Contains a list of hashtags @hashtags A list of hashtags
+//@user_id Identifier of the user with whom to share the phone number. The user must be a mutual contact
+//@animation Animation to be set as profile photo. Only inputFileLocal and inputFileGenerated are allowed
+//@description A Telegram Passport element containing the user's utility bill @utility_bill Utility bill
+getChatMessageCount chat_id:int53 filter:SearchMessagesFilter return_local:Bool = Count;
+//@album_cover_minithumbnail The minithumbnail of the album cover; may be null
+req_pq#60469778 nonce:int128 = ResPQ;
+//@draft_message A draft of a message in the chat; may be null
+//@description Returns information about a language pack. Returned language pack identifier may be different from a provided one. Can be called before authorization @language_pack_id Language pack identifier
+testCallString#98b74a2f x:string = TestString;
+//@from_message_id Identifier of the message from which to search; use 0 to get results from the last message
+getStorageStatistics#cd254b37 chat_limit:int32 = StorageStatistics;
+peerUser#9db1bc6d user_id:int = Peer;
+//@user_id Identifier of the user who performed the action that triggered the event
+inputBotInlineMessageText#3dcd7a87 flags:# no_webpage:flags.0?true message:string entities:flags.1?Vector<MessageEntity> reply_markup:flags.2?ReplyMarkup = InputBotInlineMessage;
+//@description An italic text
+channelParticipantsBots#b0d1865b = ChannelParticipantsFilter;
+topPeerCategoryPeers#fb834291 category:TopPeerCategory count:int peers:Vector<TopPeer> = TopPeerCategoryPeers;
+//@description Changes the notification settings of a chat. Notification settings of a chat with the current user (Saved Messages) can't be changed
+//@reply_markup The message reply markup. Must be of type replyMarkupInlineKeyboard or null
+//@website_id Website identifier
+updateNewChat chat:chat = Update;
+chatFilter title:string icon_name:string pinned_chat_ids:vector<int53> included_chat_ids:vector<int53> excluded_chat_ids:vector<int53> exclude_muted:Bool exclude_read:Bool exclude_archived:Bool include_contacts:Bool include_non_contacts:Bool include_bots:Bool include_groups:Bool include_channels:Bool = ChatFilter;
+inputFileRemote id:string = InputFile;
+//@options Options to be used to send the message
+//@description A chat invite link was edited @old_invite_link Previous information about the invite link @new_invite_link New information about the invite link
+//@added_actions Added suggested actions

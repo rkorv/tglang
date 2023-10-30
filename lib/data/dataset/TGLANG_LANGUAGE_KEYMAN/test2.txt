@@ -1,0 +1,9 @@
+﻿store(&TARGETS) 'iphone ipad androidphone androidtablet'
+store(&LAYOUTFILE) 'pulaar_fulfulde_2021.keyman-touch-layout'
+store(&NAME) 'Tappirde Pulaar Fulfulde 2021'
+store(&COPYRIGHT) '© 2021 Ibrahima Malal Sarr - pulaar-fulfulde.org'
+store(&KEYBOARDVERSION) '1.0'
+store(&KMW_EMBEDCSS) 'pulaar_fulfulde_2021.css'
+begin Unicode > use(main)
+
+group(main) using keys

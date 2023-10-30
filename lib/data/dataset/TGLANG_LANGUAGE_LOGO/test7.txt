@@ -1,0 +1,4 @@
+fd sum 1 random 100
+rt random 360
+fd product random 10 sum 1 random 10
+lt random 360

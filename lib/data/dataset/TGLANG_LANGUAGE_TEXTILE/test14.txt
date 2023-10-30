@@ -1,0 +1,9 @@
+p. This was the result of a simple experiment. You can see my original post "here":http://blog.dmfranc.com/post/2423825128/textile-to-html
+
+h3. Online version
+
+p. "Textile2HTML / Convert textile files to HTML":http://textile2html.herokuapp.com/
+
+h3. Credits
+
+p. "Ben Daglish's javascript textile implementation":https://github.com/miebach/js-textile

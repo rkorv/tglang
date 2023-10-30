@@ -1,0 +1,100 @@
+pageBlockEmbedded#8c369d9d url:string html:string poster_photo:photo width:int32 height:int32 caption:pageBlockCaption is_full_width:Bool allow_scrolling:Bool = PageBlock;
+setStickerSetThumbnail#9afc5c04 user_id:int32 name:string thumbnail:InputFile = StickerSet;
+//@description The call was ended before the conversation started. It was declined by the other party
+//@expiry_date Document expiry date, if available
+searchMessagesFilterUnreadMention = SearchMessagesFilter;
+setName first_name:string last_name:string = Ok;
+userDeleted#d6016d7a id:int first_name:string last_name:string username:string = User;
+//@description The supergroup sticker set was changed
+//@is_primary True, if the link is primary. Primary invite link can't have name, expiration date, or usage limit. There is exactly one primary invite link for each administrator with can_invite_users right at a given time
+rsa_public_key n:string e:string = RSAPublicKey;
+messages.exportChatInvite#7d885289 chat_id:int = ExportedChatInvite;
+messages.stickerSetInstallResultSuccess#38641628 = messages.StickerSetInstallResult;
+//@description A deleted language pack string, the value should be taken from the built-in english language pack
+contactStatus#d3680c61 user_id:int status:UserStatus = ContactStatus;
+chatEventPermissionsChanged old_permissions:chatPermissions new_permissions:chatPermissions = ChatEventAction;
+basicGroupFullInfo#e4995557 photo:chatPhoto description:string creator_user_id:int32 members:vector<chatMember> invite_link:string = BasicGroupFullInfo;
+//@description The list of suggested to the user actions has changed @added_actions Added suggested actions @removed_actions Removed suggested actions
+sendMessageAlbum chat_id:int53 message_thread_id:int53 reply_to_message_id:int53 options:messageSendOptions input_message_contents:vector<InputMessageContent> = Messages;
+boolTrue#997275b5 = Bool;
+//@param_description Supergroup or channel description
+//@disable_notification Pass true to disable notification for the message
+chatStatisticsSupergroup period:dateRange member_count:statisticsValue message_count:statisticsValue viewer_count:statisticsValue sender_count:statisticsValue member_count_graph:StatisticsGraph join_graph:StatisticsGraph join_by_source_graph:StatisticsGraph language_graph:StatisticsGraph message_content_graph:StatisticsGraph action_graph:StatisticsGraph day_graph:StatisticsGraph week_graph:StatisticsGraph top_senders:vector<chatStatisticsMessageSenderInfo> top_administrators:vector<chatStatisticsAdministratorActionsInfo> top_inviters:vector<chatStatisticsInviterInfo> = ChatStatistics;
+//@is_member True, if the user is a member of the chat
+//@thumbnail Thumbnail file to send. Sending thumbnails by file_id is currently not supported
+languagePackString#4df0e460 key:string value:LanguagePackStringValue = LanguagePackString;
+//@class ThumbnailFormat @description Describes format of the thumbnail
+destroy_auth_key_none#0a9f2259 = DestroyAuthKeyRes;
+aux_type {n : #} (_ : %Tuple double n) = AuxType n;
+//@description Answers a custom query; for bots only @custom_query_id Identifier of a custom query @data JSON-serialized answer to the query
+//@ttl Photo TTL (Time To Live), in seconds (0-60). A non-zero TTL can be specified only in private chats
+optionValueEmpty = OptionValue;
+//@file_id File identifier
+messageText#768e4f93 text:formattedText web_page:webPage = MessageContent;
+peerSettings#818426cd flags:# report_spam:flags.0?true = PeerSettings;
+http_wait#9299359f max_delay:int wait_after:int max_wait:int = HttpWait;
+//@description Sets auto-download settings @settings New user auto-download settings @type Type of the network for which the new settings are applied
+synchronizeLanguagePack language_pack_id:string = Ok;
+ipPort#d433ad73 ipv4:int port:int = IpPort;
+//@description A marked rich text @text Text
+inputPassportElementTemporaryRegistration temporary_registration:inputPersonalDocument = InputPassportElement;
+messages.receivedQueue#55a5bb66 max_qts:int = Vector<long>;
+//@description Represents a link to a WEBP or TGS sticker @id Unique identifier of the query result @thumbnail_url URL of the sticker thumbnail, if it exists
+updateUserBlocked#80ece81a user_id:int blocked:Bool = Update;
+getUser#fd29e51f user_id:int32 = User;
+//@description Adds a new member to a chat. Members can't be added to private or secret chats. Members will not be added until the chat state has been synchronized with the server
+//@basic_group_id Basic group identifier
+//@is_downloading_completed True, if the local copy is fully available
+//@last_read_outbox_message_id Identifier of the last read outgoing message
+//@description Checks the email address verification code for Telegram Passport @code Verification code to check
+//@channel_id Identifier of an audio/video channel to get as received from tgcalls
+//@thumbnail_url The URL of the file thumbnail, if it exists @thumbnail_width Width of the thumbnail @thumbnail_height Height of the thumbnail
+replyMarkupRemoveKeyboard#d6cc5171 is_personal:Bool = ReplyMarkup;
+//@can_invite_users True, if the administrator can invite new users to the chat
+//@custom_title A custom title of the owner; 0-16 characters without emojis; applicable to supergroups only
+userFullInfo#d5a44060 photo:chatPhoto is_blocked:Bool can_be_called:Bool supports_video_calls:Bool has_private_calls:Bool need_phone_number_privacy_exception:Bool bio:string share_text:string group_in_common_count:int32 bot_info:botInfo = UserFullInfo;
+checkCreatedPublicChatsLimit type:PublicChatType = Ok;
+langPackStringDeleted#2979eeb2 key:string = LangPackString;
+//@description A forwarded messages @total_count Number of forwarded messages
+getFileExtension mime_type:string = Text;
+setCommands#983e5d22 commands:vector<botCommand> = Ok;
+//@description Sends a code to verify an email address to be added to a user's Telegram Passport @email_address Email address
+//@class PushMessageContent @description Contains content of a push message notification
+richTextReference text:RichText reference_text:RichText url:string = RichText;
+//@bot_username Username of the bot @start_parameter The parameter to be passed to sendBotStartMessage
+//@secret_chat_id Secret chat identifier
+//@is_marked_as_unread True, if the chat is marked as unread
+pushMessageContentPhoto photo:photo caption:string is_secret:Bool is_pinned:Bool = PushMessageContent;
+accountDaysTTL#b8d0afdf days:int = AccountDaysTTL;
+//@message_content_graph A graph containing distribution of sent messages by content type
+//@input_message_content The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageLocation, InputMessageVenue or InputMessageContact
+//@description The list of trending sticker sets was updated or some of them were viewed @sticker_sets The prefix of the list of trending sticker sets with the newest trending sticker sets
+//@message_id Message identifier
+//@description The parameters of animation search through GetOption("animation_search_bot_username") bot has changed
+//@added_date Point in time (Unix timestamp) when the photo has been added
+peerChat#bad0e5bb chat_id:int = Peer;
+//invokeWithLayer6#3a64d54d query:!X = X;
+//@download_offset Download will be started from this offset. downloaded_prefix_size is calculated from this offset
+channels.getChannels#a7f6bbb id:Vector<InputChannel> = messages.Chats;
+getBlockedMessageSenders#740e1460 offset:int32 limit:int32 = MessageSenders;
+//@description Searches for recently used hashtags by their prefix @prefix Hashtag prefix to search for @limit The maximum number of hashtags to be returned
+//@description Validates the order information provided by a user and returns the available shipping options for a flexible invoice @chat_id Chat identifier of the Invoice message @message_id Message identifier @order_info The order information, provided by the user @allow_save True, if the order information can be saved
+//@description Describes a server for relaying call data @id Server identifier @ip_address Server IPv4 address @ipv6_address Server IPv6 address @port Server port number @type Server type
+contacts.getBlocked#f57c350f offset:int limit:int = contacts.Blocked;
+//@photo_height Product photo height
+getActiveSessions#42bd6d3e = Sessions;
+//@join_by_source_graph A graph containing number of new member joins per source
+//@sender_name Name of the sender
+//@description The payload for a game callback button
+//@group_call_id Group call identifier
+//@description A privacy setting for managing whether the user's profile photo is visible
+//@class BackgroundFill @description Describes a fill of a background
+//@chat_id Target chat
+//@chat_id Chat identifier
+//@member_promotions True, if member promotion/demotion events should be returned
+//@description Represents a point on the map @id Unique identifier of the query result @location Location result @title Title of the result @thumbnail Result thumbnail in JPEG format; may be null
+inputMediaUploadedDocument#e39621fd flags:# file:InputFile thumb:flags.2?InputFile mime_type:string attributes:Vector<DocumentAttribute> caption:string stickers:flags.0?Vector<InputDocument> ttl_seconds:flags.1?int nosound_video:flags.3?true = InputMedia;
+channelParticipantBanned#222c1886 flags:# left:flags.0?true user_id:int kicked_by:int date:int banned_rights:ChannelBannedRights = ChannelParticipant;
+// instantiating polymorphic types ("templates")
+userStatusLastMonth#77ebc742 = UserStatus;
+//@first_name The first name of the user; 1-64 characters @last_name The last name of the user; 0-64 characters

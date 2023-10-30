@@ -1,0 +1,13 @@
+ripitere 6
+[
+  ripitere 2
+  [
+    ripitere 30
+    [
+      ava 6
+      des 2
+    ]
+    des 120
+  ]
+  des 60
+]

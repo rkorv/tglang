@@ -1,0 +1,100 @@
+removeBackground background_id:int64 = Ok;
+//@include_non_contacts True, if non-contact users need to be included
+richTextStrikethrough text:RichText = RichText;
+personalDocument files:vector<datedFile> translation:vector<datedFile> = PersonalDocument;
+updateUserTyping#5c486927 user_id:int action:SendMessageAction = Update;
+updateNewEncryptedMessage#12bcbd9a message:EncryptedMessage qts:int = Update;
+//@description Incoming messages were read or the number of unread messages has been changed @chat_id Chat identifier @last_read_inbox_message_id Identifier of the last read incoming message @unread_count The number of unread messages left in the chat
+//@shipping_option_id Identifier of the shipping option chosen by the user; may be empty if not applicable
+updateChatOnlineMemberCount chat_id:int53 online_member_count:int32 = Update;
+//@description Optimizes storage usage, i.e. deletes some files and returns new storage usage statistics. Secret thumbnails can't be deleted
+//@description A new chat has been loaded/created. This update is guaranteed to come before the chat identifier is returned to the application. The chat field changes will be reported through separate updates @chat The chat
+//@description Removes 2-step verification password without previous password and access to recovery email address. The password can't be reset immediately and the request needs to be repeated after the specified time
+users#9ae2fb6f total_count:int32 user_ids:vector<int32> = Users;
+inputUser#d8292816 user_id:int access_hash:long = InputUser;
+webAuthorization#cac943f2 hash:long bot_id:int domain:string browser:string platform:string date_created:int date_active:int ip:string region:string = WebAuthorization;
+//@title Title
+getLoginUrlInfo chat_id:int53 message_id:int53 button_id:int53 = LoginUrlInfo;
+richTextEmailAddress text:RichText email_address:string = RichText;
+//@basic_group_id Basic group identifier
+updateChatUnreadMentionCount chat_id:int53 unread_mention_count:int32 = Update;
+parseMarkdown text:formattedText = FormattedText;
+messages.reportEncryptedSpam#4b0c8c0f peer:InputEncryptedChat = Bool;
+//@caption Animation caption; 0-GetOption("message_caption_length_max") characters
+//@message_id Message identifier
+updateChatTitle#f58b85a4 chat_id:int53 title:string = Update;
+languagePackStringValueDeleted = LanguagePackStringValue;
+inputBotInlineResultPhoto#a8d864a7 id:string type:string photo:InputPhoto send_message:InputBotInlineMessage = InputBotInlineResult;
+messages.deleteChatUser#e0611f16 chat_id:int user_id:InputUser = Updates;
+getPhoneNumberInfo phone_number_prefix:string = PhoneNumberInfo;
+//@sticker Sticker @position New position of the sticker in the set, zero-based
+//@description The user status was never changed
+resendPhoneNumberConfirmationCode = AuthenticationCodeInfo;
+secureValueTypeDriverLicense#6e425c4 = SecureValueType;
+topPeerCategoryGroups#bd17a14a = TopPeerCategory;
+//@heading The new direction in which the location moves, in degrees; 1-360. Pass 0 if unknown
+//@description Edits an existing proxy server for network requests. Can be called before authorization
+//@options Options to be used to send the messages
+setLocation#5993371 location:location = Ok;
+//@message_id The message identifier of the used keyboard
+//@inline_query_id Identifier of the inline query
+//@description Returns users banned from the supergroup or channel; can be used only by administrators @query Query to search for
+account.privacyRules#554abb6f rules:Vector<PrivacyRule> users:Vector<User> = account.PrivacyRules;
+//@description Edits the content of a live location in an inline message sent via a bot; for bots only @inline_message_id Inline message identifier @reply_markup The new message reply markup
+//@description A message with a game; not supported for channels or secret chats @bot_user_id User identifier of the bot that owns the game @game_short_name Short name of the game
+internalLinkTypeQrCodeAuthentication = InternalLinkType;
+//@total_string_count Total number of non-deleted strings from the language pack @translated_string_count Total number of translated strings from the language pack
+paymentRequestedInfo#909c3f94 flags:# name:flags.0?string phone:flags.1?string email:flags.2?string shipping_address:flags.3?PostAddress = PaymentRequestedInfo;
+//@class NotificationGroupType @description Describes the type of notifications in a notification group
+//@sticker Sticker file to add
+//@ttl Video TTL (Time To Live), in seconds (0-60). A non-zero TTL can be specified only in private chats
+chatStatisticsAdministratorActionsInfo user_id:int32 deleted_message_count:int32 banned_user_count:int32 restricted_user_count:int32 = ChatStatisticsAdministratorActionsInfo;
+pageBlockCollage#8b31c4f items:Vector<PageBlock> caption:RichText = PageBlock;
+toggleChatDefaultDisableNotification chat_id:int53 default_disable_notification:Bool = Ok;
+langPackDifference#f385c1f6 lang_code:string from_version:int version:int strings:Vector<LangPackString> = LangPackDifference;
+sendMessageUploadRoundAction#243e1c66 progress:int = SendMessageAction;
+//@heading The new direction in which the location moves, in degrees; 1-360. Pass 0 if unknown
+//@can_post_messages True, if the administrator can create channel posts; applicable to channels only
+channels.inviteToChannel#199f3a6c channel:InputChannel users:Vector<InputUser> = Updates;
+//@updates List of updates
+//@description Changes the status of a chat member, needs appropriate privileges. This function is currently not suitable for adding new members to the chat and transferring chat ownership; instead, use addChatMember or transferChatOwnership. The chat member status will not be changed until it has been synchronized with the server
+help.userInfoEmpty#f3ae2eed = help.UserInfo;
+//@description Deletes all messages between the specified dates in a chat. Supported only for private chats and basic groups. Messages sent in the last 30 seconds will not be deleted
+//@chat_id Chat identifier @user_id User identifier @status The new status of the member in the chat
+//@description A document message (general file)
+//@is_outgoing True, if the message is outgoing
+inputUserEmpty#b98886cf = InputUser;
+//@id Unique identifier of the query result
+//@formatted_phone_number The phone number without country calling code formatted accordingly to local rules
+//@description The current user has connected a website by logging in using Telegram Login Widget on it
+//@scheduling_state The new message scheduling state; pass null to send the message immediately
+account.setAccountTTL#2442485e ttl:AccountDaysTTL = Bool;
+getActiveLiveLocationMessages = Messages;
+enableProxy proxy_id:int32 = Ok;
+//@description A rich text reference of a text on the same web page
+messageMediaDice#3f7ee58b value:int emoticon:string = MessageMedia;
+messages.getAllDrafts#6a3f8d65 = Updates;
+//@last_message_id Identifier of the last reply to the message
+thumbnailFormatPng#5e0697f5 = ThumbnailFormat;
+messagePoll poll:poll = MessageContent;
+//@setting_changes True, if changes in chat settings should be returned
+//@one_time True, if the application needs to hide the keyboard after use
+//@description Changes the username of a supergroup or channel, requires owner privileges in the supergroup or channel @supergroup_id Identifier of the supergroup or channel @username New value of the username. Use an empty string to remove the username
+deviceTokenMicrosoftPushVoIP channel_uri:string = DeviceToken;
+//@unread_count Total number of unread chats
+//@limit The maximum number of chats to be returned
+privacyValueAllowContacts#fffe1bac = PrivacyRule;
+//@offset The offset from which to read the file
+//@can_send_polls True, if the user can send polls. Implies can_send_messages permissions
+//@one_time True, if the application needs to hide the keyboard after use
+//@added_sticker_file_ids File identifiers of the stickers added to the photo, if applicable
+chatActionUploadingDocument progress:int32 = ChatAction;
+optionValueInteger value:int64 = OptionValue;
+channelAdminLogEventActionEditMessage#709b2405 prev_message:Message new_message:Message = ChannelAdminLogEventAction;
+//@description Used to search for supergroup or channel members via a (string) query @query Query to search for
+//@description Does nothing and ensures that the Update object is used; for testing only. This is an offline method. Can be called before authorization
+//@description Information about the authentication code that was sent @phone_number A phone number that is being authenticated @type The way the code was sent to the user @next_type The way the next code will be sent to the user; may be null @timeout Timeout before the code can be re-sent, in seconds
+inputSingleMedia#1cc6e91f flags:# media:InputMedia random_id:long message:string entities:flags.0?Vector<MessageEntity> = InputSingleMedia;
+/////
+secureValueTypePassport#3dac6a00 = SecureValueType;
+//@sticker File with the animated sticker. Only local or uploaded within a week files are supported. See https://core.telegram.org/animated_stickers#technical-requirements for technical requirements

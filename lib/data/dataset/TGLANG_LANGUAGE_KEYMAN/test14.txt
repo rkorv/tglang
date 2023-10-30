@@ -1,0 +1,58 @@
+c ala-lc.kmn
+c 
+c ALA-LC Romanization 1.0
+c 
+c Keyboard layout designed for typing using ALA-LC  
+c Romanization rules.
+c
+c Versions:
+c 1.0 based on Romanization tables as of 29/01/2014
+c 
+c Andrew Cunningham    2014-03-06
+c support AT openroad.net.au
+c lang.support AT gmail.com
+
+store(&VERSION) '9.0'
+store(&NAME) 'Thuɔŋjäŋ'
+store(&COPYRIGHT) '© State L4rary of Victoria 2013'
+store(&MESSAGE) 'Dinka Unicode keyboard layout for the International Dinka Language Institute.'      
+store(&BITMAP) 'din.ico'
+store(&MnemonicLayout) "0"
+store(&EthnologueCode) "dip diw dib dks dik"
+
+begin Unicode > use(constraints)
+
+c Options
+store(optionNormForm) 'marc'    c valid options: marc, nfc, nfd
+store(optionEscape) ''
+
+group(constraints) using keys
+
+nomatch > use(main)
+
+group(main) using keys 
+c 
+c generate extended latin characters
+c 
+
+c 
+c generate diacritics
+c 
+
+c 
+c generate digits
+c 
+
+group(diacritics)
+c
+c Rules for reordering diacritics or branching to NFC proccessing
+if(normForm = 'nfc') any(allBaseChar) any(diacriticKey) > context index(diacriticChar, 3) use(diacriticsNFC) 
+
+group(diacriticsNFC) 
+c 
+c Rules for reordering inpiut for tone marking (scheme 1) using Unicode Normalisation Form C
+c 
+
+
+
+

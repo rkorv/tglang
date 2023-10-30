@@ -1,0 +1,5 @@
+dotimes [ :dist 200 ] 
+[
+  fd :dist
+  rt 89
+]

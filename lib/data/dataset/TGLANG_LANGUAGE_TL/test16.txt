@@ -1,0 +1,100 @@
+messages.setBotPrecheckoutResults#9c2dd95 flags:# success:flags.1?true query_id:long error:flags.0?string = Bool;
+//@identity_card The identity card to be saved
+//@include_channels True, if channels need to be included
+backgroundFillSolid color:int32 = BackgroundFill;
+chatLocation location:location address:string = ChatLocation;
+//@description Notification settings for a chat were changed @chat_id Chat identifier @notification_settings The new notification settings
+//@description A new chat member was invited @user_id New member user identifier @status New member status
+stickers stickers:vector<sticker> = Stickers;
+updateDialogFilters#3504914f = Update;
+fileTypeAnimation#eeaa7dba = FileType;
+maskPosition#82fbb63e point:MaskPoint x_shift:double y_shift:double scale:double = MaskPosition;
+textEmail#de5a0dd6 text:RichText email:string = RichText;
+callProtocol udp_p2p:Bool udp_reflector:Bool min_layer:int32 max_layer:int32 library_versions:vector<string> = CallProtocol;
+sendMessageUploadVideoAction#e9763aec progress:int = SendMessageAction;
+secureValueErrorReverseSide#868a2aa5 type:SecureValueType file_hash:bytes text:string = SecureValueError;
+//@description A different network type (e.g., Ethernet network)
+//@thumbnail Animation thumbnail in JPEG or MPEG4 format; may be null
+//@description Edits the message reply markup; for bots only. Returns the edited message after the edit is completed on the server side
+//@chat_id The chat the message belongs to @message_id Identifier of the message @reply_markup The new message reply markup; for bots only @input_message_content New content of the message. Must be one of the following types: InputMessageAnimation, InputMessageAudio, InputMessageDocument, InputMessagePhoto or InputMessageVideo
+//@query Query to search for
+setBotUpdatesStatus#bb293991 pending_update_count:int32 error_message:string = Ok;
+//@title Title of the video
+languagePackString key:string value:LanguagePackStringValue = LanguagePackString;
+venue location:location title:string address:string provider:string id:string type:string = Venue;
+langPackStringDeleted#2979eeb2 key:string = LangPackString;
+//@member_name Name of the deleted member
+//@description Changes the 2-step verification recovery email address of the user. If a new recovery email address is specified, then the change will not be applied until the new recovery email address is confirmed.
+//@switch_pm_text If non-empty, this text should be shown on the button, which opens a private chat with the bot and sends the bot a start message with the switch_pm_parameter @switch_pm_parameter Parameter for the bot start message
+pushMessageContentGame#e14bb91b title:string is_pinned:Bool = PushMessageContent;
+updateConnectionState state:ConnectionState = Update;
+userStatusLastWeek#7bf09fc = UserStatus;
+pageBlockFooter#34d5d728 footer:RichText = PageBlock;
+animations#2ce4157c animations:vector<animation> = Animations;
+//@description A category containing frequently used private chats with non-bot users
+help.termsOfServiceUpdate#28ecf961 expires:int terms_of_service:help.TermsOfService = help.TermsOfServiceUpdate;
+//@description Does nothing and ensures that the Update object is used; for testing only. This is an offline method. Can be called before authorization
+//@main_frame_timestamp Timestamp of the frame, which will be used as static chat photo
+//@description A URL linking to a user
+//@description A rich text URL link
+//@description Changes the owner of a chat. The current user must be a current owner of the chat. Use the method canTransferOwnership to check whether the ownership can be transferred from the current session. Available only for supergroups and channel chats
+inputInlineQueryResultPhoto id:string title:string description:string thumbnail_url:string photo_url:string photo_width:int32 photo_height:int32 reply_markup:ReplyMarkup input_message_content:InputMessageContent = InputInlineQueryResult;
+chatSourcePublicServiceAnnouncement#ec6a6694 type:string text:string = ChatSource;
+authenticationCodeInfo phone_number:string type:AuthenticationCodeType next_type:AuthenticationCodeType timeout:int32 = AuthenticationCodeInfo;
+sendMessageUploadDocumentAction#aa0cd9e4 progress:int = SendMessageAction;
+//@description The list of recently used stickers was updated @is_attached True, if the list of stickers attached to photo or video files was updated, otherwise the list of sent stickers is updated @sticker_ids The new list of file identifiers of recently used stickers
+accountDaysTTL#b8d0afdf days:int = AccountDaysTTL;
+pageBlockEmbedPost#292c7be9 url:string webpage_id:long author_photo_id:long author:string date:int blocks:Vector<PageBlock> caption:RichText = PageBlock;
+//@description A chat photo was edited
+//@description A detailed statistics about a channel chat
+//@can_read_all_group_messages True, if the bot can read all messages in basic group or supergroup chats and not just those addressed to the bot. In private and channel chats a bot can always read all messages
+//@description The reverse side of the document contains an error. The error is considered resolved when the file with the reverse side of the document changes
+messages.dialogsSlice#71e094f3 count:int dialogs:Vector<Dialog> messages:Vector<Message> chats:Vector<Chat> users:Vector<User> = messages.Dialogs;
+callProblemSilentRemote#2230f89a = CallProblem;
+recentMeUrlStickerSet#bc0a57dc url:string set:StickerSetCovered = RecentMeUrl;
+securePlainEmail#21ec5a5f email:string = SecurePlainData;
+//@chat_id Chat identifier
+//@can_be_deleted_for_all_users True, if the chat messages can be deleted for all users
+//@description A chat was marked as unread or was read
+//@video_duration Video duration, in seconds
+//@chat_id Chat identifier
+int53#6781c7ee = Int53;
+phone.getCallConfig#55451fa9 = DataJSON;
+addFavoriteSticker sticker:InputFile = Ok;
+messages.saveGif#327a30cb id:InputDocument unsave:Bool = Bool;
+//@class InputFile @description Points to a file
+user#d23c81a3 id:int first_name:string last_name:string = User;
+importedContact#d0028438 user_id:int client_id:long = ImportedContact;
+//@synchronous If false, this request returns file state just after the download has been started. If true, this request returns file state only after
+encryptedFileEmpty#c21f497e = EncryptedFile;
+groupCallRecentSpeaker participant_id:MessageSender is_speaking:Bool = GroupCallRecentSpeaker;
+pushMessageContentChatDeleteMember member_name:string is_current_user:Bool is_left:Bool = PushMessageContent;
+//@message_id Identifier of the removed pinned message
+//@description Contains a list of chat lists
+//@expires_in Left time for which the location can be updated, in seconds. updateMessageContent is not sent when this field changes
+//@port Server port number
+//@password Password of the current user
+channelAdminLogEventActionChangePhoto#b82f55c3 prev_photo:ChatPhoto new_photo:ChatPhoto = ChannelAdminLogEventAction;
+callbackQueryPayloadGame game_short_name:string = CallbackQueryPayload;
+//@close_date Point in time (Unix timestamp) when the poll will automatically be closed; for bots only
+account.acceptAuthorization#e7027c94 bot_id:int scope:string public_key:string value_hashes:Vector<SecureValueHash> credentials:SecureCredentialsEncrypted = Bool;
+httpUrl#87b775a6 url:string = HttpUrl;
+//@disable_notification True, if there should be no notification about the pinned message. Notifications are always disabled in channels and private chats
+//@description A Telegram Passport element containing the user's address
+orderInfo name:string phone_number:string email_address:string shipping_address:address = OrderInfo;
+help.termsOfService#f1ee3e90 text:string = help.TermsOfService;
+//@class ChatReportReason @description Describes the reason why a chat is reported
+//@creator_user_id User identifier of a chat administrator, which links will be deleted. Must be an identifier of the current user for non-owner
+//@description A category containing frequently used channels
+//@waveform A waveform representation of the voice note in 5-bit format @mime_type MIME type of the file; as defined by the sender @voice File containing the voice note
+pushMessageContentGameScore#35b8cd88 title:string score:int32 is_pinned:Bool = PushMessageContent;
+//@supports_streaming True, if the video should be tried to be streamed
+//@offset_message_id The message identifier of the last found message, or 0 for the first request
+phoneCallDiscardReasonBusy#faf7e8c9 = PhoneCallDiscardReason;
+chatActionRecordingVideoNote = ChatAction;
+channelParticipant#15ebac1d user_id:int date:int = ChannelParticipant;
+chatActionUploadingDocument progress:int32 = ChatAction;
+messages.deleteMessages#e58e95d2 flags:# revoke:flags.0?true id:Vector<int> = messages.AffectedMessages;
+filePart data:bytes = FilePart;
+resetAllNotificationSettings = Ok;
+getStorageStatisticsFast = StorageStatisticsFast;

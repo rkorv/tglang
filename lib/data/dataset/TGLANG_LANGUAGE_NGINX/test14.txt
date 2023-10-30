@@ -1,0 +1,33 @@
+server {
+    listen 8000;
+    server_name localhost;
+    root /var/www/;
+
+    ## Logging
+    access_log	/var/log/nginx/localhost.access.log main;
+    error_log	/var/log/nginx/localhost.error.log;
+
+    ## Set Directory Index
+	index index.php index.html index.htm;
+
+    ## Try static files and if not found pass it to index.php
+    location /
+    {
+        try_files $uri $uri/ /index.php$is_args$args;
+        include /etc/nginx/helpers/extra.conf;
+    }
+
+    ## PHP: Pass all PHP request to PHP-FPM
+    location ~ \.php$
+    {
+        include /etc/nginx/fastcgi_params;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_intercept_errors on;
+        fastcgi_pass_request_headers on;
+    }
+
+	## Other configurations
+	include helpers/basic.conf;
+}

@@ -1,0 +1,10 @@
+; Saved by version: 2.4.10
+
+[PuzzleLock]
+display=false
+buttons=1
+event1=EventAddWarehouseCultist
+audio=AudioLocked1
+class=code
+skill={agility}
+puzzlealtlevel=4

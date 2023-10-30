@@ -1,0 +1,13 @@
+name = Date-WorkdayCalendar
+
+[ReadmeFromPod]
+; enabled = false
+filename = lib/Date/WorkdayCalendar.rakumod
+
+[UploadToZef]
+
+[PruneFiles]
+; match = ^ 'xt/'
+
+[Badges]
+provider = github-actions/test.yml

@@ -1,0 +1,2 @@
+Fastify 提供了从 Node 8.8.0 开始的对 HTTP2 实验性支持，Fastify 支持 HTTPS 和普通文本的 HTTP2 支持。需要注意的是，Node 8.8.1 以上的版本才支持 HTTP2。
+当前没有任何 HTTP2 相关的 APIs 是可用的，但 Node req 和 res 可以通过 Request 和 Reply 接口访问。欢迎相关的 PR。

@@ -1,0 +1,39 @@
+import kotlin.KotlinVersion
+plugins {
+    id "maven-publish"
+    id "java-gradle-plugin"
+    id "com.gradle.plugin-publish"
+}
+
+description = "Collection of AspectJ related Gradle plugins"
+
+gradlePlugin {
+    plugins {
+        aspectjBase {
+            id = "io.freefair.aspectj.base"
+            implementationClass = "io.freefair.gradle.plugins.aspectj.AspectJBasePlugin"
+            displayName = "AspectJ Base Plugin"
+            description = "AspectJ Base Plugin"
+            tags.set(['aspectj'])
+        }
+        aspectjPostCompileWeaving {
+            id = "io.freefair.aspectj.post-compile-weaving"
+            implementationClass = "io.freefair.gradle.plugins.aspectj.AspectJPostCompileWeavingPlugin"
+            displayName = "AspectJ Post-Compile Weaving Plugin"
+            description = "AspectJ Weaving Plugin"
+            tags.set(['aspectj'])
+        }
+        aspectj {
+            id = "io.freefair.aspectj"
+            implementationClass = "io.freefair.gradle.plugins.aspectj.AspectJPlugin"
+            displayName = "AspectJ Plugin"
+            description = "AspectJ Plugin"
+            tags.set(['aspectj'])
+        }
+    }
+}
+
+dependencies {
+    implementation project(":plugin-utils")
+    implementation "org.jetbrains.kotlin:kotlin-gradle-plugin-api:${KotlinVersion.CURRENT}"
+}

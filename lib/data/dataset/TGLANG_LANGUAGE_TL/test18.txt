@@ -1,0 +1,100 @@
+sendCallSignalingData call_id:int32 data:bytes = Ok;
+channelParticipantCreator#447dca4b flags:# user_id:int admin_rights:ChatAdminRights rank:flags.0?string = ChannelParticipant;
+//@class CallProblem @description Describes the exact type of a problem with a call
+//@description The chat has child abuse related content
+//@description Manually adds a new sticker to the list of recently used stickers. The new sticker is added to the top of the list. If the sticker was already in the list, it is removed from the list first. Only stickers belonging to a sticker set can be added to this list
+//@description A new member was accepted to the chat by an administrator
+//@description The network is not available
+//@document Preview of the content as a document, if available (currently only available for small PDF files and ZIP archives); may be null
+//@description A fixed-width rich text @text Text
+accountDaysTTL#b8d0afdf days:int = AccountDaysTTL;
+//@description A rule to allow all members of certain specified basic groups and supergroups to doing something
+messages.sentEncryptedFile#9493ff32 date:int file:EncryptedFile = messages.SentEncryptedMessage;
+//@is_pinned True, if the chat is pinned in the chat list
+upload.fileCdnRedirect#f18cda44 dc_id:int file_token:bytes encryption_key:bytes encryption_iv:bytes file_hashes:Vector<FileHash> = upload.File;
+//@limit The maximum number of events to return; up to 100
+//@description Returns a Telegram Passport authorization form for sharing data with a service @bot_user_id User identifier of the service's bot @scope Telegram Passport element types requested by the service @public_key Service's public_key @nonce Authorization form nonce provided by the service
+//@class DeviceToken @description Represents a data needed to subscribe for push notifications through registerDevice method. To use specific push notification service, the correct application platform must be specified and a valid server authentication data must be uploaded at https://my.telegram.org
+//@description Sends a filled-out payment form to the bot for final verification
+channels.deleteMessages#84c1fd4e channel:InputChannel id:Vector<int> = messages.AffectedMessages;
+statisticsValue#446598e4 value:double previous_value:double growth_rate_percentage:double = StatisticsValue;
+optionValueString value:string = OptionValue;
+//@duration Duration of the video, in seconds; as defined by the sender
+inputMessageID#a676a322 id:int = InputMessage;
+//@description Returns recently active users in reverse chronological order
+webPageNotModified#7311ca11 flags:# cached_page_views:flags.0?int = WebPage;
+messageAudio audio:audio caption:formattedText = MessageContent;
+searchStickers emoji:string limit:int32 = Stickers;
+//@need_name True, if the user's name is needed for payment
+//@translation List of files containing a certified English translation of the document
+auth.dropTempAuthKeys#8e48a188 except_auth_keys:Vector<long> = Bool;
+chatParticipantAdmin#e2d6e436 user_id:int inviter_id:int date:int = ChatParticipant;
+//@param_description A short description of the result
+upgradeBasicGroupChatToSupergroupChat chat_id:int53 = Chat;
+checkAuthenticationPasswordRecoveryCode recovery_code:string = Ok;
+deviceTokenBlackBerryPush token:string = DeviceToken;
+//@video_duration Duration of the video, in seconds @video_width Width of the video @video_height Height of the video
+chatAdministrators administrators:vector<chatAdministrator> = ChatAdministrators;
+inputBotInlineResultGame#4fa417f2 id:string short_name:string send_message:InputBotInlineMessage = InputBotInlineResult;
+updateLangPackTooLong#10c2404b = Update;
+//@disable_notification Pass true to disable notification for the message
+urlAuthResultRequest#92d33a0e flags:# request_write_access:flags.0?true bot:User domain:string = UrlAuthResult;
+//@class CallState @description Describes the current call state
+messages.editChatAdmin#a9e69f2e chat_id:int user_id:InputUser is_admin:Bool = Bool;
+//@description A group containing notifications of type notificationTypeNewMessage and notificationTypeNewPushMessage with unread mentions of the current user, replies to their messages, or a pinned message
+//@description A group containing a notification of type notificationTypeNewSecretChat
+//@can_self_unmute Pass true if the invite link needs to contain an invite hash, passing which to joinGroupCall would allow the invited user to unmute themselves. Requires groupCall.can_be_managed group call flag
+//@description The user status was never changed
+//@description Returns information about a tg:// deep link. Use "tg://need_update_for_some_feature" or "tg:some_unsupported_feature" for testing. Returns a 404 error for unknown links. Can be called before authorization
+phone.confirmCall#2efe1722 peer:InputPhoneCall g_a:bytes key_fingerprint:long protocol:PhoneCallProtocol = phone.PhoneCall;
+removeRecentSticker is_attached:Bool sticker:InputFile = Ok;
+updateChannelTooLong#eb0467fb flags:# channel_id:int pts:flags.0?int = Update;
+//@main_frame_timestamp Timestamp of the frame, used as a static chat photo
+clearRecentStickers is_attached:Bool = Ok;
+messages.getAttachedStickers#cc5b67cc media:InputStickeredMedia = Vector<StickerSetCovered>;
+messageMediaGame#fdb19008 game:Game = MessageMedia;
+//@description Describes a position of a chat in a chat list
+//@main_frame_timestamp Timestamp of the frame, which will be used as static chat photo
+tMeUrl url:string type:TMeUrlType = TMeUrl;
+//@email_address The email address to be saved
+fileLocation#53d69076 dc_id:int volume_id:long local_id:int secret:long = FileLocation;
+//@description Changes the bio of the current user @bio The new value of the user bio; 0-70 characters without line feeds
+pushMessageContentHidden is_pinned:Bool = PushMessageContent;
+//@chat_id Chat identifier
+//@message_interaction_graph A graph containing number of message views and shares
+//@class RichText @description Describes a text object inside an instant-view web page
+chatInviteLinkCounts invite_link_counts:vector<chatInviteLinkCount> = ChatInviteLinkCounts;
+//@id Remote file identifier; may be empty. Can be used by the current user across application restarts or even from other devices. Uniquely identifies a file, but a file can have a lot of different valid identifiers.
+updateNewPreCheckoutQuery#53e3966 id:int64 sender_user_id:int32 currency:string total_amount:int53 invoice_payload:bytes shipping_option_id:string order_info:orderInfo = Update;
+removeNotificationGroup notification_group_id:int32 max_notification_id:int32 = Ok;
+//@sticker Sticker
+textFixed#6c3f19b9 text:RichText = RichText;
+//@amount Currency amount in minimal quantity of the currency
+userFullInfo#d5a44060 photo:chatPhoto is_blocked:Bool can_be_called:Bool supports_video_calls:Bool has_private_calls:Bool need_phone_number_privacy_exception:Bool bio:string share_text:string group_in_common_count:int32 bot_info:botInfo = UserFullInfo;
+dateRange start_date:int32 end_date:int32 = DateRange;
+//@generation_id The identifier of the generation process
+account.updateNotifySettings#84be5b93 peer:InputNotifyPeer settings:InputPeerNotifySettings = Bool;
+recoverAuthenticationPassword#2eef537c recovery_code:string = Ok;
+//@description Represents short information about a sticker set
+//@description Notification settings applied to all private and secret chats when the corresponding chat setting has a default value
+keyboardButtonTypeRequestPhoneNumber = KeyboardButtonType;
+//@phone_number Phone number of the user
+//@description A rule to allow all users to do something
+//@description Represents a remote file
+//@is_outgoing True, if the message is outgoing
+//@is_installed True, if the sticker set has been installed by the current user @is_archived True, if the sticker set has been archived. A sticker set can't be installed and archived simultaneously
+//@description A document message (a general file) @document Message content; may be null @is_pinned True, if the message is a pinned message with the specified content
+//-(searchSecretMessages should be used instead), or without an enabled message database. For optimal performance the number of returned messages is chosen by the library
+//@description A new message was received; can also be an outgoing message @message The new message
+sessions sessions:vector<session> inactive_session_ttl_days:int32 = Sessions;
+//@total_count Total number of photos
+personalDocument files:vector<datedFile> translation:vector<datedFile> = PersonalDocument;
+langPackDifference#f385c1f6 lang_code:string from_version:int version:int strings:Vector<LangPackString> = LangPackDifference;
+//@description Changes application-specific data associated with a chat
+//@is_my_video_enabled True, if the current user's video is enabled
+//@invite_link Primary invite link for this group; may be null. For chat administrators with can_invite_users right only. Updated only after the basic group is opened
+fileLocationUnavailable#7c596b46 volume_id:long local_id:int secret:long = FileLocation;
+//@description Animated stickers to be combined into a slot machine
+channelAdminLogEventActionChangeAbout#55188a2e prev_value:string new_value:string = ChannelAdminLogEventAction;
+secureValueTypeAddress#cbe31e26 = SecureValueType;
+inputPrivacyValueDisallowUsers#90110467 users:Vector<InputUser> = InputPrivacyRule;

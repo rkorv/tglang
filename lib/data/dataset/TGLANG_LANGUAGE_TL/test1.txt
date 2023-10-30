@@ -1,0 +1,100 @@
+//@in_game_share True, if a game message should be shared within a launched game; applies only to game messages
+//@description A button with a user reference to be handled in the same way as textEntityTypeMentionName entities @user_id User identifier
+//@username New value of the username. Use an empty string to remove the username
+messageActionPaymentSentMe#8f31b327 flags:# currency:string total_amount:long payload:bytes info:flags.0?PaymentRequestedInfo shipping_option_id:flags.1?string charge:PaymentCharge = MessageAction;
+//@description A category containing frequently used chats used for calls
+//@udp_p2p True, if UDP peer-to-peer connections are supported
+//@chat_list Chat list in which to change the order of pinned chats
+//@draft_message New draft message; may be null
+//@for_dark_theme True, if the backgrounds must be ordered for dark theme
+---functions---
+//@description Updates the game score of the specified user in the game; for bots only @chat_id The chat to which the message with the game belongs @message_id Identifier of the message @edit_message True, if the message needs to be edited @user_id User identifier @score The new score
+//@offset Offset of the first entry to return as received from the previous request; use empty string to get first chunk of results
+callbackQueryPayloadData#8a1e3c66 data:bytes = CallbackQueryPayload;
+animatedChatPhoto length:int32 file:file main_frame_timestamp:double = AnimatedChatPhoto;
+//@class MessageSendingState @description Contains information about the sending state of the message
+//@one_value Value for one object
+stickers.changeStickerPosition#ffb6d4ca sticker:InputDocument position:int = messages.StickerSet;
+pageBlockList#3a58c7f4 ordered:Bool items:Vector<RichText> = PageBlock;
+//@class InputPassportElement @description Contains information about a Telegram Passport element to be saved
+//@description Searches for the specified query in the first names, last names and usernames of the known user contacts @query Query to search for; may be empty to return all contacts @limit The maximum number of users to be returned
+//@udp_p2p True, if UDP peer-to-peer connections are supported
+inputPeerEmpty#7f3b18ea = InputPeer;
+//@port Proxy server port
+//@reply_markup The message reply markup. Must be of type replyMarkupInlineKeyboard or null
+//@description Contains information about a message thread
+//@rental_agreement Rental agreement
+account.setAccountTTL#2442485e ttl:AccountDaysTTL = Bool;
+//@description A rich text email link @text Text @email_address Email address
+messages.featuredStickers#f89d88e5 hash:int sets:Vector<StickerSetCovered> unread:Vector<long> = messages.FeaturedStickers;
+//@translated_string_count Total number of translated strings from the language pack
+pageBlockTable caption:RichText cells:vector<vector<pageBlockTableCell>> is_bordered:Bool is_striped:Bool = PageBlock;
+channelAdminLogEventActionToggleInvites#1b7907ae new_value:Bool = ChannelAdminLogEventAction;
+//@is_support True, if the user is Telegram support account
+//@description Changes the bio of the current user @bio The new value of the user bio; 0-70 characters without line feeds
+//@description The user has cancelled the previous action
+//@chat_id Identifier of the chat to add
+//@title Title of the audio; as defined by the sender
+//@embed_url URL to show in the embedded preview
+userStatusOnline#edb93949 expires:int = UserStatus;
+//@is_mutual_contact The user is a contact of the current user and the current user is a contact of the user
+//@description A subheader @subheader Subheader
+//@file New data about the file
+//@filter Additional filter for messages to search; pass null to search for all messages. Filters searchMessagesFilterMention, searchMessagesFilterUnreadMention, searchMessagesFilterFailedToSend and searchMessagesFilterPinned are unsupported in this function
+//@min_layer The minimum supported API layer; use 65
+//@description Returns only messages containing chat photos
+getMessageLink chat_id:int53 message_id:int53 media_timestamp:int32 for_album:Bool for_comment:Bool = MessageLink;
+animatedChatPhoto#b719c2e length:int32 file:file main_frame_timestamp:double = AnimatedChatPhoto;
+//@total_count Approximate total count of chat members found
+//@offset The offset from which to return the sticker sets; must be non-negative
+//@conversion String specifying the conversion applied to the original file; must be persistent across application restarts. Conversions beginning with '#' are reserved for internal TDLib usage
+//@description Incoming messages were read or the number of unread messages has been changed @chat_id Chat identifier @last_read_inbox_message_id Identifier of the last read incoming message @unread_count The number of unread messages left in the chat
+//@description An ordinary language pack string
+//@last_name The last name of the user; 0-64 characters
+//@photo Article photo; may be null
+deleteMessages chat_id:int53 message_ids:vector<int53> revoke:Bool = Ok;
+//@date Point in time (Unix timestamp) when the message was originally sent
+//@view_count Number of times the message was viewed
+//@have_unreceived_notifications True, if there can be some yet unreceived notifications, which are being fetched from the server
+//@description The link contains an authentication code. Call checkAuthenticationCode with the code if the current authorization state is authorizationStateWaitCode @code The authentication code
+updateStickerSets#43ae3dec = Update;
+//@chat_id Chat identifier
+messages.getChats#3c6aa187 id:Vector<int> = messages.Chats;
+messageActionGeoChatCreate#6f038ebc title:string address:string = MessageAction;
+//@param_description Supergroup or channel description
+messageExpiredPhoto = MessageContent;
+//@limit The maximum number of sticker sets to be returned; must be non-negative. Fewer sticker sets may be returned than specified by the limit, even if the end of the list has not been reached
+//@participant_id Identifier of a group call participant, which will be used to join the call; pass null to join as self; video chats only
+authorizationStateWaitTdlibParameters = AuthorizationState;
+scopeNotificationSettings mute_for:int32 sound:string show_preview:Bool disable_pinned_message_notifications:Bool disable_mention_notifications:Bool = ScopeNotificationSettings;
+encryptedMessageService#23734b06 random_id:long chat_id:int date:int bytes:bytes = EncryptedMessage;
+discardCall call_id:int32 is_disconnected:Bool duration:int32 is_video:Bool connection_id:int64 = Ok;
+//@description An email address
+//@id Identifier of the sticker set @title Title of the sticker set @name Name of the sticker set @thumbnail Sticker set thumbnail in WEBP or TGS format with width and height 100; may be null. The file can be downloaded only before the thumbnail is changed
+privacyKeyChatInvite#500e6dfa = PrivacyKey;
+//@description A file generated by the application @original_path Local path to a file from which the file is generated; may be empty if there is no such file
+messages.reportEncryptedSpam#4b0c8c0f peer:InputEncryptedChat = Bool;
+emojis emojis:vector<string> = Emojis;
+invokeWithoutUpdates#bf9459b7 {X:Type} query:!X = X;
+//@description The selfie with the document contains an error. The error will be considered resolved when the file with the selfie changes
+topPeerCategoryBotsInline#148677e2 = TopPeerCategory;
+payments.paymentVerficationNeeded#6b56b921 url:string = payments.PaymentResult;
+//@class CheckChatUsernameResult @description Represents result of checking whether a username can be set for a chat
+//@total_count Number of forwarded messages
+userPrivacySettingRuleRestrictContacts = UserPrivacySettingRule;
+setDatabaseEncryptionKey#b83345b5 new_encryption_key:bytes = Ok;
+inputPassportElementTemporaryRegistration#8df64de1 temporary_registration:inputPersonalDocument = InputPassportElement;
+updateChatLastMessage chat_id:int53 last_message:message positions:vector<chatPosition> = Update;
+messages.reorderStickerSets#78337739 flags:# masks:flags.0?true order:Vector<long> = Bool;
+inputFileLocation#dfdaabe1 volume_id:long local_id:int secret:long file_reference:bytes = InputFileLocation;
+chatEventMessageDeleted message:message = ChatEventAction;
+//@is_active True, if the group is active
+secureValueTypeIdentityCard#a0d0744b = SecureValueType;
+highScore#58fffcd0 pos:int user_id:int score:int = HighScore;
+//@description Returns only voice note messages
+//@is_uploading_completed True, if a remote copy is fully available
+//@description The file is a video
+openMessageContent chat_id:int53 message_id:int53 = Ok;
+updateChatTitle chat_id:int53 title:string = Update;
+webPageNotModified#85849473 = WebPage;
+//@is_chosen True, if the option was chosen by the user @is_being_chosen True, if the option is being chosen by a pending setPollAnswer request

@@ -1,0 +1,1 @@
+Select the file in Solution Explorer, right click and select Properties, In properties window you can see it.

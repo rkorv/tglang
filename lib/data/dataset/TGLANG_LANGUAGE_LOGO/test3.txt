@@ -1,0 +1,15 @@
+set :x 20
+
+repeat :x 
+[
+  fd :x 
+  repeat :x 
+  [ 
+    fd 50 
+    rt 80
+    fd 20
+    lt 160
+  ]
+  rt 90
+  fd 10
+]

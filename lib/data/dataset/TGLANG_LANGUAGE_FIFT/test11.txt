@@ -1,0 +1,356 @@
+
+{ hole dup 1 { @ execute } does create } : recursive
+
+// { over tuple? { swap count = } { 2drop false } cond } : tuple-len?
+
+// { 1 untuple } : unsingle
+
+{ tuck @ + swap ! } : +!
+
+0b1110 b{1110} 2 exch 4 udict! drop
+
+// { 0 [] } : first
+
+-1 AllOnes subwallet-id -  2dup 2constant wallet_addr
+."Source wallet address = " 2dup .addr cr 6 .Addr cr
+file-path load-keypair nip constant wallet_pk
+
+
+{ bl word (number) ?dup 0= abort"not a valid Gram amount"
+  1- { Gram swap */r } { Gram * } cond
+  1 ’nop
+} ::_ GR$
+
+."Query expires in " timeout . ."seconds" cr
+
+
+"build/contract.pk" load-generate-keypair // generate key pair
+constant private_key  // save private to constant
+constant public_key // save public to constant
+
+subwallet-id (.) 1 ' $+ does : +subwallet
+
+
+"TonUtil.fif" include
+
+^reset ."👿 NFT index: " ^green index (dump) type cr
+
+$1 =: file-path
+
+// { 0 { 1+ dup 1 ' $() does over (.) "$" swap $+ 0 (create) } rot times drop } : :$1..n
+
+{ 16 B#s } : X#s
+
+// { 2 tuple-len? } : pair?
+
+{ 0 word drop 0 'nop } :: //
+
+$1 =: file-path
+
+$# dup 5 < swap 7 > or ' usage if
+
+"./collection-data.fif" include constant collection-data
+
+"EQDRebAnF1pvH1YsKNp7mtpsz+CLs6WxaffUojt1ijyrazkg" constant receiver_address
+
+// internal_transfer
+
+
+7 :$1..n
+
+// { bl word dup (def?) { 2drop skip-to-eof } { swap 1 'nop does swap 0 (create) } cond } : library-version
+
+
+"../build/nft_collection.fif" include constant collection-code
+
+{ bl word 3 2 ' (create) } :: ::_
+
+{ over abs <# rot 1- ' x# swap times x#s rot sign #> nip } : (0x.)
+
+{ dup 10 < { 48 } { 55 } cond + } : Digit
+
+"TonUtil.fif" include
+
+<b
+0 4 u,
+0b111 8 u,
+0b01110101 16 u,
+0b111111111111110001 32 u,
+0b10111110000111111111111110001110101011 64 u,
+0xfffaaffa3445512 128 u,
+0b0111111111111011011 256 u,
+b>
+
+{ bl word 1 2 ' (create) } "::" 1 (create)
+
+1 2 3 triple 4 5 6 triple 7 8 9 triple triple constant Matrix
+Matrix .dump cr
+| 1 "one" pair , 2 "two" pair , 3 "three" pair , .dump
+
+12345 constant query_id
+
+
+true constant bounce
+
+{ 16 B#s } : X#s
+
+{ 0 word -trailing scan-until-word 1 'nop } ::_ $<<
+
+{ dup 10 < { 48 } { 87 } cond + } : digit
+
+{ dup =: x dup * =: y } : setxy
+3 setxy x . y . x y + .
+7 setxy x . y . x y + .
+
+^reset ."😏 NFT collection base content: " collection-nft-data B>$ ^cyan  (dump) type cr
+
+{ 9 hold } : +tab
+
+{ 16 B# } : X#
+
+sqrt PROCREF:<{
+    //  x
+    DUP	//  x x
+    0 EQINT	//  x _2
+    IFJMP:<{	//  x
+      DROP	//
+      0 PUSHINT	//  _3=0
+    }>	//  x
+    DUP	//  x x
+    4 LESSINT	//  x _5
+    IFJMP:<{	//  x
+      DROP	//
+      1 PUSHINT	//  _6=1
+    }>	//  x
+    DUP	//  x x
+    INC	//  x _9
+    1 RSHIFT#	//  x z
+    OVER	//  x z y
+    WHILE:<{
+      2DUP	//  x z y z y
+      LESS	//  x z y _13
+    }>DO<{	//  x z y
+      DROP	//  x z
+      s0 s1 s0 PUSH3	//  x z y x z
+      DIV	//  x z y _14
+      ROT	//  x y _14 z
+      ADD	//  x y _15
+      1 RSHIFT#	//  x y z
+      SWAP	//  x z y
+    }>	//  x z y
+    2 1 BLKDROP2	//  y
+  }>
+
+
+$5 $>cc extra-cc+! extra-currencies @ 2=: amount
+
+1 2 3 triple 4 5 6 triple 7 8 9 triple triple constant Matrix
+Matrix .dump cr
+| 1 "one" pair , 2 "two" pair , 3 "three" pair , .dump
+
+{ tuck @ + swap ! } : +!
+
+{ find 0<> dup ' nip if } : (def?)
+
+{ "" swap { 0 word 2dup $cmp } { rot swap $+ +cr swap } while 2drop } : scan-until-word
+
+
+true constant bounce
+
+// { over tuple? { swap count = } { 2drop false } cond } : tuple-len?
+
+IF:<{	//  x n
+    SWAP	//  n x
+    16 RSHIFT#	//  n x
+    SWAP	//  x n
+    16 ADDCONST	//  x n
+}>	//  x n
+
+log2 PROCREF:<{
+//  x
+0 PUSHINT	//  x n=0
+7 PUSHPOW2	//  x n=0 _3=128
+exp INLINECALLDICT	//  x n=0 _4
+s2 s(-1) PUXC	//  x n=0 x _4
+GEQ	//  x n=0 _5
+IF:<{	//  x n=0
+    DROP	//  x
+    128 RSHIFT#	//  x
+    7 PUSHPOW2	//  x n
+}>	//  x n
+
+
+swap // get seqno as int on top of stack
+(dump) // dump to string
+type // print it to output
+cr // print endline
+
+
+2constant send_addr // worchain and addr into single constant
+
+{ 10 base ! } : decimal
+
+{ 0x._ space } : 0x.
+
+{ 16 B#s } : X#s
+
+1 2 3 triple 4 5 6 triple 7 8 9 triple triple constant Matrix
+Matrix .dump cr
+| 1 "one" pair , 2 "two" pair , 3 "three" pair , .dump
+
+// { 1 untuple } : unsingle
+
+"Lists.fif" include
+
+// { 2 tuple } : pair
+
+{ 16 B#s } : X#s
+
+$5 $>cc extra-cc+! extra-currencies @ 2=: amount
+
+64 PUSHINT	//  x n _10=64
+exp INLINECALLDICT	//  x n _11
+s2 s(-1) PUXC	//  x n x _11
+GEQ	//  x n _12
+IF:<{	//  x n
+    SWAP	//  n x
+    64 RSHIFT#	//  n x
+    SWAP	//  x n
+    64 ADDCONST	//  x n
+}>	//  x n
+
+{ 1 swap +! } : 1+!
+
+
+^reset ."😏 NFT individual content: "  nft-data ^green  (dump) type cr
+
+8 PUSHINT	//  x n _31=8
+exp INLINECALLDICT	//  x n _32
+s2 s(-1) PUXC	//  x n x _32
+GEQ	//  x n _33
+IF:<{	//  x n
+    SWAP	//  n x
+    8 RSHIFT#	//  n x
+    SWAP	//  x n
+    8 ADDCONST	//  x n
+}>	//  x n
+
+<b b{1000100} s, wallet_addr addr, 0 Gram, b{00} s,
+   swap B, swap <s s, b>
+dup ."resulting external message: " <s csr. cr
+2 boc+>B dup Bx. cr
+
+"EQDRebAnF1pvH1YsKNp7mtpsz+CLs6WxaffUojt1ijyrazkg" constant receiver_address
+
+^reset ."👿 NFT index: " ^green index (dump) type cr
+
+{ extra-currencies @ cc+ extra-currencies ! } : extra-cc+!
+
+// { -rot pair swap ! } : 2!
+
+{ 10 base ! } : decimal
+
+{ 16 B#s } : X#s
+
+dup ."signing message: " <s csr. cr
+
+$2 bounce parse-load-address force-bounce or allow-bounce and =: bounce 2=: dest_addr
+
+^reset ."😏 NFT individual content: " nft-data B>$ ^green  (dump) type cr
+
+
+{ 0 swap ! } : 0!
+
+<b 0 4 u, b>
+
+."seqno=0x" seqno x. ."bounce=" bounce . cr
+
+"Color.fif" include
+
+{ dup 10 < { 48 } { 87 } cond + } : digit
+
+8 PUSHINT	//  x n _31=8
+exp INLINECALLDICT	//  x n _32
+s2 s(-1) PUXC	//  x n x _32
+GEQ	//  x n _33
+IF:<{	//  x n
+    SWAP	//  n x
+    8 RSHIFT#	//  n x
+    SWAP	//  x n
+    8 ADDCONST	//  x n
+}>	//  x n
+
+recv_internal PROC:<{
+//  in_msg_body
+DUP	//  in_msg_body in_msg_body
+SBITS	//  in_msg_body _2
+32 LESSINT	//  in_msg_body _4
+35 THROWIF
+32 LDU	//  _24 _23
+DROP	//  n
+c4 PUSH	//  n _11
+CTOS	//  n ds
+64 LDU	//  n _26 _25
+DROP	//  n total
+SWAP	//  total n
+ADD	//  total
+NEWC	//  total _18
+64 STU	//  _20
+ENDC	//  _21
+c4 POP
+}>
+
+// { 1 untuple } : unsingle
+
+
+true constant bounce
+
+{ dup square square * } : **5
+3 **5 .
+
+receiver_address
+
+cr ."ok!" cr
+
+// Here goes master message
+
+collection-code <s // load func code as slice
+
+<s
+2 u@+ swap 0<> abort"-1"
+4 u@+ swap 0 <> abort"0"
+8 u@+ swap 3 <> abort"0b111"
+16 u@+ swap 5 <> abort"0b01110101"
+32 u@+ swap 15 <> abort"0b111111111111110001"
+64 u@+ swap 27 <> abort"0b10111110000111111111111110001110101011"
+128 u@+ swap 36 <> abort"0xfffaaffa3445512"
+256 u@+ swap 16 <> abort"0b0111111111111011011"
+s>
+
+
+// { ._ space } : .
+
+true =: allow-bounce
+
+constant nft-body
+
+// { char ) word "$" swap $+ 1 { find 0= abort"undefined parameter" execute } } ::_ $(
+
+// current continuation slice
+
+
+0x076ef1ea           // magic
+0                    // actions
+0                    // msgs_sent
+0           // unixtime
+1                    // block_lt
+0       // trans_lt
+239                  // randseed
+1000000000 null pair // balance_remaining
+
+$2 bounce parse-load-address force-bounce or allow-bounce and =: bounce 2=: dest_addr
+
+32 PUSHINT	//  x n _17=32
+exp INLINECALLDICT	//  x n _18
+s2 s(-1) PUXC	//  x n x _18
+GEQ	//  x n _19

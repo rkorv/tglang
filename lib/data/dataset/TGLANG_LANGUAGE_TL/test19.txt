@@ -1,0 +1,100 @@
+getPasswordState = PasswordState;
+getLoginUrl chat_id:int53 message_id:int53 button_id:int32 allow_write_access:Bool = HttpUrl;
+networkTypeMobileRoaming = NetworkType;
+contacts.getContacts#c023849f hash:int = contacts.Contacts;
+setChatDiscussionGroup chat_id:int53 discussion_chat_id:int53 = Ok;
+//@offset Offset of the first entry to return as received from the previous request; use empty string to get first chunk of results
+inputInlineQueryResultVideo#66c344e7 id:string title:string description:string thumbnail_url:string video_url:string mime_type:string video_width:int32 video_height:int32 video_duration:int32 reply_markup:ReplyMarkup input_message_content:InputMessageContent = InputInlineQueryResult;
+botCommands bot_user_id:int53 commands:vector<botCommand> = BotCommands;
+//@creator_user_id User identifier of the creator of the group; 0 if unknown
+invokeAfterMsgs#3dc4b4f0 {X:Type} msg_ids:Vector<long> query:!X = X;
+//@explanation Text that is shown when the user chooses an incorrect answer or taps on the lamp icon; 0-200 characters with at most 2 line feeds; empty for a yet unanswered poll
+//@filter Filter for message content. Filters searchMessagesFilterEmpty, searchMessagesFilterMention and searchMessagesFilterUnreadMention are unsupported in this function
+help.getDeepLinkInfo#3fedc75f path:string = help.DeepLinkInfo;
+stickerSets#b8a6490d total_count:int32 sets:vector<stickerSetInfo> = StickerSets;
+userTypeDeleted#94403d24 = UserType;
+//@description A message with a location @location The location description @live_period Time relative to the message send date, for which the location can be updated, in seconds
+boolTrue#997275b5 = Bool;
+//@description A message with an invoice; can be used only by bots and only in private chats
+contactBlocked#561bc879 user_id:int date:int = ContactBlocked;
+help.appUpdate#8987f311 id:int critical:Bool url:string text:string = help.AppUpdate;
+//@description Returns messages in a chat. The messages are returned in a reverse chronological order (i.e., in order of decreasing message_id).
+//@description The supergroup sticker set was changed @old_sticker_set_id Previous identifier of the chat sticker set; 0 if none @new_sticker_set_id New identifier of the chat sticker set; 0 if none
+//@chat_id Chat identifier
+messages.createChat#9cb126e users:Vector<InputUser> title:string = Updates;
+//@description Returns the owner and administrators
+invokeAfterMsg#cb9f372d {X:Type} msg_id:long query:!X = X;
+//@description A list of chats usually located at the top of the main chat list. Unmuted chats are automatically moved from the Archive to the Main chat list when a new message arrives
+setCustomLanguagePackString#4e762518 language_pack_id:string new_string:languagePackString = Ok;
+peerNotifySettings#af509d20 flags:# show_previews:flags.0?Bool silent:flags.1?Bool mute_until:flags.2?int sound:flags.3?string = PeerNotifySettings;
+messages.receivedQueue#55a5bb66 max_qts:int = Vector<long>;
+//@description Removes users from the contact list
+destroy_session#e7512126 session_id:long = DestroySessionRes;
+//@member_count Number of members in the supergroup or channel; 0 if unknown. Currently it is guaranteed to be known only if the supergroup or channel was received through searchPublicChats, searchChatsNearby, getInactiveSupergroupChats, getSuitableDiscussionChats, getGroupsInCommon, or getUserPrivacySettingRules
+inputMediaEmpty#9664f57f = InputMedia;
+//@dc_id Identifier of a datacenter, with which to test connection @timeout The maximum overall timeout for the request
+//@description A new member was accepted to the chat by an administrator
+invokeAfterMsg#cb9f372d {X:Type} msg_id:long query:!X = X;
+notificationSettingsScopeChannelChats = NotificationSettingsScope;
+vector {t:Type} # [ t ] = Vector t;
+encryptedChatWaiting#3bf703dc id:int access_hash:long date:int admin_id:int participant_id:int = EncryptedChat;
+//@description Sends a code to verify an email address to be added to a user's Telegram Passport
+//@description Contains information about a language pack
+msgs_ack#62d6b459 msg_ids:Vector<long> = MsgsAck;
+//@is_rtl True, if the instant view must be shown from right to left
+//@version Version of the parser: 0 or 1 - Telegram Bot API "Markdown" parse mode, 2 - Telegram Bot API "MarkdownV2" parse mode
+messageEmpty#83e5de54 id:int = Message;
+//@description Changes the owner of a chat. The current user must be a current owner of the chat. Use the method canTransferOwnership to check whether the ownership can be transferred from the current session. Available only for supergroups and channel chats
+identityDocument#986321a6 number:string expiry_date:date front_side:datedFile reverse_side:datedFile selfie:datedFile translation:vector<datedFile> = IdentityDocument;
+//@input_message_content The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageVoiceNote, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
+messages.dialogsSlice#71e094f3 count:int dialogs:Vector<Dialog> messages:Vector<Message> chats:Vector<Chat> users:Vector<User> = messages.Dialogs;
+// built-in types
+//@description A text description shown instead of a raw URL @url HTTP or tg:// URL to be opened when the link is clicked
+encryptedChatEmpty#ab7ec0a0 id:int = EncryptedChat;
+fileLocation#53d69076 dc_id:int volume_id:long local_id:int secret:long = FileLocation;
+//@min_layer The minimum supported API layer; use 65
+boolTrue = Bool;
+//@description The list of suggested to the user actions has changed @added_actions Added suggested actions @removed_actions Removed suggested actions
+//@description The list of favorite stickers was updated @sticker_ids The new list of file identifiers of favorite stickers
+//@class SearchMessagesFilter @description Represents a filter for message search results
+paymentRequestedInfo#909c3f94 flags:# name:flags.0?string phone:flags.1?string email:flags.2?string shipping_address:flags.3?PostAddress = PaymentRequestedInfo;
+//@id Unique background identifier
+connectedWebsite id:int64 domain_name:string bot_user_id:int53 browser:string platform:string log_in_date:int32 last_active_date:int32 ip:string location:string = ConnectedWebsite;
+inlineQueryResultVideo#ae2742e5 id:string video:video title:string description:string = InlineQueryResult;
+//@height Photo height
+contacts.myLinkEmpty#d22a1c60 = contacts.MyLink;
+account.deleteAccount#418d4e0b reason:string = Bool;
+publicChatTypeHasUsername = PublicChatType;
+messages.sentEncryptedMessage#560f8935 date:int = messages.SentEncryptedMessage;
+messages.getDiscussionMessage#446972fd peer:InputPeer msg_id:int = messages.DiscussionMessage;
+Vector<string>;
+messageScreenshotTaken#a2b86dab = MessageContent;
+inlineKeyboardButtonTypeCallbackGame#e9255468 = InlineKeyboardButtonType;
+//@description Sets the parameters for TDLib initialization. Works only when the current authorization state is authorizationStateWaitTdlibParameters @parameters Parameters
+//@user_location User location; may be null
+//@class PublicChatType @description Describes a type of public chats
+//@description A simple object containing a vector of numbers; for testing only
+//@files List of attached files
+//@description The default chat reply markup was changed. Can occur because new messages with reply markup were received or because an old reply markup was hidden by the user
+updateAuthorizationState authorization_state:AuthorizationState = Update;
+channels.adminLogResults#ed8af74d events:Vector<ChannelAdminLogEvent> chats:Vector<Chat> users:Vector<User> = channels.AdminLogResults;
+//@translation List of files containing a certified English translation of the document
+setBotUpdatesStatus pending_update_count:int32 error_message:string = Ok;
+getSupergroup supergroup_id:int32 = Supergroup;
+//@is_masks True, if the stickers in the set are masks
+//@expires Point in time (Unix timestamp) when the user's online status will expire
+diceStickersSlotMachine background:sticker lever:sticker left_reel:sticker center_reel:sticker right_reel:sticker = DiceStickers;
+//@description A detailed statistics about a channel chat
+//@description The username is occupied
+contact#f911c994 user_id:int mutual:Bool = Contact;
+botCommandScopeChatMember chat_id:int53 user_id:int53 = BotCommandScope;
+updateNewEncryptedMessage#12bcbd9a message:EncryptedMessage qts:int = Update;
+//@description Changes the database encryption key. Usually the encryption key is never changed and is stored in some OS keychain @new_encryption_key New encryption key
+//@description Forwards previously sent messages. Returns the forwarded messages in the same order as the message identifiers passed in message_ids. If a message can't be forwarded, null will be returned instead of the message
+//@description Describes a message
+//-Excludes private chats with contacts and chats from the chat list from the results @query Query to search for
+replyMarkupForceReply is_personal:Bool input_field_placeholder:string = ReplyMarkup;
+channels.getAdminLog#33ddf480 flags:# channel:InputChannel q:string events_filter:flags.0?ChannelAdminLogEventsFilter admins:flags.1?Vector<InputUser> max_id:long min_id:long limit:int = channels.AdminLogResults;
+notificationTypeNewSecretChat = NotificationType;
+//@description Represents a user
+//@open_period Amount of time the poll will be active after creation, in seconds; for bots only

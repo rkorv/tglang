@@ -1,0 +1,1 @@
+Does it makes a difference if you use `ng-change="controller.searchProfiles()"` (note the parentheses at the end)?

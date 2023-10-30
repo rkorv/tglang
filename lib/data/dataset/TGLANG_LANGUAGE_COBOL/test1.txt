@@ -1,0 +1,400 @@
+GCobol >>SOURCE FORMAT IS FREE
+*>***************************************************************************
+*> The author disclaims copyright to this source code.  In place of
+*> a legal notice, here is a blessing:
+*>
+*>    May you do good and not evil.
+*>    May you find forgiveness for yourself and forgive others.
+*>    May you share freely, never taking more than you give.
+*> 
+*>***************************************************************************
+*> SQLITE3-STATEMENT
+*>   In SQLite, a statement is a compiled program, run on the SQLite virtual machine.
+*>   It is used for SELECT statements.  It is similar to a ResultSet.
+*>
+*> Constructor:
+*>    SQLITE3-STMT-OPEN
+*>        calls sqlite3_prepare_v2
+*>
+*> Destructor:
+*>    SQLITE3-STMT-CLOSE
+*>        calls sqlite3_finalize
+*>
+*> Methods:
+*>    SQLITE3-STMT-STEP
+*>
+*>    SQLITE3-STMT-BUSY
+*>        Returns true if the statement has stepped at least once but has not run to completion
+*>
+*>    SQLITE3-STMT-RESET
+*>
+*>    SQLITE3-COLUMN-INT
+*>
+*>    SQLITE3-COLUMN-INT64
+*>
+*>    SQLITE3-COLUMN-DOUBLE
+*>
+*>    SQLITE3-COLUMN-TEXT
+*>        Calls sqlite3_column_text.
+*>
+*>    SQLITE3-COLUMN-TYPE
+*>
+*>    SQLITE3-COLUMN-NAME
+*>
+*>    SQLITE3-COLUMN-COUNT
+*>
+*>    SQLITE3-COLUMN-BLOB
+*>
+*>    SQLITE3-COLUMN-BYTES
+*>
+*> This could be improved with bind variables.
+*>***********************************************************************************
+*>  USAGE: <db-status> SQLITE3-STMT-OPEN (<db-handle>,<sql-string>, OUT <stmt-handle>).
+*>***********************************************************************************
+identification division. function-id. SQLITE3-STMT-OPEN.
+environment division. configuration section. 
+    repository. 
+    function sqlite3_prepare_v2
+    function all intrinsic.
+data division.
+working-storage section.
+    01 sql-string-length  PIC s9(9) COMP.
+linkage section.
+    01 db-status pic s9(9) comp.
+    01 db-handle                      PIC 9(18) COMP.
+    01 redefines db-handle.
+      05  db-object-ptr               usage pointer.
+    01 sql-string                     pic x any length.   	
+    01 stmt-handle		      PIC 9(18) COMP.
+    01 redefines stmt-handle.
+      05  stmt-ptr                    usage pointer.
+      
+procedure division using db-handle,sql-string,stmt-handle returning db-status.
+    move BYTE-LENGTH(trim(sql-string)) to sql-string-length.
+    call static "sqlite3_prepare_v2" using 
+    			by value db-object-ptr,
+    			by content concatenate(trim(sql-string), x"00"),
+    			by value sql-string-length,
+                        by reference stmt-ptr,
+                        null,
+                   returning db-status
+    end-call 
+    goback returning db-status.
+end function SQLITE3-STMT-OPEN.
+*>***********************************************************************************
+*> USAGE: <db-status> =  SQLITE3-STMT-CLOSE(<stmt-handle>)
+*>**********************************************************************************
+identification division. function-id. SQLITE3-STMT-CLOSE.
+environment division. configuration section. 
+    repository. 
+    function sqlite3_finalize
+    function all intrinsic.
+data division.
+linkage section.
+    01 db-status pic s9(9) comp.  
+    01 stmt-handle                      PIC 9(18) COMP.
+    01 redefines stmt-handle.
+      05  stmt-ptr                usage pointer.
+      
+procedure division using stmt-handle returning db-status.
+    call static "sqlite3_finalize" using by value stmt-ptr 
+        returning db-status
+    end-call.
+    goback returning db-status.
+end function SQLITE3-STMT-CLOSE.
+*>***********************************************************************************
+*> USAGE: <step-result> = SQLITE3-STMT-STEP(stmt-handle)
+*>    A step-result of SQLITE-ROW (100) indicates that another row is available.
+*>    A step-result of SQLITE-DONE (101) indicates that an operation has completed.
+*>***********************************************************************************
+identification division. function-id. SQLITE3-STMT-STEP.
+environment division. configuration section. 
+    repository. 
+    function sqlite3_step
+    function all intrinsic.
+data division.
+*> Note that this returns "step-result" instead of "db-status" because it returns slightly different results
+linkage section.
+    01 step-result pic s9(9) comp.  
+        88  SQLITE-ERROR value is 1.
+        88  SQLITE-BUSY value is 5.
+        88  SQLITE-MISUSE value is 21.
+        88  SQLITE-ROW value is 100.
+        88  SQLITE-DONE value is 101.
+    01 stmt-handle                      PIC 9(18) COMP.
+    01 redefines stmt-handle.
+      05  stmt-ptr                usage pointer.
+      
+procedure division using stmt-handle returning step-result.
+    call static "sqlite3_step" using by value stmt-ptr 
+        returning step-result
+    end-call.
+    goback returning step-result.
+end function SQLITE3-STMT-STEP.
+*>***********************************************************************************
+*> USAGE: <bool> =  SQLITE3-STMT-BUSY(<stmt-handle>)
+*>***********************************************************************************
+identification division. function-id. SQLITE3-STMT-BUSY.
+environment division. configuration section. 
+    repository. 
+    function sqlite3_stmt_busy
+    function all intrinsic.
+data division.
+linkage section.
+    01 bool pic 9.  
+    01 stmt-handle                      PIC 9(18) COMP.
+    01 redefines stmt-handle.
+      05  stmt-ptr                usage pointer.
+      
+procedure division using stmt-handle returning bool.
+    call static "sqlite3_stmt_busy" using by value stmt-ptr 
+        returning bool
+    end-call.
+    goback returning bool.
+end function SQLITE3-STMT-BUSY.
+*>***********************************************************************************
+*> USAGE: <int db-status>  =  SQLITE3-STMT-RESET(<stmt-handle>)
+*>    will return either SQLITE3_OK(0) or an error code
+*>***********************************************************************************
+identification division. function-id. SQLITE3-STMT-RESET.
+environment division. configuration section. 
+    repository. 
+    function sqlite3_reset
+    function all intrinsic.
+data division.
+linkage section.
+    01 db-status pic s9(9) comp. 
+    01 stmt-handle                      PIC 9(18) COMP.
+    01 redefines stmt-handle.
+      05  stmt-ptr                usage pointer.
+      
+procedure division using stmt-handle returning db-status.
+    call static "sqlite3_reset" using by value stmt-ptr 
+        returning db-status
+    end-call.
+    goback returning db-status.
+end function SQLITE3-STMT-RESET.
+
+*>***********************************************************************************
+*> USAGE: <int> =  SQLITE3-COLUMN-INT(<stmt-handle>,<column-index>)
+*>     column-index begins with 0
+*>**********************************************************************************
+identification division. function-id. SQLITE3-COLUMN-INT.
+environment division. configuration section. 
+    repository. 
+    function sqlite3_column_int
+    function all intrinsic.
+data division.
+*> note that "int" is not a reserved word but "Integer" is   
+linkage section.
+    01 stmt-handle                      PIC 9(18) COMP.
+    01 redefines stmt-handle.
+      05  stmt-ptr                usage pointer.
+    01 column-index pic 99.
+    01 int pic s9(9) comp.       
+procedure division using stmt-handle,column-index returning int.
+    call static "sqlite3_column_int" using by value stmt-ptr, column-index 
+        returning int
+    end-call.
+    goback returning int.
+end function SQLITE3-COLUMN-INT.
+*>***********************************************************************************
+*> USAGE: <int64> =  SQLITE3-COLUMN-INT64(<stmt-handle>,<column-index>)
+*>**********************************************************************************
+identification division. function-id. SQLITE3-COLUMN-INT64.
+environment division. configuration section. 
+    repository. 
+    function sqlite3_column_int64
+    function all intrinsic.
+data division.
+*> note that "int64" is not a reserved word. Cobol calls this "BIGINT"
+linkage section.
+    01 int64 pic s9(18) comp.    
+    01 stmt-handle                      PIC 9(18) COMP.
+    01 redefines stmt-handle.
+      05  stmt-ptr                usage pointer.
+    01 column-index pic 99.
+procedure division using stmt-handle,column-index returning int64.
+    call static "sqlite3_column_int64" using by value stmt-ptr, column-index 
+        returning int64
+    end-call.
+    goback returning int64.
+end function SQLITE3-COLUMN-INT64.
+*>***********************************************************************************
+*> USAGE: <double> =  SQLITE3-COLUMN-DOUBLE(<stmt-handle>,<column-index>)
+*>**********************************************************************************
+identification division. function-id. SQLITE3-COLUMN-DOUBLE.
+environment division. configuration section. 
+    repository. 
+    function sqlite3_column_double
+    function all intrinsic.
+data division.
+*> "double" is not a reserved word. Cobol calls the concept "FLOAT-LONG" 
+linkage section.
+    01 double usage FLOAT-LONG.    
+    01 stmt-handle                      PIC 9(18) COMP.
+    01 redefines stmt-handle.
+      05  stmt-ptr                usage pointer.
+    01 column-index pic 99.
+    
+procedure division using stmt-handle,column-index returning double.
+    call static "sqlite3_column_double" using by value stmt-ptr, column-index
+        returning double
+    end-call.
+    goback returning double.
+end function SQLITE3-COLUMN-DOUBLE.
+*>***********************************************************************************
+*> USAGE: <bool> =  SQLITE3-COLUMN-TEXT (<stmt-handle>,<column-index>,OUT <sql-text>)
+*>    sql-text is limited to 256
+*>    To find the number of bytes in the TEXT, call sqlite3_column_bytes
+*>**********************************************************************************
+identification division. function-id. SQLITE3-COLUMN-TEXT.
+environment division. configuration section. 
+    repository. 
+    function sqlite3_column_text
+    function all intrinsic.
+data division. 
+working-storage section.
+    01  text-pointer      	usage pointer.
+    01  sqlite3-data      	pic x(256) based.
+linkage section.
+    01 bool 			pic 9.
+    01 sql-text  		pic x any length.   
+    01 stmt-handle              PIC 9(18) COMP.
+    01 redefines stmt-handle.
+      	05  stmt-ptr 		usage pointer.
+    01 column-index 		pic 99.
+
+procedure division using stmt-handle,column-index, sql-text returning bool.
+    if stmt-ptr = NULL then display "SQLITE3-COLUMN-TEXT: stmt-ptr is null".
+    call static "sqlite3_column_text" using by value stmt-ptr,
+    					    by value column-index
+        returning text-pointer
+    end-call.
+    if text-pointer = NULL then display "SQLITE3-COLUMN-TEXT: text-pointer is null".
+    set address of sqlite3-data to text-pointer.
+    if (sqlite3-data = SPACE) OR (sqlite3-data = LOW-VALUE) then display "SQLITE3-COLUMN-TEXT: sqlite3-data is null".    
+    string
+        sqlite3-data delimited by low-value
+        into sql-text
+    end-string
+    if (sql-text = SPACE) OR (sql-text = LOW-VALUE) then display "SQLITE3-COLUMN-TEXT: sql-text is null".    
+    set address of sqlite3-data to NULL.
+    move 1 to bool.
+    goback returning bool.
+end function SQLITE3-COLUMN-TEXT.
+*>***********************************************************************************
+*> USAGE: <SQLITE3-TYPE> =  SQLITE3-COLUMN-TYPE(<stmt-handle>,<column-index>)
+*>  use this to find the preferred type of the column.    
+*> SQLITE3-TYPE is one of: 1 (integer), 2 (floating point), 3 (text), 4 (blob), 5 (null) 
+*>**********************************************************************************
+identification division. function-id. SQLITE3-COLUMN-TYPE.
+environment division. configuration section. 
+    repository. 
+    function sqlite3_column_type
+    function all intrinsic.
+data division. 
+linkage section.
+    01 stmt-handle                      PIC 9(18) COMP.
+    01 redefines stmt-handle.
+      05  stmt-ptr                usage pointer.
+    01 column-index pic 99.
+    01 sqlite3-type pic 9.
+        88 SQLITE-INTEGER VALUE 1.
+        88 SQLITE-FLOAT VALUE 2.
+        88 SQLITE-TEXT VALUE 3.
+        88 SQLITE-BLOB VALUE 4.
+        88 SQLITE-NULL VALUE 5.
+        
+procedure division using stmt-handle,column-index returning sqlite3-type.
+    call static "sqlite3_column_type" using by value stmt-ptr, column-index 
+        returning sqlite3-type
+    end-call.
+    goback returning sqlite3-type.
+end function SQLITE3-COLUMN-TYPE.
+*>***********************************************************************************
+*> USAGE: <NUM-COLUMNS> =  SQLITE3-COLUMN-COUNT(<stmt-handle>)
+*>**********************************************************************************
+identification division. function-id. SQLITE3-COLUMN-COUNT.
+environment division. configuration section. 
+    repository. 
+    function sqlite3_column_type
+    function all intrinsic.
+data division.
+*> note that "columns" and "cols" are reserved words, so I use num-columns
+linkage section.
+    01 stmt-handle                      PIC 9(18) COMP.
+    01 redefines stmt-handle.
+      05  stmt-ptr                usage pointer.
+    01 num-columns pic 99.
+
+procedure division using stmt-handle returning num-columns.
+    call static "sqlite3_column_count" using by value stmt-ptr 
+        returning num-columns
+    end-call.
+    goback returning num-columns.
+end function SQLITE3-COLUMN-COUNT.
+
+*>***********************************************************************************
+*> USAGE: <int> =  SQLITE3-COLUMN-BYTES(<stmt-handle>,<column-index>)
+*>
+*> Use this to find out the number of bytes in the column containing the text or blog.
+*> See discussion at https://sqlite.org/c3ref/column_blob.html
+*>**********************************************************************************
+identification division. function-id. SQLITE3-COLUMN-BYTES.
+environment division. configuration section. 
+    repository. 
+    function sqlite3_column_bytes
+    function all intrinsic.
+data division.
+    *> note that "int" is not a reserved word but "Integer" is   
+linkage section.
+    01 stmt-handle                PIC 9(18) COMP.
+    01 redefines stmt-handle.
+      05  stmt-ptr                usage pointer.
+    01 column-index pic 99.
+    01 int pic s9(9) comp.
+    
+procedure division using stmt-handle,column-index returning int.
+    call static "sqlite3_column_bytes" using by value stmt-ptr, by value column-index 
+        returning int
+    end-call.
+    goback returning int.
+end function SQLITE3-COLUMN-BYTES.
+
+*>***********************************************************************************
+*> USAGE: <bool> =  SQLITE3-COLUMN-BLOB(<stmt-handle>,<column-index>,OUT <blob-data>)
+*> This is very similar to SQLITE3-COLUMN-TEXT
+*>***********************************************************************************
+identification division. function-id. SQLITE3-COLUMN-BLOB.
+environment division. configuration section. 
+    repository. 
+    function sqlite3_column_blob
+    function all intrinsic.
+data division. 
+working-storage section.
+    01  blob-pointer      	usage pointer.
+    01  sqlite3-data      	pic x(256) based.
+linkage section.
+    01 bool 			pic 9.
+    01 blob-data  		pic x any length.   
+    01 stmt-handle              PIC 9(18) COMP.
+    01 redefines stmt-handle.
+      	05  stmt-ptr 		usage pointer.
+    01 column-index 		pic 99.
+
+procedure division using stmt-handle,column-index, blob-data returning bool.
+    call static "sqlite3_column_blob" using by value stmt-ptr,
+                                            by value column-index
+                                      returning blob-pointer
+    end-call
+    set address of sqlite3-data to blob-pointer
+    string
+        sqlite3-data delimited by low-value
+        into blob-data
+    end-string
+    set address of sqlite3-data to NULL
+    move 1 to bool.
+    goback.
+end function SQLITE3-COLUMN-BLOB.
+*>***********************************************************************************        

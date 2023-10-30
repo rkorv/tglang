@@ -1,0 +1,44 @@
+plugins {
+  alias(libs.plugins.kotlin.multiplatform)
+  alias(libs.plugins.android.library)
+  alias(libs.plugins.licensee)
+}
+
+kotlin {
+  androidTarget()
+  jvm()
+
+  sourceSets {
+    commonMain {
+      dependencies {
+        implementation 'com.example:example-a:1.0.0'
+      }
+    }
+    androidMain {
+      dependencies {
+        implementation 'com.example:example-b:1.0.0'
+      }
+    }
+    jvmMain {
+      dependencies {
+        implementation 'com.example:example-c:1.0.0'
+      }
+    }
+  }
+}
+
+licensee {
+  allow('Apache-2.0')
+}
+
+
+
+android {
+  namespace = "com.example"
+
+  compileSdk 33
+
+  defaultConfig {
+    minSdk 21
+  }
+}

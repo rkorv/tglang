@@ -1,0 +1,39 @@
+task stage(dependsOn: ['clean', 'jar'])
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "http://repo.spring.io/release" }
+        maven { url "http://repo.spring.io/milestone" }
+        maven { url "http://repo.spring.io/snapshot" }
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.0.0.RC5")
+    }
+}
+
+apply from: 'config/spring-boot.gradle'
+//apply from: 'config/war.gradle'
+
+
+allprojects {
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "http://repo.spring.io/release" }
+        maven { url "http://repo.spring.io/milestone" }
+        maven { url "http://repo.spring.io/snapshot" }
+    }
+
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
+
+    task wrapper(type: Wrapper) {
+        gradleVersion = '1.10'
+    }
+
+}

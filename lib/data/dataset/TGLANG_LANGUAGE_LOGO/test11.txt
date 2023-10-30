@@ -1,0 +1,8 @@
+set :length sum 50 random 250
+set :numspikes 18
+
+repeat :numspikes
+[
+  fd :length 
+  rt / 360 :numspikes
+]

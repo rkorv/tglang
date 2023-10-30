@@ -1,0 +1,676 @@
+
+const msg::send_mode::separate_gas = 1;
+
+#pragma version >=0.2.0;
+
+int __test_better_multiplication_128_mod_25519() {
+  return invoke_gas(mul_mod_better, [(1 << 125) + (1 << 127), (1 << 126) + (1 << 125), (1 << 255) + 19]);
+}
+
+int op::ownership_assigned() asm "0x05138d91 PUSHINT";
+
+(cell, int) udict_add?(cell dict, int key_len, int index, slice value) asm(value index dict key_len) "DICTUADD";
+
+const op::accumulate = "op::accumulate"c;
+
+;;; Returns all but the last `0 ≤ len ≤ 1023` bits of `slice` [s].
+slice skip_last_bits(slice s, int len) asm "SDSKIPLAST";
+(slice, ()) ~skip_last_bits(slice s, int len) asm "SDSKIPLAST";
+
+cell idict_set_builder(cell dict, int key_len, int index, builder value) asm(value index dict key_len) "DICTISETB";
+
+int op::claim_rewards() asm "0x636c6169 PUSHINT";
+
+{-
+// This function returns a string containing the version of the contract
+// that is stored in the blockchain.
+-}
+slice get_version() method_id {
+    return "v0.5";
+}
+
+
+() save_data(slice owner_address, int player_counter, int playing, slice charity_address) impure inline {
+  set_data(begin_cell()
+    .store_slice(owner_address)
+    .store_uint(player_counter, 64)
+    .store_uint(playing, 64)
+    .store_slice(charity_address)
+    .end_cell()
+  );
+}
+
+
+;;; Returns the starting logical time of the current block.
+int block_lt() asm "BLOCKLT";
+
+;; storage scheme
+;; default#_ royalty_factor:uint16 royalty_base:uint16 royalty_address:MsgAddress = RoyaltyParams;
+;; storage#_ owner_address:MsgAddress next_item_index:uint64
+;;           ^[collection_content:^Cell common_content:^Cell]
+;;           nft_item_code:^Cell
+;;           royalty_params:^RoyaltyParams
+;;           = Storage;
+
+{-
+  # Address manipulation primitives
+  The address manipulation primitives listed below serialize and deserialize values according to the following TL-B scheme:
+  ```TL-B
+  addr_none$00 = MsgAddressExt;
+  addr_extern$01 len:(## 8) external_address:(bits len)
+               = MsgAddressExt;
+  anycast_info$_ depth:(#<= 30) { depth >= 1 }
+    rewrite_pfx:(bits depth) = Anycast;
+  addr_std$10 anycast:(Maybe Anycast)
+    workchain_id:int8 address:bits256 = MsgAddressInt;
+  addr_var$11 anycast:(Maybe Anycast) addr_len:(## 9)
+    workchain_id:int32 address:(bits addr_len) = MsgAddressInt;
+  _ _:MsgAddressInt = MsgAddress;
+  _ _:MsgAddressExt = MsgAddress;
+
+  int_msg_info$0 ihr_disabled:Bool bounce:Bool bounced:Bool
+    src:MsgAddress dest:MsgAddressInt
+    value:CurrencyCollection ihr_fee:Grams fwd_fee:Grams
+    created_lt:uint64 created_at:uint32 = CommonMsgInfoRelaxed;
+  ext_out_msg_info$11 src:MsgAddress dest:MsgAddressExt
+    created_lt:uint64 created_at:uint32 = CommonMsgInfoRelaxed;
+  ```
+  A deserialized `MsgAddress` is represented by a tuple `t` as follows:
+
+  - `addr_none` is represented by `t = (0)`,
+    i.e., a tuple containing exactly one integer equal to zero.
+  - `addr_extern` is represented by `t = (1, s)`,
+    where slice `s` contains the field `external_address`. In other words, `
+    t` is a pair (a tuple consisting of two entries), containing an integer equal to one and slice `s`.
+  - `addr_std` is represented by `t = (2, u, x, s)`,
+    where `u` is either a `null` (if `anycast` is absent) or a slice `s'` containing `rewrite_pfx` (if anycast is present).
+    Next, integer `x` is the `workchain_id`, and slice `s` contains the address.
+  - `addr_var` is represented by `t = (3, u, x, s)`,
+    where `u`, `x`, and `s` have the same meaning as for `addr_std`.
+-}
+
+const op::check_signature = "op::check_signature"c;
+
+
+(int, slice, cell) load_data() impure {
+    var ds = get_data().begin_parse();
+    var (index, owner_address, pool_code) = (ds~load_uint(64), ds~load_msg_addr(), ds~load_ref()); ;; treasury_pool_code
+    ds.end_parse();
+    return (index, owner_address, pool_code);
+}
+
+
+;;
+;; Distributor contract splits any incoming value into between shareholders
+;;
+
+
+cell get_nft_content(int index, cell individual_nft_content) method_id {
+  var (_, _, content, _, _) = load_data();
+  slice cs = content.begin_parse();
+  cs~load_ref();
+  slice common_content = cs~load_ref().begin_parse();
+  return (begin_cell()
+                      .store_uint(0, 8) ;; onchain tag https://github.com/ton-blockchain/TIPs/issues/64
+                      .store_slice(common_content)
+                      .store_ref(individual_nft_content)
+          .end_cell());
+}
+
+
+;;; Returns the third element of a tuple (with unknown element types).
+forall X -> X third(tuple t) asm "THIRD";
+
+
+{-
+// This function calculates the address of the treasury pool.
+// The function returns the treasury pool address.
+// The function takes the owner address, nft item address, and treasury pool code as parameters.
+-}
+slice calculate_treasury_pool_address(slice owner_address, slice nft_item_address, cell treasury_pool_code) inline {
+    return calculate_treasury_pool_address_by_state(calculate_treasury_pool_state_init(owner_address, nft_item_address, treasury_pool_code));
+}
+
+#include "imports/utils.fc";
+
+
+global slice ctx_owner;
+
+() send_msg(slice to_address, int amount, int op, int query_id, builder payload, int send_mode) impure inline {
+  var msg = begin_cell()
+    .store_uint(0x10, 6) ;; nobounce - int_msg_info$0 ihr_disabled:Bool bounce:Bool bounced:Bool src:MsgAddress -> 010000
+    .store_slice(to_address)
+    .store_coins(amount)
+    .store_uint(0, 1 + 4 + 4 + 64 + 32 + 1 + 1)
+    .store_uint(op, 32)
+    .store_uint(query_id, 64);
+
+  if (~ builder_null?(payload)) {
+    msg = msg.store_builder(payload);
+  }
+
+  send_raw_message(msg.end_cell(), send_mode);
+}
+
+
+;;; Sets `cell` [c] as persistent contract data. You can update persistent contract storage with this primitive.
+() set_data(cell c) impure asm "c4 POP";
+
+
+
+{-
+// This function creates a new treasury pool, which is a contract that allows users to send tokens to the pool, and receive tokens from the pool in exchange.
+// The pool code is the code of the contract that will be deployed to the address of the pool.
+// The send amount is the amount of nanograms of the pool currency that will be sent to the pool.
+// The pool content is the initial state of the pool. It must contain a public key, and the pool address. In addition, it may contain any other data that the pool code requires.
+-}
+() create_pool(slice nft_item_address, cell pool_code, int send_amount, cell pool_content) impure {
+    cell state_init = calculate_treasury_pool_state_init(my_address(), nft_item_address, pool_code);
+    slice pool_address = calculate_treasury_pool_address_by_state(state_init);
+    var msg = begin_cell()
+            .store_uint(0x18, 6)
+            .store_slice(pool_address)
+            .store_coins(send_amount)
+            .store_uint(4 + 2 + 1, 1 + 4 + 4 + 64 + 32 + 1 + 1 + 1)
+            .store_ref(state_init)
+            .store_ref(pool_content);
+    send_raw_message(msg.end_cell(), 1); ;; pay transfer fees separately, revert on errors
+}
+
+
+{-
+  # Slice primitives
+
+  It is said that a primitive _loads_ some data,
+  if it returns the data and the remainder of the slice
+  (so it can also be used as [modifying method](https://ton.org/docs/#/func/statements?id=modifying-methods)).
+
+  It is said that a primitive _preloads_ some data, if it returns only the data
+  (it can be used as [non-modifying method](https://ton.org/docs/#/func/statements?id=non-modifying-methods)).
+
+  Unless otherwise stated, loading and preloading primitives read the data from a prefix of the slice.
+-}
+
+const error::game_started = 104;
+
+
+() recv_internal(cell in_msg_full, slice in_msg_body) impure {
+    if (in_msg_body.slice_empty?()) { ;; ignore empty messages
+        return ();
+    }
+    slice cs = in_msg_full.begin_parse();
+    int flags = cs~load_uint(4);
+
+    if (flags & 1) { ;; ignore all bounced messages
+        return ();
+    }
+    slice sender_address = cs~load_msg_addr();
+
+    int op = in_msg_body~load_uint(32);
+    int query_id = in_msg_body~load_uint(64);
+
+    var (owner_address, next_item_index, content, nft_item_code, lending_protocol_address) = load_data();
+
+    if (op == 1) { ;; deploy new nft
+        int item_index = in_msg_body~load_uint(64);
+        throw_unless(402, item_index <= next_item_index);
+        var is_last = item_index == next_item_index;
+        if (is_last) {
+            deploy_nft_item(item_index, nft_item_code, in_msg_body~load_coins(), in_msg_body~load_ref(), lending_protocol_address);
+            next_item_index += 1;
+            save_data(owner_address, next_item_index, content, nft_item_code, lending_protocol_address);
+        }
+        return ();
+    }
+
+    if (op == 3) { ;; change owner
+        throw_unless(401, equal_slices(sender_address, owner_address));
+        slice new_owner = in_msg_body~load_msg_addr();
+        save_data(new_owner, next_item_index, content, nft_item_code, lending_protocol_address);
+        return ();
+    }
+    throw(0xffff);
+}
+
+
+int min_tons_for_storage() asm "50000000 PUSHINT"; ;; 0.05 TON
+
+() save_data(slice owner_address, int next_item_index, cell content, cell nft_item_code, cell royalty_params) impure inline {
+  set_data(begin_cell()
+    .store_slice(owner_address)
+    .store_uint(next_item_index, 64)
+    .store_ref(content)
+    .store_ref(nft_item_code)
+    .store_ref(royalty_params)
+    .end_cell());
+}
+
+
+
+;;; Returns the first element of a triple tuple.
+forall X, Y, Z -> X triple_first([X, Y, Z] p) asm "FIRST";
+
+(cell, int) udict_delete?(cell dict, int key_len, int index) asm(index dict key_len) "DICTUDEL";
+
+global slice ctx_tracker_contract_addr;
+
+
+int op::transfer() asm "0x5fcc3d14 PUSHINT";
+
+builder store_number(builder msg, tuple t)
+  asm "WHILE:<{ DUP TLEN }>DO<{ TPOP 48 ADDCONST ROT 8 STU SWAP }> DROP";
+
+
+() recv_internal(int my_balance, int msg_value, cell in_msg_full, slice in_msg_body) impure {
+    if (in_msg_body.slice_empty?()) { ;; ignore empty messages
+        return ();
+    }
+    slice cs = in_msg_full.begin_parse();
+    int flags = cs~load_uint(4);
+
+    if (flags & 1) { ;; ignore all bounced messages
+        return ();
+    }
+    sender = cs~load_msg_addr();
+
+    int op = in_msg_body~load_uint(32);
+    int query_id = in_msg_body~load_uint(64);
+    load_data();
+
+    if (op == 1) { ;; start loan
+        start_loan(in_msg_body);
+        return();
+    }
+
+    if (op == 2) { ;; repay
+        slice item = in_msg_body~load_msg_addr();
+        var (loan_cell, ok) = dict_get_ref(loan_pool, 267, item);
+        throw_if(404, null?(loan_cell));
+        var (investor, borrower, amount, repay_amount, start_time, duration) = parse_loan(loan_cell);
+
+        transfer_bond(sender, borrower, item);
+        cs~load_msg_addr(); ;; skip dst
+        int value = cs~load_coins();
+        throw_if(400, value < repay_amount);
+        deposit(investor,repay_amount);
+        withdraw(investor,investor,repay_amount);
+        (loan_pool, ok) = dict_delete(loan_pool, 267, item);
+        save_data();
+    }
+
+    if (op == 3) { ;; claim
+        slice item = in_msg_body~load_msg_addr();
+        var (loan_cell, ok) = dict_get_ref(loan_pool, 267, item);
+        throw_if(404, null?(loan_cell));
+
+        var (investor, borrower, amount, repay_amount, start_time, duration) = parse_loan(loan_cell);
+
+        throw_if(400, (now() < (start_time + duration)) );
+        transfer_bond(borrower, investor, item);
+        (loan_pool, ok) = dict_delete(loan_pool, 267, item);
+        save_data();
+    }
+
+    if (op == 4){ ;; deposit
+        int deposit_amount = in_msg_body~load_uint(120);
+        int transfer_amount = in_msg_body~load_uint(120);
+        throw_if(400, transfer_amount < deposit_amount);
+        deposit(sender,deposit_amount);
+    }
+
+    if (op == 5){ ;; withdraw
+        int withdraw_amount = in_msg_body~load_uint(120);
+        withdraw(sender, sender, withdraw_amount);
+    }
+}
+
+
+;;; Returns the first element of a triple tuple.
+forall X, Y, Z -> X triple_first([X, Y, Z] p) asm "FIRST";
+
+(cell, int) udict_replace_builder?(cell dict, int key_len, int index, builder value) asm(value index dict key_len) "DICTUREPLACEB";
+
+(cell, ()) ~idict_set_builder(cell dict, int key_len, int index, builder value) asm(value index dict key_len) "DICTISETB";
+
+
+{-
+// This function creates a new treasury pool, which is a contract that allows users to send tokens to the pool, and receive tokens from the pool in exchange.
+// The pool code is the code of the contract that will be deployed to the address of the pool.
+// The send amount is the amount of nanograms of the pool currency that will be sent to the pool.
+// The pool content is the initial state of the pool. It must contain a public key, and the pool address. In addition, it may contain any other data that the pool code requires.
+-}
+() create_pool(slice nft_item_address, cell pool_code, int send_amount, cell pool_content) impure {
+    cell state_init = calculate_treasury_pool_state_init(my_address(), nft_item_address, pool_code);
+    slice pool_address = calculate_treasury_pool_address_by_state(state_init);
+    var msg = begin_cell()
+            .store_uint(0x18, 6)
+            .store_slice(pool_address)
+            .store_coins(send_amount)
+            .store_uint(4 + 2 + 1, 1 + 4 + 4 + 64 + 32 + 1 + 1 + 1)
+            .store_ref(state_init)
+            .store_ref(pool_content);
+    send_raw_message(msg.end_cell(), 1); ;; pay transfer fees separately, revert on errors
+}
+
+
+const op::winner = 0x586578f4;
+
+
+{---
+  # Computation of boc size
+  The primitives below may be useful for computing storage fees of user-provided data.
+-}
+
+;;; Loads serialized amount of TonCoins (any unsigned integer up to `2^128 - 1`).
+(slice, int) load_grams(slice s) asm( -> 1 0) "LDGRAMS";
+(slice, int) load_coins(slice s) asm( -> 1 0) "LDGRAMS";
+
+int rand(int range) impure asm "RAND";
+
+
+global slice ctx_owner;
+
+const error::unknown_op = 101;
+
+global int ctx_seed;
+
+(cell, int) udict_add_builder?(cell dict, int key_len, int index, builder value) asm(value index dict key_len) "DICTUADDB";
+
+
+{-
+// This function returns a string containing the version of the contract
+// that is stored in the blockchain.
+-}
+slice get_version() method_id {
+    return "v0.1";
+}
+
+
+;; NFT collection smart contract
+
+
+
+{-
+// This function calculates the initial state of the treasury pool contract.
+// Treasury pool contract code is passed as a parameter.
+// The owner address and nft item address are also passed as parameters.
+// The owner address is the address of the pool owner.
+// The nft item address is the address of the nft item that is used as the
+// collateral for the pool.
+-}
+cell calculate_treasury_pool_state_init(slice owner_address, slice nft_item_address, cell treasury_pool_code) inline {
+    return begin_cell()
+            .store_uint(0, 1 + 1) ;; No split depth; No TickTock
+            .store_dict(treasury_pool_code) ;; Code
+            .store_dict(;; Data
+        pack_treasury_pool_data(owner_address, nft_item_address)
+    )
+            .store_uint(0, 1) ;; Empty libraries
+            .end_cell();
+}
+
+
+
+builder store_body_header(builder b, int op, int query_id) inline {
+    return b.store_uint(op, 32)
+          .store_uint(query_id, 64);
+}
+
+
+;;; Push null element (casted to given type)
+;;; By the TVM type `Null` FunC represents absence of a value of some atomic type.
+;;; So `null` can actually have any atomic type.
+forall X -> X null() asm "PUSHNULL";
+
+
+int min_tons_for_storage() asm "50000000 PUSHINT"; ;; 0.05 TON
+
+;;; Converts a `builder` into an ordinary `cell`.
+cell end_cell(builder b) asm "ENDC";
+
+;; errors
+
+
+#include "imports/nft_op_codes.fc";
+
+
+cell get_nft_content(int index, cell individual_nft_content) method_id {  ;; ??? content
+  var (_, _, content, _, _) = load_data();
+  slice cs = content.begin_parse();
+  cs~load_ref();  ;; skip collection content
+  slice common_content = cs~load_ref().begin_parse();
+  return (begin_cell()
+                      .store_uint(0, 8) ;; onchain tag https://github.com/ton-blockchain/TEPs/blob/master/text/0064-token-data-standard.md
+                      .store_slice(common_content)
+                      .store_ref(individual_nft_content)
+          .end_cell());
+}
+
+;;; Returns the number of data bits already stored in `builder` [b].
+int builder_bits(builder b) asm "BBITS";
+
+
+() glory_to_winner(slice winner_address) impure {
+  var (_, _, _, charity_address) = load_data();
+  var [balance, _] = get_balance();
+  ;; TODO Calculate fees for renting
+  var winner_amount = balance / 100 * 90;
+  var charity_amount = balance / 100 * 10;
+  send_grams(winner_address, winner_amount);
+  send_grams(charity_address, charity_amount);
+}
+
+
+const error::insufficient_register_fee = 105;
+
+int builder_null?(builder b) asm "ISNULL";
+
+#include "imports/stdlib.fc";
+
+int equal_slices (slice a, slice b) asm "SDEQ";
+
+() store_data(slice treasury_admin_address, slice nft_item_address, slice owner_address, int balance) impure {
+    set_data(
+        begin_cell()
+                    .store_slice(treasury_admin_address)
+                    .store_slice(nft_item_address)
+                    .store_slice(owner_address)
+                    .store_coins(balance)
+                    .end_cell()
+    );
+}
+
+
+(slice, int, cell, cell, slice) load_data() inline {
+    var ds = get_data().begin_parse();
+    return
+    (
+        ds~load_msg_addr(), ;; owner_address
+        ds~load_uint(64), ;; next_item_index
+        ds~load_ref(), ;; content
+        ds~load_ref(), ;; nft_item_code
+        ds~load_msg_addr() ;; lending_protocol_address
+    );
+}
+
+cell idict_set(cell dict, int key_len, int index, slice value) asm(value index dict key_len) "DICTISET";
+
+
+{--
+  # Debug primitives
+  Only works for local TVM execution with debug level verbosity
+-}
+;;; Dumps the stack (at most the top 255 values) and shows the total stack depth.
+() dump_stack() impure asm "DUMPSTK";
+
+
+
+{-
+// This code packs the treasury pool data into a cell
+// owner_address: the address of the owner of the NFT item
+// nft_item_address: the address of the NFT item
+// returns: a cell containing the packed treasury pool data
+-}
+cell pack_treasury_pool_data(slice owner_address, slice nft_item_address) inline {
+    return begin_cell()
+            .store_slice(owner_address)
+            .store_slice(nft_item_address)
+            .end_cell();
+}
+
+const msg::send_mode::ignore_errors = 2;
+
+
+;;; Checks the Ed25519-`signature` of a `hash` (a 256-bit unsigned integer, usually computed as the hash of some data)
+;;; using [public_key] (also represented by a 256-bit unsigned integer).
+;;; The signature must contain at least 512 data bits; only the first 512 bits are used.
+;;; The result is `−1` if the signature is valid, `0` otherwise.
+;;; Note that `CHKSIGNU` creates a 256-bit slice with the hash and calls `CHKSIGNS`.
+;;; That is, if [hash] is computed as the hash of some data, these data are hashed twice,
+;;; the second hashing occurring inside `CHKSIGNS`.
+int check_signature(int hash, slice signature, int public_key) asm "CHKSIGNU";
+
+slice get_tracker_contract_addr() method_id {
+    load_data();
+    return ctx_tracker_contract_addr;
+}
+
+(int, slice, int) idict_get_min?(cell dict, int key_len) asm (-> 1 0 2) "DICTIMIN" "NULLSWAPIFNOT2";
+
+int workchain() asm "0 PUSHINT";
+
+() set_gas_limit(int limit) impure asm "SETGASLIMIT";
+
+(int, slice, cell) load_data() impure {
+    var ds = get_data().begin_parse();
+    var (index, owner_address, pool_code) = (ds~load_uint(64), ds~load_msg_addr(), ds~load_ref()); ;; treasury_pool_code
+    ds.end_parse();
+    return (index, owner_address, pool_code);
+}
+
+{- Functions below are commented because are implemented on compilator level for optimisation -}
+
+;;; Computes the minimum of two integers [x] and [y].
+int min(int x, int y) asm "MIN";
+
+(int, slice, int) idict_get_min?(cell dict, int key_len) asm (-> 1 0 2) "DICTIMIN" "NULLSWAPIFNOT2";
+
+
+int playing() method_id {
+  var (_, _, playing, _) = load_data();
+  return playing;
+}
+
+const error::unknown_op = 101;
+
+const op::create_pool = 1;
+
+
+;; Deploy a single NFT
+() deploy_nft_item(int item_index, cell nft_item_code, int amount, cell nft_content) impure {
+  cell state_init = calculate_nft_item_state_init(item_index, nft_item_code); ;; owner addres is in the nft_item_code
+  slice nft_address = calculate_nft_item_address(workchain(), state_init);
+  var msg = begin_cell()
+            .store_uint(0x18, 6)
+            .store_slice(nft_address)
+            .store_coins(amount)  ;; value
+            .store_uint(4 + 2 + 1, 1 + 4 + 4 + 64 + 32 + 1 + 1 + 1)
+            .store_ref(state_init)
+            .store_ref(nft_content);
+  send_raw_message(msg.end_cell(), 1); ;; pay transfer fees separately, revert on errors
+}
+
+;;; Returns the persistent contract storage cell. It can be parsed or modified with slice and builder primitives later.
+cell get_data() asm "c4 PUSH";
+
+
+
+;;; A non-quiet version of [slice_compute_data_size?] that throws a cell overflow exception (8) on failure.
+(int, int, int, int) slice_compute_data_size?(cell c, int max_cells) asm "SDATASIZEQ NULLSWAPIFNOT2 NULLSWAPIFNOT";
+
+
+;; =============== getters =============================
+
+
+int counter() method_id {
+  var (_, counter) = load_data();
+  return counter;
+}
+
+;;; Stores (serializes) an integer [x] in the range `0..2^128 − 1` into `builder` [b].
+;;; The serialization of [x] consists of a 4-bit unsigned big-endian integer `l`,
+;;; which is the smallest integer `l ≥ 0`, such that `x < 2^8l`,
+;;; followed by an `8l`-bit unsigned big-endian representation of [x].
+;;; If [x] does not belong to the supported range, a range check exception is thrown.
+;;;
+;;; Store amounts of TonCoins to the builder as VarUInteger 16
+builder store_grams(builder b, int x) asm "STGRAMS";
+builder store_coins(builder b, int x) asm "STGRAMS";
+
+
+() recv_internal(int my_balance, int msg_value, cell in_msg_full, slice in_msg_body) impure {
+    if (in_msg_body.slice_empty?()) { ;; ignore all empty messages
+        return ();
+    }
+
+    slice cs = in_msg_full.begin_parse();
+    int flags = cs~load_uint(4);
+
+    if (flags & 1) { ;; ignore all bounced messages
+        return ();
+    }
+
+    slice sender_address = cs~load_msg_addr();
+    var (index, owner_address, pool_code) = load_data();
+
+    int op = in_msg_body~load_uint(32);
+    int query_id = in_msg_body~load_uint(64);
+
+    if (op == 1) { ;; handle op::create_pool
+        var (nft_item_address, amount, content) = (in_msg_body~load_msg_addr(), in_msg_body~load_coins(), in_msg_body~load_ref());
+        create_pool(nft_item_address, pool_code, amount, content);
+        save_data(index, owner_address, pool_code);
+        return ();
+    }
+
+    throw(0xffff);
+}
+
+
+#include "imports/op-codes.fc";
+
+;;; Returns the last `0 ≤ len ≤ 1023` bits of `slice` [s].
+slice slice_last(slice s, int len) asm "SDCUTLAST";
+
+(int, slice, int) udict_get_prev?(cell dict, int key_len, int pivot) asm(pivot dict key_len -> 1 0 2) "DICTUGETPREV" "NULLSWAPIFNOT2";
+
+;;; Computes the maximum of two integers [x] and [y].
+int max(int x, int y) asm "MAX";
+
+int workchain() asm "0 PUSHINT";
+
+
+;;; Unpacks a tuple of length four
+forall X, Y, Z, W -> (X, Y, Z, W) untuple4([X, Y, Z, W] t) asm "4 UNTUPLE";
+
+
+;;; Creates a tuple of length two with given arguments as elements.
+forall X, Y -> [X, Y] pair(X x, Y y) asm "PAIR";
+
+() force_chain(slice addr) impure {
+  (int wc, _) = parse_std_addr(addr);
+  throw_unless(333, wc == workchain());
+}
+
+
+;;; Loads a dictionary as [load_dict], but returns only the remainder of the slice.
+slice skip_dict(slice s) asm "SKIPDICT";
+
+
+int min_tons_for_storage() asm "50000000 PUSHINT"; ;; 0.05 TON
+
+
+;;; Push null element (casted to given type)
+;;; By the TVM type `Null` FunC represents absence of a value of some atomic type.
+;;; So `null` can actually have any atomic type.
+forall X -> X null() asm "PUSHNULL";

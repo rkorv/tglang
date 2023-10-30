@@ -1,0 +1,203 @@
+##
+# ScandiPWA_CatalogGraphQl
+#
+# @category    ScandiPWA
+# @package     ScandiPWA_CatalogGraphQl
+# @author      Viktors Pliska <info@scandiweb.com>
+# @author      Valerijs Sceglovs <info@scandiweb.com>
+# @author      Raivis Dejus <info@scandiweb.com>
+# @copyright   Copyright (c) 2018 Scandiweb, Ltd (https://scandiweb.com)
+##
+
+type MediaGalleryImageOfType @doc(description: "Products thumbnail image") {
+    type: String @doc(description: "Product image type")
+    url: String @doc(description: "Product image url")
+}
+
+input ProductAttributeFilterInput {
+    conditions: FilterTypeInput @doc(description: "Searches products by JSON formatted conditions")
+    customer_group_id: FilterTypeInput @doc(description: "Modifies product prices based on customer group")
+    news_from_date: FilterTypeInput @doc(description: "The beginning date for new product listings, and determines if the product is featured as a new product.")
+    news_to_date: FilterTypeInput @doc(description: "The end date for new product listings.")
+    id: FilterTypeInput @doc(description: "Entity id filter for products")
+}
+
+type MediaGalleryEntry  @doc(description: "MediaGalleryEntry defines characteristics about images and videos associated with a specific product") {
+    thumbnail: MediaGalleryImageOfType @doc(description: "The path of the thumbnail image on the server")
+    base: MediaGalleryImageOfType @doc(description: "The path of the base image on the server")
+    large: MediaGalleryImageOfType @doc(description: "The path of the large image on the server")
+}
+
+type ProductImage @doc(description: "Extend product Image fields for frontend-driven loading mechanism") {
+    path: String @doc(description: "Relative path to origin image") @resolver(class:"ScandiPWA\\CatalogGraphQl\\Model\\Resolver\\Product\\ProductImage\\Path")
+}
+
+type CategoryTree {
+    is_active: Boolean @doc(description: "Category is enabled")
+}
+
+interface ProductInterface {
+    qty: Float @doc(description: "Qty field for checkout order view")
+    stock_item: ProductStockItem @resolver(class: "ScandiPWA\\CatalogGraphQl\\Model\\Resolver\\Inventory\\StockCount")
+    url: String @resolver(class: "ScandiPWA\\CatalogGraphQl\\Model\\Resolver\\Product\\Url")
+}
+
+interface CategoryInterface {
+    url: String  @resolver(class: "ScandiPWA\\CatalogGraphQl\\Model\\Resolver\\Category\\Url"),
+    display_mode: String @doc(description: "Category display mode (products only, static block only, both)")
+}
+
+type Products {
+    min_price: Float @doc(description: "Minimal price among all selected items")
+    max_price: Float @doc(description: "Maximal price among all selected items")
+}
+
+type ProductPrice @doc(description: "Represents a product price.") {
+    regular_price: Money! @doc(description: "The regular price of the product.")
+    regular_price_excl_tax: Money!  @doc(description: "The regular price of the product excluding taxes.")
+    final_price: Money! @doc(description: "The final price of the product after discounts applied.")
+    final_price_excl_tax: Money! @doc(description: "The final price of the product after discounts applied excluding taxes.")
+    default_price: Money! @doc(description: "The base price of the product.")
+    default_final_price: Money! @doc(description: "The base price of the product after discounts applied.")
+    default_final_price_excl_tax: Money! @doc(description: "The base price of the product after discounts applied excluding taxes.")
+    discount: ProductDiscount @doc(description: "The price discount. Represents the difference between the regular and final price.")
+}
+
+type ProductStockItem {
+    in_stock: Boolean @doc(description: "Product in stock status")
+    qty: Float @doc(description: "Product quantity available in stock")
+    min_sale_qty: Int @doc(description: "Minimal amount of item that can be bought")
+    max_sale_qty: Int @doc(description: "Maximal amount of item that can be bought")
+    qty_increments: Int @doc(description: "Increment for number of items that can be bought")
+}
+
+extends type Breadcrumb {
+    category_url: String @doc(description: "Trimmed URL rewrite")
+    category_is_active: Boolean @doc(description: "Is category active")
+}
+
+interface AggregationOptionInterface {
+    swatch_data: SwatchData @doc(description: "Swatch data") @resolver(class: "ScandiPWA\\CatalogGraphQl\\Model\\Resolver\\Aggregations\\SwatchData")
+}
+
+type Mutation {
+    saveSelectedCurrency(currency: String, guestCartId: String): Query @resolver(class:"ScandiPWA\\CatalogGraphQl\\Model\\Resolver\\Currency\\SaveSelectedCurrency")
+}
+
+type Query {
+    currencyData: CurrencyConfig @resolver(class: "ScandiPWA\\CatalogGraphQl\\Model\\Resolver\\Currency\\CurrencyResolver") @doc(description: "The currency data query")
+    menuItems: [MenuItem] @resolver(class: "ScandiPWA\\CatalogGraphQl\\Model\\Resolver\\MenuItems") @doc(description: "Returns all categories for top menu")
+}
+
+type MenuItem {
+    url: String
+    title: String
+    item_id: ID
+    parent_id: Int
+    category_id: Int
+    position: Int
+    display_mode: String
+}
+
+type CurrencyConfig {
+    available_currencies_data: [Currency],
+    current_currency_code: String
+}
+
+type Currency {
+    id: String
+    label: String
+    value: String
+}
+
+extend type Products {
+    aggregations: [Aggregation] @doc(description: "Layered navigation aggregations.") @resolver(class: "ScandiPWA\\CatalogGraphQl\\Model\\Resolver\\Aggregations")
+}
+
+extend type Aggregation {
+    position: Int @doc(description: "Attribute position in filter menu.")
+    is_boolean: Boolean @doc(description: "Flag to indicate that aggregated attribute has boolean type.")
+    has_swatch: Boolean @doc(description: "Flag to indicate that aggregated attribute uses swatch to select value.")
+}
+
+type DownloadableProduct {
+    samples_title: String @resolver(class: "ScandiPWA\\CatalogGraphQl\\Model\\Resolver\\Product\\SamplesTitle")
+}
+
+type DownloadableProductLinks {
+    sample_url: String @resolver(class: "ScandiPWA\\CatalogGraphQl\\Model\\Resolver\\Product\\SampleUrl")
+}
+
+interface CustomizableOptionInterface {
+    type: String
+}
+
+extend type CustomizableAreaValue {
+    currency: String @doc(description: "Currency code for the option.")
+    priceInclTax: Float @doc(description: "Option value price including tax.")
+    priceExclTax: Float @doc(description: "Option value price excluding tax.")
+}
+
+extend type CustomizableDateValue {
+    currency: String @doc(description: "Currency code for the option.")
+    priceInclTax: Float @doc(description: "Option value price including tax.")
+    priceExclTax: Float @doc(description: "Option value price excluding tax.")
+}
+
+extend type CustomizableDropDownValue {
+    currency: String @doc(description: "Currency code for the option.")
+    priceInclTax: Float @doc(description: "Option value price including tax.")
+    priceExclTax: Float @doc(description: "Option value price excluding tax.")
+}
+
+extend type CustomizableMultipleValue {
+    currency: String @doc(description: "Currency code for the option.")
+    priceInclTax: Float @doc(description: "Option value price including tax.")
+    priceExclTax: Float @doc(description: "Option value price excluding tax.")
+}
+
+extend type CustomizableFieldValue {
+    currency: String @doc(description: "Currency code for the option.")
+    priceInclTax: Float @doc(description: "Option value price including tax.")
+    priceExclTax: Float @doc(description: "Option value price excluding tax.")
+}
+
+extend type CustomizableFileValue {
+    currency: String @doc(description: "Currency code for the option.")
+    priceInclTax: Float @doc(description: "Option value price including tax.")
+    priceExclTax: Float @doc(description: "Option value price excluding tax.")
+}
+
+extend type CustomizableRadioValue {
+    currency: String @doc(description: "Currency code for the option.")
+    priceInclTax: Float @doc(description: "Option value price including tax.")
+    priceExclTax: Float @doc(description: "Option value price excluding tax.")
+}
+
+extend type CustomizableCheckboxValue {
+    currency: String @doc(description: "Currency code for the option.")
+    priceInclTax: Float @doc(description: "Option value price including tax.")
+    priceExclTax: Float @doc(description: "Option value price excluding tax.")
+}
+
+extend type BundleProduct {
+    bundle_options: [BundleOption] @doc(description: "Additional pricing info specific for bundle products") @resolver(class: "ScandiPWA\\CatalogGraphQl\\Model\\Resolver\\Product\\BundleProductOptions")
+}
+
+type BundleOption {
+    option_id: Int
+    selection_details: [BundleOptionSelection]
+}
+
+type BundleOptionSelection {
+    selection_id: Int
+    name: String
+    regular_option_price: Float
+    regular_option_price_excl_tax: Float
+    final_option_price: Float
+    final_option_price_excl_tax: Float
+}
+
+extend type ConfigurableProduct {
+    variants_plp: [ConfigurableVariant] @doc(description: "An array of variants of products, optimized version for PLP") @resolver(class: "ScandiPWA\\CatalogGraphQl\\Model\\Resolver\\ConfigurableVariantPlp")
+}

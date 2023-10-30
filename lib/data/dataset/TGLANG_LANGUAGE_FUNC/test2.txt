@@ -1,0 +1,628 @@
+
+() set_code(cell new_code) impure asm "SETCODE";
+
+{-
+  # Persistent storage save and load
+-}
+
+
+#include "imports/params.fc";
+
+builder store_builder(builder to, builder from) asm "STBR";
+
+
+builder store_masterchain_address(builder b, int address_hash) inline {
+    return b.store_uint(4, 3).store_int(-1, 8).store_uint(address_hash, 256);
+}
+
+
+
+;;; Computes sha256 of the data bits of `slice` [s]. If the bit length of `s` is not divisible by eight,
+;;; throws a cell underflow exception. The hash value is returned as a 256-bit unsigned integer `x`.
+int string_hash(slice s) asm "SHA256U";
+
+int op::transfer_notification() asm "0x7362d09c PUSHINT";
+
+int op::get_royalty_params() asm "0x693d3950 PUSHINT";
+
+(slice, int) load_data() inline {
+  var ds = get_data().begin_parse();
+  return (
+    ds~load_msg_addr(), ;; owner_address
+    ds~load_uint(64)    ;; counter
+  );
+}
+
+{-
+// This function is called by a treasury contract to calculate the address of a treasury pool.
+// nft_item_address - the address of the NFT item whose address is to be calculated.
+// returns the address of the treasury pool.
+-}
+(slice) get_treasury_pool_address(slice nft_item_address) method_id {
+    var (index, owner_address, pool_code) = load_data();
+    slice pool_address = calculate_treasury_pool_address(my_address(), nft_item_address, pool_code);
+    return pool_address; ;; then return the value
+}
+
+
+{-
+// This function gets the deposit value of a user.
+// It loads the deposit pool from the global state.
+// It returns the deposit value of the user.
+// The deposit pool is a dictionary of addresses (keys) to integers (values).
+// The deposit value is an integer.
+-}
+int get_deposit_value(slice user) method_id {
+    load_data();
+    int deposit = dict_empty?(deposit_pool)? 0 : dict_get_slice_int(deposit_pool, 267, user, 257);
+    return deposit ;
+}
+
+
+
+;;; Unpacks a tuple of length two
+forall X, Y -> (X, Y) unpair([X, Y] t) asm "UNPAIR";
+
+;;; Checks whether a `slice` [s] is empty (i.e., contains no bits of data and no cell references).
+int slice_empty?(slice s) asm "SEMPTY";
+
+
+;;; Unpacks a tuple of length four
+forall X, Y, Z, W -> (X, Y, Z, W) untuple4([X, Y, Z, W] t) asm "4 UNTUPLE";
+
+{-
+  # Address manipulation primitives
+  The address manipulation primitives listed below serialize and deserialize values according to the following TL-B scheme:
+  ```TL-B
+  addr_none$00 = MsgAddressExt;
+  addr_extern$01 len:(## 8) external_address:(bits len)
+               = MsgAddressExt;
+  anycast_info$_ depth:(#<= 30) { depth >= 1 }
+    rewrite_pfx:(bits depth) = Anycast;
+  addr_std$10 anycast:(Maybe Anycast)
+    workchain_id:int8 address:bits256 = MsgAddressInt;
+  addr_var$11 anycast:(Maybe Anycast) addr_len:(## 9)
+    workchain_id:int32 address:(bits addr_len) = MsgAddressInt;
+  _ _:MsgAddressInt = MsgAddress;
+  _ _:MsgAddressExt = MsgAddress;
+
+  int_msg_info$0 ihr_disabled:Bool bounce:Bool bounced:Bool
+    src:MsgAddress dest:MsgAddressInt
+    value:CurrencyCollection ihr_fee:Grams fwd_fee:Grams
+    created_lt:uint64 created_at:uint32 = CommonMsgInfoRelaxed;
+  ext_out_msg_info$11 src:MsgAddress dest:MsgAddressExt
+    created_lt:uint64 created_at:uint32 = CommonMsgInfoRelaxed;
+  ```
+  A deserialized `MsgAddress` is represented by a tuple `t` as follows:
+
+  - `addr_none` is represented by `t = (0)`,
+    i.e., a tuple containing exactly one integer equal to zero.
+  - `addr_extern` is represented by `t = (1, s)`,
+    where slice `s` contains the field `external_address`. In other words, `
+    t` is a pair (a tuple consisting of two entries), containing an integer equal to one and slice `s`.
+  - `addr_std` is represented by `t = (2, u, x, s)`,
+    where `u` is either a `null` (if `anycast` is absent) or a slice `s'` containing `rewrite_pfx` (if anycast is present).
+    Next, integer `x` is the `workchain_id`, and slice `s` contains the address.
+  - `addr_var` is represented by `t = (3, u, x, s)`,
+    where `u`, `x`, and `s` have the same meaning as for `addr_std`.
+-}
+
+() save_data(slice owner_address, int next_item_index, cell content, cell nft_item_code, cell royalty_params) impure inline {
+  set_data(begin_cell()
+    .store_slice(owner_address)
+    .store_uint(next_item_index, 64)
+    .store_ref(content)
+    .store_ref(nft_item_code)
+    .store_ref(royalty_params)
+    .end_cell());
+}
+
+
+;; =============== getters =============================
+
+
+#include "imports/nft_op_codes.fc";
+
+
+cell config_param(int x) asm "CONFIGOPTPARAM";
+
+
+#include "imports/stdlib.fc";
+
+int workchain() asm "0 PUSHINT";
+
+
+
+const op::deposit = 2;
+
+int op::transfer() asm "0xf8a7ea5 PUSHINT";
+
+
+;;; Returns the fourth element of a tuple (with unknown element types).
+forall X -> X fourth(tuple t) asm "3 INDEX";
+
+
+{-
+// This function gets the address of an NFT item by index.
+// The NFT item is specified by the index of the NFT item.
+-}
+slice get_nft_address_by_index(int index) method_id {
+    var (_, _, _, nft_item_code, lending_protocol_address) = load_data();
+    cell state_init = calculate_nft_item_state_init(index, nft_item_code, lending_protocol_address);
+    return calculate_nft_item_address(workchain(), state_init);
+}
+
+(cell, cell) idict_set_get_ref(cell dict, int key_len, int index, cell value) asm(value index dict key_len) "DICTISETGETOPTREF";
+
+(int, slice, int) idict_get_min?(cell dict, int key_len) asm (-> 1 0 2) "DICTIMIN" "NULLSWAPIFNOT2";
+
+
+;;; Returns the second element of a triple tuple.
+forall X, Y, Z -> Y triple_second([X, Y, Z] p) asm "SECOND";
+
+global int ctx_tracker;
+
+
+{-
+// This function parses a loan cell and returns its components.
+// The components are:
+// - The address of the investor
+// - The address of the borrower
+// - The amount of the loan
+// - The amount that must be repaid
+// - The time when the loan starts
+// - The duration of the loan
+// The function parameters are:
+// - The loan cell
+-}
+(slice, slice, int, int, int, int) parse_loan(cell loan_cell) {
+    slice loan = loan_cell.begin_parse();
+    slice investor = loan~load_msg_addr();
+    slice borrower = loan~load_msg_addr();
+    int amount = loan~load_uint(120);
+    int repay_amount = loan~load_uint(120);
+    int start_time = loan~load_uint(64);
+    int duration = loan~load_uint(64);
+    return (investor, borrower, amount, repay_amount, start_time, duration);
+}
+
+;;; Sets current gas limit `gl` to its maximal allowed value `gm`, and resets the gas credit `gc` to zero,
+;;; decreasing the value of `gr` by `gc` in the process.
+;;; In other words, the current smart contract agrees to buy some gas to finish the current transaction.
+;;; This action is required to process external messages, which bring no value (hence no gas) with themselves.
+;;;
+;;; For more details check [accept_message effects](https://ton.org/docs/#/smart-contracts/accept).
+() accept_message() impure asm "ACCEPT";
+
+
+int dict_empty?(cell c) asm "DICTEMPTY";
+
+
+() recv_internal(int msg_value, cell in_msg, slice in_msg_body) impure {
+
+  ;; parse incoming internal message
+  slice cs = in_msg.begin_parse();
+  int flags = cs~load_uint(4);
+  slice sender_address = cs~load_msg_addr();
+
+  ;; handle bounced messages
+  if (flags & 1) {
+    return (); ;; ignore
+  }
+
+  ;; load from contract storage
+  var (owner_address, player_counter, playing, charity_address) = load_data();
+
+  ;; handle operations
+  int op = in_msg_body~load_uint(32);
+  int query_id = in_msg_body~load_uint(64);
+
+  if (op == op::register) {
+    ;; empty since ton received (msg_value) is added automatically to contract balance
+    ;; ~dump msg_value; ;; an example of debug output, requires running contract in debug mode
+    throw_unless(error::insufficient_register_fee, msg_value == 1000000000);
+    throw_unless(error::game_started, playing == 0);
+    save_data(owner_address, player_counter + 1, 0, charity_address);
+    return ();
+  }
+
+  if (op == op::start) {
+    throw_unless(error::access_denied, equal_slices(sender_address, owner_address));
+    throw_unless(error::game_started, playing == 0);
+    throw_unless(error::insufficient_number_of_players, player_counter > 1);
+    save_data(owner_address, player_counter, 1, charity_address);
+    return ();
+  }
+
+  if (op == op::invest) {
+    ;; Takes ton from wallet and use it to automatically start a game
+    ;; TODO mapping who invested and how much
+    return ();
+  }
+
+  if (op == op::winner) {
+    ;; whole donton balance is send to winner
+    throw_unless(error::access_denied, equal_slices(sender_address, owner_address));
+    slice winner_address = in_msg_body~load_msg_addr();
+    glory_to_winner(winner_address);
+    save_data(owner_address, 0, 0, charity_address);
+    return ();
+  }
+
+  if (op == op::transfer_ownership) {
+    throw_unless(error::access_denied, equal_slices(sender_address, owner_address));
+    slice new_owner_address = in_msg_body~load_msg_addr();
+    save_data(new_owner_address, player_counter, playing, charity_address);
+    return ();
+  }
+
+  throw(error::unknown_op);
+}
+
+const msg::send_mode::carry_remaining_balance = 128;
+
+#include "imports/nft_op_codes.fc";
+
+int workchain() asm "0 PUSHINT";
+
+int op::mint() asm "21 PUSHINT";
+
+
+{-
+// This function initializes the state of an nft item, which will later be stored on the blockchain.
+// It takes the following parameters:
+// - item_index: The index of the item in the nft items list.
+// - nft_item_code: The code of the nft item that will be initialized.
+// - lending_protocol_address: The address of the lending protocol.
+// The function returns the initialized nft item state.
+-}
+cell calculate_nft_item_state_init(int item_index, cell nft_item_code, slice lending_protocol_address) {
+    cell data = begin_cell()
+      .store_uint(item_index, 64)
+      .store_slice(my_address())
+      .store_slice(lending_protocol_address)
+      .end_cell();
+    return begin_cell().store_uint(0, 2).store_dict(nft_item_code).store_dict(data).store_uint(0, 1).end_cell();
+}
+
+;;; Returns all but the last `0 ≤ len ≤ 1023` bits of `slice` [s].
+slice skip_last_bits(slice s, int len) asm "SDSKIPLAST";
+(slice, ()) ~skip_last_bits(slice s, int len) asm "SDSKIPLAST";
+
+#include "imports/utils.fc";
+
+
+#include "imports/constants.fc";
+
+{-
+// This code is used to get the pool data, which includes the owner's address
+// and the balance of the pool.
+-}
+(slice, int) get_pool_data() method_id {
+    (_, _, _, slice owner_address, int balance) = load_data();
+    return (owner_address, balance);
+}
+
+;; =============== storage =============================
+
+;; storage binary format is defined as TL-B in companion .tlb file
+(slice, int, int, slice) load_data() inline {
+  var ds = get_data().begin_parse();
+  return (
+    ds~load_msg_addr(), ;; owner_address
+    ds~load_uint(64),   ;; player_counter --> Number of players in the game
+    ds~load_uint(64),   ;; playing --> Bool indicating whether
+    ds~load_msg_addr()    ;; charity_address --> Address of charity which receives 30% after every game
+  );
+}
+
+
+;; Get methods
+{-
+// this function gets the next item in the collection and returns
+// the next item index, the item itself, the owner address, and the lending protocol address
+-}
+(int, cell, slice, slice) get_collection_data() method_id {
+    var (owner_address, next_item_index, content, _, lending_protocol_address) = load_data();
+    slice cs = content.begin_parse();
+    return (next_item_index, cs~load_ref(), owner_address, lending_protocol_address);
+}
+
+;;; Sets the random seed to unsigned 256-bit seed.
+
+(cell, (slice, int)) ~udict_delete_get?(cell dict, int key_len, int index) asm(index dict key_len) "DICTUDELGET" "NULLSWAPIFNOT";
+
+{-
+// this function adds the deposit amount to the balance
+// it is used to increase the balance of an account
+// sender is the account that is making the deposit
+// deposit_amount is the amount of money that the account is depositing
+// balance is the current balance of the account
+-}
+(int) deposit(slice sender, int deposit_amount, int balance) impure {
+    throw_unless(500, deposit_amount >= 0);
+    int new_balance = balance + deposit_amount;
+    return new_balance;
+}
+
+
+const error::unknown_op = 101;
+
+#include "imports/stdlib.fc";
+
+
+builder store_masterchain_address(builder b, int address_hash) inline {
+    return b.store_uint(4, 3).store_int(-1, 8).store_uint(address_hash, 256);
+}
+
+
+;; NFTEditable
+
+#include "imports/utils.fc";
+
+(int, slice, int) idict_get_nexteq?(cell dict, int key_len, int pivot) asm(pivot dict key_len -> 1 0 2) "DICTIGETNEXTEQ" "NULLSWAPIFNOT2";
+
+const int error::not_an_oracle = 402;
+
+
+() glory_to_winner(slice winner_address) impure {
+  var (_, _, _, charity_address) = load_data();
+  var [balance, _] = get_balance();
+  ;; TODO Calculate fees for renting
+  var winner_amount = balance / 100 * 90;
+  var charity_amount = balance / 100 * 10;
+  send_grams(winner_address, winner_amount);
+  send_grams(charity_address, charity_amount);
+}
+
+
+#include "imports/params.fc";
+
+
+int playing() method_id {
+  var (_, _, playing, _) = load_data();
+  return playing;
+}
+
+;;; Sets current gas limit `gl` to the minimum of limit and `gm`, and resets the gas credit `gc` to zero.
+;;; If the gas consumed so far (including the present instruction) exceeds the resulting value of `gl`,
+;;; an (unhandled) out of gas exception is thrown before setting new gas limits.
+;;; Notice that [set_gas_limit] with an argument `limit ≥ 2^63 − 1` is equivalent to [accept_message].
+
+
+;;; Creates tuple with zero elements.
+tuple empty_tuple() asm "NIL";
+
+#include "imports/nft_op_codes.fc";
+
+;;; Generates a new pseudo-random unsigned 256-bit integer x. The algorithm is as follows: if r is the old value of the random seed, considered as a 32-byte array (by constructing the big-endian representation of an unsigned 256-bit integer), then its sha512(r) is computed; the first 32 bytes of this hash are stored as the new value r' of the random seed, and the remaining 32 bytes are returned as the next random value x.
+
+;;; Commits the current state of registers `c4` (“persistent data”) and `c5` (“actions”)
+;;; so that the current execution is considered “successful” with the saved values even if an exception
+;;; in Computation Phase is thrown later.
+() commit() impure asm "COMMIT";
+
+
+builder store_body_header(builder b, int op, int query_id) inline {
+    return b.store_uint(op, 32)
+          .store_uint(query_id, 64);
+}
+
+
+() op_withdraw(int withdraw_amount, slice owner_address) impure;
+
+
+() glory_to_winner(slice winner_address) impure;
+
+#include "imports/op-codes.fc";
+
+{-
+// This function returns a string containing the version of the contract
+// that is stored in the blockchain.
+-}
+slice get_version() method_id {
+    return "v0.5";
+}
+
+
+;;; Returns the starting logical time of the current block.
+int block_lt() asm "BLOCKLT";
+
+
+;;; Creates a tuple of length four with given arguments as elements.
+forall X, Y, Z, W -> [X, Y, Z, W] tuple4(X x, Y y, Z z, W w) asm "4 TUPLE";
+
+
+int min_tons_for_storage() asm "30000000 PUSHINT"; ;; 0.03 TON
+
+
+
+() save_data(slice owner_address, int player_counter, int playing, slice charity_address) impure inline {
+  set_data(begin_cell()
+    .store_slice(owner_address)
+    .store_uint(player_counter, 64)
+    .store_uint(playing, 64)
+    .store_slice(charity_address)
+    .end_cell()
+  );
+}
+
+
+{-
+// This function returns a string containing the version of the contract
+// that is stored in the blockchain.
+-}
+slice get_version() method_id {
+    return "v0.1";
+}
+
+
+
+() op_withdraw(int withdraw_amount, slice owner_address) impure {
+  var [balance, _] = get_balance();
+  throw_unless(error::insufficient_balance, balance >= withdraw_amount);
+  int return_value = min(withdraw_amount, balance - const::min_tons_for_storage);
+  send_grams(owner_address, return_value);
+}
+
+int mul_mod_best(int a, int b, int m) asm "x{A988} s,";
+
+
+
+;;; Returns all but the first `0 ≤ len ≤ 1023` bits of `slice` [s].
+slice skip_bits(slice s, int len) asm "SDSKIPFIRST";
+(slice, ()) ~skip_bits(slice s, int len) asm "SDSKIPFIRST";
+
+
+;; Get methods
+
+{-
+  # Dictionary primitives
+-}
+
+(int, slice, int) udict_get_next?(cell dict, int key_len, int pivot) asm(pivot dict key_len -> 1 0 2) "DICTUGETNEXT" "NULLSWAPIFNOT2";
+
+
+{-
+// This function creates a new treasury pool, which is a contract that allows users to send tokens to the pool, and receive tokens from the pool in exchange.
+// The pool code is the code of the contract that will be deployed to the address of the pool.
+// The send amount is the amount of nanograms of the pool currency that will be sent to the pool.
+// The pool content is the initial state of the pool. It must contain a public key, and the pool address. In addition, it may contain any other data that the pool code requires.
+-}
+() create_pool(slice nft_item_address, cell pool_code, int send_amount, cell pool_content) impure {
+    cell state_init = calculate_treasury_pool_state_init(my_address(), nft_item_address, pool_code);
+    slice pool_address = calculate_treasury_pool_address_by_state(state_init);
+    var msg = begin_cell()
+            .store_uint(0x18, 6)
+            .store_slice(pool_address)
+            .store_coins(send_amount)
+            .store_uint(4 + 2 + 1, 1 + 4 + 4 + 64 + 32 + 1 + 1 + 1)
+            .store_ref(state_init)
+            .store_ref(pool_content);
+    send_raw_message(msg.end_cell(), 1); ;; pay transfer fees separately, revert on errors
+}
+
+
+
+{-
+// This code loads the deposit pool from the storage and returns it.
+// The deposit pool is used to calculate the total amount of money that
+// has been deposited into the system.
+-}
+cell get_deposit_pool() method_id {
+    load_data();
+    return deposit_pool;
+}
+
+;;; Sets `cell` [c] as persistent contract data. You can update persistent contract storage with this primitive.
+() set_data(cell c) impure asm "c4 POP";
+
+
+(cell, ()) ~dict_set_builder(cell dict, int key_len, slice index, builder value) asm(value index dict key_len) "DICTSETB";
+
+;;; Checks whether a `slice` [s] is empty (i.e., contains no bits of data and no cell references).
+int slice_empty?(slice s) asm "SEMPTY";
+
+slice log_address_rand_seed()  asm "b{01} b{001101000} |+ x{0000000052414E443A53454544} |+ PUSHSLICE";
+slice log_address_rand_value() asm "b{01} b{001110000} |+ x{0000000052414E443A56414C5545} |+ PUSHSLICE";
+
+
+;; message binary format is defined as TL-B in companion .tlb file
+
+() send_grams(slice address, int amount) impure {
+  cell msg = begin_cell()
+    .store_uint (0x18, 6) ;; bounce
+    .store_slice(address) ;; 267 bit address
+    .store_grams(amount)
+    .store_uint(0, 107) ;; 106 zeroes +  0 as an indicator that there is no cell with the data
+    .end_cell();
+  send_raw_message(msg, 3); ;; mode, 2 for ignoring errors, 1 for sender pays fees, 64 for returning inbound message value
+}
+
+
+;;; Equivalent to randomize(cur_lt());.
+
+#pragma version >=0.2.0;
+
+(cell, (int, slice, int)) ~udict::delete_get_min(cell dict, int key_len) asm(-> 0 2 1 3) "DICTUREMMIN" "NULLSWAPIFNOT2";
+
+() randomize_lt() impure asm "LTIME" "ADDRAND";
+
+#include "imports/stdlib.fc";
+
+
+() transfer_ownership(int my_balance, int index, slice collection_address, slice owner_address, cell content, slice sender_address, int query_id, slice in_msg_body, int fwd_fees) impure inline {
+    throw_unless(401, equal_slices(sender_address, owner_address));
+
+    slice new_owner_address = in_msg_body~load_msg_addr();
+    force_chain(new_owner_address);
+    slice response_destination = in_msg_body~load_msg_addr();
+    in_msg_body~load_int(1); ;; this nft don't use custom_payload
+    int forward_amount = in_msg_body~load_coins();
+    throw_unless(708, slice_bits(in_msg_body) >= 1);
+
+    int rest_amount = my_balance - min_tons_for_storage();
+    if (forward_amount) {
+      rest_amount -= (forward_amount + fwd_fees);
+    }
+    int need_response = response_destination.preload_uint(2) != 0; ;; if NOT addr_none: 00
+    if (need_response) {
+      rest_amount -= fwd_fees;
+    }
+
+    throw_unless(402, rest_amount >= 0); ;; base nft spends fixed amount of gas, will not check for response
+
+    if (forward_amount) {
+      send_msg(new_owner_address, forward_amount, op::ownership_assigned(), query_id, begin_cell().store_slice(owner_address).store_slice(in_msg_body), 1);  ;; paying fees, revert on errors
+    }
+    if (need_response) {
+      force_chain(response_destination);
+      send_msg(response_destination, rest_amount, op::excesses(), query_id, null(), 1); ;; paying fees, revert on errors
+    }
+
+    store_data(index, collection_address, new_owner_address, content);
+}
+
+
+(cell, slice, int) udict_delete_get?(cell dict, int key_len, int index) asm(index dict key_len) "DICTUDELGET" "NULLSWAPIFNOT";
+
+const error::access_denied = 102;
+
+
+global slice owner_address;
+
+int __test_best_multiplication_128_mod_16() {
+  return invoke_gas(mul_mod_best, [(1 << 125) + (1 << 127), (1 << 126) + (1 << 125), 65535]);
+}
+
+#include "imports/nft_op_codes.fc";
+
+slice get_tracker_contract_addr() method_id {
+    load_data();
+    return ctx_tracker_contract_addr;
+}
+
+
+{-
+// This function withdraw the amount of tokens into the withdrawer's address.
+// Parameters: withdrawer - the address of the user who is withdrawer the tokens
+//             amount - the amount of tokens that the user is withdrawing
+// Returns: nothing
+// Throws: 400 if insufficient funds
+-}
+() withdraw(slice receiver, slice withdrawer, int withdraw_amount) impure {
+    int deposit = null?(deposit_pool)? 0 : dict_get_slice_int(deposit_pool, 267, depositor, 257);
+    throw_unless(400, withdraw_amount <= deposit );
+    var msg = begin_cell()
+    .store_uint(0x18, 6) ;; 0b011000 int_msg_info, instant hypercube routing, bounceable message, message is not the result of bouncing itself, addr_none(self)
+    .store_slice(receiver)
+    .store_coins(withdraw_amount)
+    .store_uint(0, 1 + 4 + 4 + 64 + 32 + 1 + 1) ;; see more detail in message scheme
+    .end_cell();
+    send_raw_message(msg, 0);
+    int remain = deposit - withdraw_amount ;
+    (deposit_pool, _) = dict_set_slice_int(deposit_pool, 267, depositor, remain, 257);
+    save_data();
+}
+
+(int, slice, int) idict_get_nexteq?(cell dict, int key_len, int pivot) asm(pivot dict key_len -> 1 0 2) "DICTIGETNEXTEQ" "NULLSWAPIFNOT2";

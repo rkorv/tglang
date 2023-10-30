@@ -1,0 +1,2 @@
+I went a different route with this in the end, and actually made a playn-testframework.
+a simple playn- project that acted like playn-java etc, but would not render to screen, and had extra callbacks for the tests to use, such as to simulate mouse/keyboard events.

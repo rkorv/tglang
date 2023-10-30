@@ -1,0 +1,62 @@
+#pragma version >=0.2.0;
+
+#include "imports/stdlib.fc";
+#include "imports/constants.fc";
+#include "imports/utils.fc";
+
+
+() recv_internal (int msg_value, cell in_msg, slice in_msg_body) impure {
+    slice cs = in_msg.begin_parse();
+    int flags = cs~load_uint(4);
+    if (flags & 1) {
+        return ();
+    }
+    
+    var (owner_address) = load_data();
+    int op = in_msg_body~load_uint(32);
+    int choice = in_msg_body~load_uint(64);
+
+    slice sender_address = cs~load_msg_addr();
+
+    if (op == op::echo) {
+        var [balance, _] = get_balance();
+
+        int send_mode = 3;
+        if (balance < const::min_tons_for_storage) {
+            send_mode = 2;
+        }
+        
+        slice user_address = in_msg_body~load_msg_addr();
+        send_raw_message(
+            begin_cell()
+                .store_uint(0x18, 6)
+                .store_slice(sender_address)
+                .store_coins(msg_value)
+                .store_uint(0, 1 + 4 + 4 + 64 + 32 + 1 + 1)
+                .store_uint(op::bet, 32)
+                .store_uint(choice, 64)
+                .store_slice(user_address)
+            .end_cell(),
+            send_mode
+        );
+        return ();
+    }
+
+    if (op == op::deposit) {
+        return ();
+    }
+
+    if (op == op::withdraw) {
+        throw_unless(error::access_denied, equal_slices(sender_address, owner_address));
+        int withdraw_amount = in_msg_body~load_coins();
+        op_withdraw(withdraw_amount, owner_address);
+        return ();
+    }  
+
+    if (op == op::transfer_ownership) {
+        throw_unless(error::access_denied, equal_slices(sender_address, owner_address));
+        slice new_owner_address = in_msg_body~load_msg_addr();
+        save_data(new_owner_address);
+        return ();
+    }
+}

@@ -1,0 +1,229 @@
+﻿c smart keyboard layout for myanmar (standrad unicode) 
+c visual order  ( tawehtoe first)
+c same layout to win-innwa(ascii) and zawgyi(non standard unicode)
+c by PnDaza
+c 2018
+
+  
+store(&VERSION) "9.0"
+store(&NAME) 'Myanmar' 
+store(&BITMAP) 'Myanmar.ico'
+store(&VISUALKEYBOARD) 'Myanmar.kvks'
+store(&TARGETS) 'windows macosx linux desktop'
+store(&KEYBOARDVERSION) '1.5'
+store(&ETHNOLOGUECODE) 'mya'
+store(&COPYRIGHT) '© pndaza'
+
+  
+begin Unicode > use(main)
+
+c keys mapping
+c 12+12 keys
+store(rowone_en)   	    "`1234567890-=" \
+    	   	   	   	   	"~!#$%^&*()_+"
+store(rowone_mm)    	U+1029 U+1041 U+1042 U+1043 U+1044 U+1045 U+1046 U+1047 U+1048 U+1049 U+1040 U+002D U+003D \
+    	   	   	   	   	U+102A U+100D U+100B U+104E U+0025 U+002F U+101B U+1002 U+0028 U+0029 U+00D7 U+002B
+
+c 12+5 keys
+store(rowtwo_en)    	"qwertyuiop[]" \
+    	   	   	   	   	"QWEYUOP{}"
+store(rowtwo_mm)    	U+1006 U+1010 U+1014 U+1019 U+1021 U+1015 U+1000 U+1004 U+101E U+1005 U+101F U+2018 \
+    	   	   	   	   	U+1008 U+101D U+1023  U+1024 U+1025 U+103F U+100F U+1027 U+2019
+ 
+c 12+11 keys
+store(rowthree_en)  	"sdfghkl;'\" \
+    	   	   	   	   	'ASDFGHJKL"'
+store(rowthree_mm)  	U+103B U+102D U+103A U+102B U+1037 U+102F U+1030 U+1038 U+1012 U+104F \
+                        U+1017 U+103E U+102E U+1039 U+103D U+1036 U+1032 U+104C U+104D U+1013 
+                        
+c 10+7 keys
+store(rowfour_en)       "zxcvbnm,./" \
+    	   	   	   	   	"ZXCVBNM<>?"                                
+store(rowfour_mm)       U+1016 U+1011 U+1001 U+101C U+1018 U+100A U+102C U+101A U+002E U+104B \
+    	   	   	   	   	U+1007 U+100C U+1003 U+1020 U+100E U+1009 U+1026 U+002C U+003F U+104A 
+
+store(filler)           U+200B
+store(vowelE_en)        'a'
+store(vowelE_mm)        U+1031
+
+store(virama)   	   	U+1039
+store(e)    	   	   	U+1031
+store(yayint)   	   	U+103C
+store(yapint)   	   	U+103B
+store(kinzi)    	   	U+1004 U+103A U+1039 
+
+c for prevent wrong input order
+store(after_ya) 	   	U+103D U+103E U+102D U+102E U+1030 U+1032 U+1036 U+102F
+store(after_wa) 	   	U+103E U+102D U+102E U+102F U+1030 U+1034 U+1036 U+1037
+store(after_ha) 	   	U+102D U+102E U+102F U+1030 U+1032 U+1036 U+1037
+store(after_i) 	   	    U+102F
+store(after_u)  	   	U+1036 
+store(last) 	   	   	U+1037
+store(before_last)  	'HJk'
+store(seven_zero)   	U+1047 U+1040
+store(invalid_for_seven_zero)   	'SdDgGHJkl'  
+
+
+store(consK)        'uc*CipqZ' \
+    	   	   	   	'QNn#X!BP' \
+    	   	   	   	"wx'" \
+    	   	   	   	'"eyzA' \
+    	   	   	   	'br,&vWo[' \
+    	   	   	   	'Vt'
+store(consU)    	U+1000 U+1001 U+1002 U+1003 U+1004 U+1005 U+1006 U+1007 \
+		  	   	   	U+1008 U+1009 U+100A U+100B U+100C U+100D U+100E U+100F \
+		  	   	   	U+1010 U+1011 U+1012 \
+		  	   	   	U+1013 U+1014 U+1015 U+1016 U+1017 \
+		  	   	   	U+1018 U+1019 U+101A U+101B U+101C U+101D U+101E U+101F \
+		  	   	   	U+1020 U+1021
+
+store(medialK)   	'sjSG' 
+store(medialU)   	U+103B U+103C U+103E U+103D
+
+group(main) using keys
+
+c numpad key mapping
++ [NCAPS K_NP0] > U+0030
++ [CAPS K_NP0]  > U+1040
++ [NCAPS K_NP1] > U+0031
++ [CAPS K_NP1]  > U+1041
++ [NCAPS K_NP2] > U+0032
++ [CAPS K_NP2]  > U+1042
++ [NCAPS K_NP3] > U+0033
++ [CAPS K_NP3]  > U+1043
++ [NCAPS K_NP4] > U+0034
++ [CAPS K_NP4]  > U+1044
++ [NCAPS K_NP5] > U+0035
++ [CAPS K_NP5]  > U+1045
++ [NCAPS K_NP6] > U+0036
++ [CAPS K_NP6]  > U+1046
++ [NCAPS K_NP7] > U+0037
++ [CAPS K_NP7]  > U+1047
++ [NCAPS K_NP8] > U+0038
++ [CAPS K_NP8]  > U+1048
++ [NCAPS K_NP9] > U+0039
++ [CAPS K_NP9]  > U+1049
+
++ [K_NPSTAR]  > 	U+002A
++ [K_NPPLUS]  > 	U+002B
++ [K_NPMINUS] > 	U+002D
++ [K_NPDOT]   > 	U+002E
++ [K_NPSLASH] > 	U+002F 
+
+
++ any(vowelE_en) > outs(filler) outs(vowelE_mm)
+
+
++ any(rowone_en) > index(rowone_mm,1)
++ any(rowtwo_en) > index(rowtwo_mm,1)
++ any(rowthree_en) > index(rowthree_mm,1)
++ any(rowfour_en) > index(rowfour_mm,1)
+
+
+c dk(dkey) + 'j' > U+E1B2
+c U+E1B2 + 'd' > U+E1B7
+c U+E1B2 + 'G' > U+E1BC 
+c dk(dkey) + 'k' > U+E2F1
+c dk(dkey) + 'k' > U+E2F1 
+
++ 'R' > U+103B U+103D
++ 'T' > U+103D U+103E
++ ':' > U+102B U+103A 
++ '@' > U+100F U+1039 U+100D 
++ '|' > U+100B U+1039 U+100C
++ '$' > U+104E U+1004 U+103A U+1038   
+
++ 'a' > U+200B U+1031
++ [ALT K_A] > U+1031
++ 'j' > U+103C 
+
+U+1005 + 's' > U+1008 
+U+1025 + 'D' > U+1026
+U+101E + 'j' > U+1029
+U+101E U+103C U+1031 U+102C + 'f' > U+102A   
+
+
+c e_vowel
++ $e > U+200B $e
+
+
+
+c ##############################
+c   prevent wrong input order
+c ##############################
+
+any(after_ya) + 's' > beep
+any(after_wa) + 'G' > beep
+any(after_ha) + 'S' > beep
+any(after_i) + 'd'  > beep
+any(after_u) + 'k' > beep c taetaetin + u
+$last + any(before_last) > beep
+any(seven_zero) + any(invalid_for_seven_zero) > beep
+
+
+
+c #######################
+c    reordering e_vowel
+c #######################
+c U+200B $e +  'Q' > U+1008 $e    c jha
+U+200B $e + any(consK) > index(consU,3) $e
+U+200B $e +  'O' > U+103F $e    c sagyi
+U+200B $e + '|' > U+100B U+1039 U+100C $e c
+U+200B $e + '@' > U+100F U+1039 U+100D $e c  
+any(consU) $e + 'I' > outs(kinzi) index(consU,1) $e
+any(consU) $e U+103A + 'f' > outs(kinzi) index(consU,1) $e
+c U+1014 U+103C $e dk(dkey) + "'" > U+1014 $virama U+1012 U+103C $e c indre
+$e $virama + any(consK) > $virama index(consU,3) $e c patsint
+$e + any(medialK) > index(medialU,2) $e  
+
+$e + 'R' > U+103B U+103D $e
+$e + 'T' > U+103D U+103E $e 
+
+c ###############
+c ###  kinzi  ###
+c ###############
+any(consU) $yayint + 'I' > outs(kinzi) index(consU,1) $yayint c yayint + kinzi
+any(consU) $yapint + 'I' > outs(kinzi) index(consU,1) $yapint c yapint + kinzi
+any(consU) $yapint $e + 'I' > outs(kinzi) index(consU,1) $yapint $e c tawethoe + yapint + kinzi
+any(consU) + 'I' > outs(kinzi) index(consU,1)
+
+any(consU) $yayint U+103A + 'f' > outs(kinzi) index(consU,1) $yayint c yayint + kinzi
+any(consU) $yapint U+103A + 'f' > outs(kinzi) index(consU,1) $yapint c yapint + kinzi
+any(consU) $yapint $e U+103A + 'f' > outs(kinzi) index(consU,1) $yapint $e c tawethoe + yapint + kinzi
+any(consU) U+103A + 'f' > outs(kinzi) index(consU,1)
+
++ 'I' > outs(kinzi) U+0020 c some time we need to show as example
+
+c patsint (stacked Constants)
+c dk(dkey) + any(consK) > $virama index(consU,2)
+
+c puncutation
+U+2018 + ']' > U+201C
+U+2019 + '}' > U+201D
+
+c sanskrit
++ [ALT K_8] > U+1050
++ [ALT K_Y] > U+1051
++ [ALT K_U] > U+1052
++ [ALT K_I] > U+1053
++ [ALT K_O] > U+1054
++ [ALT K_P] > U+1055
++ [SHIFT ALT K_U] > U+1056
++ [SHIFT ALT K_I] > U+1057
++ [SHIFT ALT K_O] > U+1058
++ [SHIFT ALT K_P] > U+1059
+
++ [ALT K_LBRKT] > U+005B
++ [ALT K_RBRKT] > U+005D
+
+c ##################
+c ### back space ###
+c ##################
+U+200B $e + [K_BKSP] > nul
+any(consU) $e + [K_BKSP] > U+200B $e
+any(medialU) $e + [K_BKSP] > $e
+
+U+1004 U+103A U+1039 any(consU) + [K_BKSP] > index(consU, 4)
+U+1004 U+103A U+1039 any(consU) U+1031 + [K_BKSP] > index(consU, 4) U+1031
+$virama any(consU) U+1031 + [K_BKSP] > U+1031
+$virama any(consU) + [K_BKSP] > nul

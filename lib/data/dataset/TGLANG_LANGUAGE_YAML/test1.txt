@@ -1,0 +1,37 @@
+- name: '[PROVISIONER] Deploy gluster Storage Class'
+  hosts: localhost
+  tasks:
+
+    - include_tasks: ./config-vars.yml
+
+    - name: '[HEKETI] delete deploy folder'
+      file: path=deploy/ state=absent
+      ignore_errors: true
+      when: false
+
+    - name: '[HEKETI] create deploy folder'
+      file: path="{{item}}" state=directory
+      with_items:
+        - deploy
+
+    - name:  '[HEKETI] push out gluster-nas StorageClass'
+      template: src=templates/gluster-nas-sc.yaml.j2 dest=deploy/gluster-nas-sc.yaml
+      when:
+        - _type == "nas"
+
+    - name: '[HEKETI] install NAS StorageClass'
+      command: kubectl create -f deploy/gluster-nas-sc.yaml
+      when:
+        - _type == "nas"
+
+    - name:  '[HEKETI] push out gluster-ssd StorageClass'
+      template: src=templates/gluster-ssd-sc.yaml.j2 dest=deploy/gluster-ssd-sc.yaml
+      when:
+        - _type == "ssd"
+
+    - name: '[HEKETI] install SSD StorageClass'
+      command: kubectl create -f deploy/gluster-ssd-sc.yaml
+      when:
+        - _type == "ssd"
+      ignore_errors: true
+

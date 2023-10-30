@@ -1,0 +1,362 @@
+
+variable base
+
+recv_internal PROC:<{
+//  in_msg_body
+DUP	//  in_msg_body in_msg_body
+SBITS	//  in_msg_body _2
+32 LESSINT	//  in_msg_body _4
+35 THROWIF
+32 LDU	//  _24 _23
+DROP	//  n
+c4 PUSH	//  n _11
+CTOS	//  n ds
+64 LDU	//  n _26 _25
+DROP	//  n total
+SWAP	//  total n
+ADD	//  total
+NEWC	//  total _18
+64 STU	//  _20
+ENDC	//  _21
+c4 POP
+}>
+
+// { 3 untuple } : untriple
+
+{ 10 hold } : +cr
+
+."(Saved to file " type .")" cr
+"TonUtil.fif" include
+
+
+{ base @ B#s } : Base#s
+
+// { sbitrefs rot brembitrefs rot >= -rot <= and } : s-fits?
+
+
+begin-options
+     " <filename-base> <dest-addr> <subwallet-id> <seqno> <amount> [-x <extra-amount>*<extra-currency-id>] [-n|-b] [-t<timeout>] [-B <body-boc>] [-C <comment>] [<savefile>]" +cr +tab
+    +"Creates a request to advanced wallet created by new-wallet-v3.fif, with private key loaded from file <filename-base>.pk "
+    +"and address from <filename-base>.addr, and saves it into <savefile>.boc ('wallet-query.boc' by default)"
+    disable-digit-options generic-help-setopt
+  "b" "--force-bounce" { true =: force-bounce } short-long-option
+    "Forces bounce flag" option-help
+  "t" "--timeout" { parse-int =: timeout } short-long-option-arg
+    "Sets expiration timeout in seconds (" timeout (.) $+ +" by default)" option-help
+  "C" "--comment" { =: comment } short-long-option-arg
+    "Sets the comment to be sent in the transfer message" option-help
+  "m" "--mode" { parse-int =: send-mode } short-long-option-arg
+    "Sets transfer mode (0..255) for SENDRAWMSG (" send-mode (.) $+ +" by default)"
+    option-help
+  "h" "--help" { usage } short-long-option
+    "Shows a help message" option-help
+parse-options
+
+// { 0 { 1+ dup 1 ' $() does over (.) "$" swap $+ 0 (create) } rot times drop } : :$1..n
+
+{ char 0 (-trailing) } : -trailing0
+
+."Query expires in " timeout . ."seconds" cr
+
+{ { bl word dup "" $= abort"comment extends after end of file" "*/" $= } until 0 'nop } :: /*
+
+' $reverse : #>
+
+
+begin-options
+     " <file-path> <dest-addr> <subwallet-id> <seqno> <amount> [-x <extra-amount>*<extra-currency-id>] [-n|-b] [-t<timeout>] [-B <body-boc>] [-C <comment>] [<savefile>]" +cr +tab
+    +"Creates a request to advanced wallet created by new-wallet-v3.fif, with private key loaded from file <file-path> "
+    +"and int validator-id (workchain -1), and saves it into <savefile>.boc ('wallet-query.boc' by default)"
+    disable-digit-options generic-help-setopt
+  "n" "--no-bounce" { false =: allow-bounce } short-long-option
+    "Clears bounce flag" option-help
+  "b" "--force-bounce" { true =: force-bounce } short-long-option
+    "Forces bounce flag" option-help
+  "x" "--extra" { $>xcc extra-cc+! } short-long-option-arg
+    "Indicates the amount of extra currencies to be transfered" option-help
+  "t" "--timeout" { parse-int =: timeout } short-long-option-arg
+    "Sets expiration timeout in seconds (" timeout (.) $+ +" by default)" option-help
+  "B" "--body" { =: body-boc-file } short-long-option-arg
+    "Sets the payload of the transfer message" option-help
+  "C" "--comment" { =: comment } short-long-option-arg
+    "Sets the comment to be sent in the transfer message" option-help
+  "m" "--mode" { parse-int =: send-mode } short-long-option-arg
+    "Sets transfer mode (0..255) for SENDRAWMSG (" send-mode (.) $+ +" by default)"
+    option-help
+  "h" "--help" { usage } short-long-option
+    "Shows a help message" option-help
+parse-options
+
+
+{ s>c hashB } : shash
+
+log2 PROCREF:<{
+//  x
+0 PUSHINT	//  x n=0
+7 PUSHPOW2	//  x n=0 _3=128
+exp INLINECALLDICT	//  x n=0 _4
+s2 s(-1) PUXC	//  x n=0 x _4
+GEQ	//  x n=0 _5
+IF:<{	//  x n=0
+    DROP	//  x
+    128 RSHIFT#	//  x
+    7 PUSHPOW2	//  x n
+}>	//  x n
+
+{ dup square square * } : **5
+3 **5 .
+
+3 =: send-mode  // mode for SENDRAWMSG: +1 - sender pays fees, +2 - ignore errors
+
+{ -rot { 2 pick B# over 0<= } until rot drop } : B#s
+
+{ -rot { 2 pick b# over 0<= } until rot drop } : b#s
+
+^reset ."🤯 NFT Body: " nft-body <s ^cyan (dump) type cr //  In stack: owner_address, collection address SLICE, body SLICE
+
+{ -1 swap +! } : 1-!
+
+{ 2 base ! } : binary
+
+{ "" swap { 0 word 2dup $cmp } { rot swap $+ +cr swap } while 2drop } : scan-until-word
+
+{ 1 swap +! } : 1+!
+
+// automatically generated
+
+// a b c d -- (a*d-b*c) b*d
+{ -rot over * 2swap tuck * rot - -rot * } : R-
+
+// { bl word atom 1 'nop } ::_ `
+
+// { -rot pair swap ! } : 2!
+
+// { 1 untuple } : unsingle
+
+// current continuation slice
+
+$>smca 0= abort"Specify valid send addr"
+
+10 constant ten
+
+
+runvm
+
+
+{ -rot { 2 pick B# over 0<= } until rot drop } : B#s
+
+10 constant ten
+
+<b
+  0x595f07bc 32 u, // op::burn
+  12345 64 u, // query_id
+  5000000000 Gram, // Burning 5 jettons
+  0 3 u, // addr_none for resp_dst and no custom payload
+b>
+
+
+0b1110 b{1110} 2 exch 4 udict! drop
+
+#!/usr/bin/create-state -s
+
+IF:<{	//  x n
+    SWAP	//  n x
+    32 RSHIFT#	//  n x
+    SWAP	//  x n
+    32 ADDCONST	//  x n
+}>	//  x n
+16 PUSHINT	//  x n _24=16
+exp INLINECALLDICT	//  x n _25
+s2 s(-1) PUXC	//  x n x _25
+GEQ	//  x n _26
+
+sqrt PROCREF:<{
+    //  x
+    DUP	//  x x
+    0 EQINT	//  x _2
+    IFJMP:<{	//  x
+      DROP	//
+      0 PUSHINT	//  _3=0
+    }>	//  x
+    DUP	//  x x
+    4 LESSINT	//  x _5
+    IFJMP:<{	//  x
+      DROP	//
+      1 PUSHINT	//  _6=1
+    }>	//  x
+    DUP	//  x x
+    INC	//  x _9
+    1 RSHIFT#	//  x z
+    OVER	//  x z y
+    WHILE:<{
+      2DUP	//  x z y z y
+      LESS	//  x z y _13
+    }>DO<{	//  x z y
+      DROP	//  x z
+      s0 s1 s0 PUSH3	//  x z y x z
+      DIV	//  x z y _14
+      ROT	//  x y _14 z
+      ADD	//  x y _15
+      1 RSHIFT#	//  x y z
+      SWAP	//  x z y
+    }>	//  x z y
+    2 1 BLKDROP2	//  y
+  }>
+
+
+// { cdr cdr car } : caddr
+
+"Asm.fif" include
+
+1000000000 constant Gram
+{ Gram * } : Gram*
+{ Gram swap */r } : Gram*/
+
+
+<b subwallet-id 32 u, now timeout + 32 u, seqno 32 u, send-mode 8 u, swap ref, b>
+
+dest_addr 2dup bounce 7 + .Addr ." = " .addr
+
+
+^reset ."😏 NFT collection base content: " dup sbits 8 / B@+ swap dup constant collection-nft-data ^cyan  (dump) type cr
+
+0xf8a7ea5 constant op_transfer
+
+
+"./collection-data.fif" include constant collection-data
+
+constant index
+
+{ hole constant } : variable
+
+receiver_address
+
+{ -1 swap +! } : 1-!
+
+."subwallet-id=0x" subwallet-id x.
+
+// { @ unpair } : 2@
+
+"TonUtil.fif" include
+
+{ char 0 (-trailing) } : -trailing0
+
+// current continuation slice
+
+7 :$1..n
+
+{ 2 base ! } : binary
+
+."Transferring " amount .GR+cc ."to account "
+
+// TODO:
+
+{ bl word 2 2 ' (create) } :: :_
+
+{ 9 hold } : +tab
+
+true =: allow-bounce
+
+<b
+0 4 u,
+0b111 8 u,
+0b01110101 16 u,
+0b111111111111110001 32 u,
+0b10111110000111111111111110001110101011 64 u,
+0xfffaaffa3445512 128 u,
+0b0111111111111011011 256 u,
+b>
+
+{ (0x.) type } : 0x._
+
+"Asm.fif" include
+
+// { 2 tuple } : pair
+
+{ 1 swap +! } : 1+!
+
+
+swap // get seqno as int on top of stack
+(dump) // dump to string
+type // print it to output
+cr // print endline
+
+
+256 1<<1- 15 / constant AllOnes
+
+{ bl word find not abort"-?" 0 swap } :: [compile]
+
+
+// In stack: init?, index,  collection address, owner_address, body
+
+{ swap 10 /mod char 0 + rot swap hold } : #
+
+Gram 2 * .
+
+
+{ -rot { 2 pick b# over 0<= } until rot drop } : b#s
+
+{ dup 10 < { 48 } { 87 } cond + } : digit
+
+// ' unpair : uncons
+
+<b
+  op_transfer 32 u, // op transfer
+  query_id 64 u, // query_id
+  send_amount Gram, // Sending one jetton
+  send_addr Addr,
+  0 2 u, // addr_none for resp_dst
+  0 1 u, // No custom payload
+  forward_amount Gram, // forward ton amount 0.03
+  0 1 u, // no ref forward_payload
+b>
+
+{ rot swap /mod digit rot swap hold } : b#
+
+{ over abs <# rot 1- ' X# swap times X#s rot sign #> nip } : (0X.)
+
+// { ._ space } : .
+
+$2 bounce parse-load-address force-bounce or allow-bounce and =: bounce 2=: dest_addr
+
+$>smca 0= abort"Specify valid send addr"
+
+{ base @ B# } : Base#
+
+^reset ."👻 NFT owner: "  addr@ -rot 2constant nft_owner_address nft_owner_address rot ^green  print-addr cr //  In stack: collection address SLICE, body SLICE, owner_address SLICE
+
+{ 10 hold } : +cr
+
+."Body of transfer message is " body-cell <s csr. cr
+
+
+// automatically generated
+
+// ' pair : cons
+
+$4 parse-int =: seqno
+
+"./collection-data.fif" include constant collection-data
+
+20000000 constant forward_amount
+
+{ -1 swap +! } : 1-!
+
+2 PUSHINT	//  x n _45=2
+exp INLINECALLDICT	//  x n _46
+s2 s(-1) PUXC	//  x n x _46
+GEQ	//  x n _47
+IF:<{	//  x n
+    SWAP	//  n x
+    2 RSHIFT#	//  n x
+    SWAP	//  x n
+    2 ADDCONST	//  x n
+}>	//  x n
+
+// { true (atom) drop } : atom
+
+{ "" swap { 0 word 2dup $cmp } { rot swap $+ +cr swap } while 2drop } : scan-until-word
+
+{ find 0<> dup ' nip if } : (def?)
+
+{ bl word find not abort"-?" 0 swap } :: [compile]

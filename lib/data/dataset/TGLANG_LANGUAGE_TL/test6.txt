@@ -1,0 +1,100 @@
+//@message_thread_id If not 0, a message thread identifier in which the message will be sent
+pageBlockPreformatted#c070d93e text:RichText language:string = PageBlock;
+//@switch_pm_text If non-empty, this text should be shown on the button that opens a private chat with the bot and sends a start message to the bot with the parameter switch_pm_parameter @switch_pm_parameter The parameter for the bot start message
+//@url An HTTP URL to open
+chatListFilter chat_filter_id:int32 = ChatList;
+channels.readMessageContents#eab5dc38 channel:InputChannel id:Vector<int> = Bool;
+messages.botCallbackAnswer#36585ea4 flags:# alert:flags.1?true has_url:flags.3?true native_ui:flags.4?true message:flags.0?string url:flags.2?string cache_time:int = messages.BotCallbackAnswer;
+endGroupCall group_call_id:int32 = Ok;
+storage.fileMp4#b3cea0e4 = storage.FileType;
+auth.resetAuthorizations#9fab0d1a = Bool;
+//@description The message pinned state was changed @chat_id Chat identifier @message_id The message identifier @is_pinned True, if the message is pinned
+inputMediaGifExternal#4843b0fd url:string q:string = InputMedia;
+filePart data:bytes = FilePart;
+//@description The content must be top-aligned
+//@description The session can be used
+//@description A preformatted text paragraph @text Paragraph text @language Programming language for which the text needs to be formatted
+account.changePhone#70c32edb phone_number:string phone_code_hash:string phone_code:string = User;
+//@remote Information about the remote copy of the file
+getArchivedStickerSets#7706ef86 is_masks:Bool offset_sticker_set_id:int64 limit:int32 = StickerSets;
+passportElementTypeEmailAddress = PassportElementType;
+//@description A poll in a message was stopped
+//@input_message_content The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageVideo, InputMessageLocation, InputMessageVenue or InputMessageContact
+//@file_id Identifier of the file to download
+//@description A token for Apple Push Notification service VoIP notifications
+inputChatPhotoEmpty#1ca48f57 = InputChatPhoto;
+//@description Suggests the user to set a 2-step verification password to be able to log in again @authorization_delay The number of days to pass between consecutive authorizations if the user declines to set password
+addSavedAnimation animation:InputFile = Ok;
+//@description The thumbnail is in PNG format. It will be used only for background patterns
+//@send_copy True, if content of the message needs to be copied without a link to the original message. Always true if the message is forwarded to a secret chat
+chatEvent#dba579ac id:int64 date:int32 user_id:int32 action:ChatEventAction = ChatEvent;
+//@button_id Button identifier
+getSupergroupFullInfo supergroup_id:int53 = SupergroupFullInfo;
+messages.markDialogUnread#c286d98f flags:# unread:flags.0?true peer:InputDialogPeer = Bool;
+int64 = Int64;
+//@chat_id Chat identifier of the message with the button @message_id Message identifier of the message with the button @button_id Button identifier
+//@filter Filter for message content; searchMessagesFilterEmpty is unsupported in this function
+messageMediaDocument#2fda2204 document:Document = MessageMedia;
+//@method The method name
+inputPeerEmpty#7f3b18ea = InputPeer;
+//@switch_pm_text If non-empty, this text should be shown on the button, which opens a private chat with the bot and sends the bot a start message with the switch_pm_parameter
+//@document Preview of the content as a document, if available; may be null
+messages.search#8614ef68 flags:# peer:InputPeer q:string from_id:flags.0?InputUser filter:MessagesFilter min_date:int max_date:int offset_id:int add_offset:int limit:int max_id:int min_id:int hash:int = messages.Messages;
+//@description The message pinned state was changed
+//@generation_id The identifier of the generation process @offset The offset from which to write the data to the file @data The data to write
+checkAuthenticationCode#edfe44aa code:string = Ok;
+//@user_id User identifier
+//@limit Number of bytes which should be downloaded starting from the "offset" position before the download will be automatically cancelled; use 0 to download without a limit
+//@description Represents a boolean option
+//@is_default True, if this is one of default backgrounds
+userTypeUnknown#d4d0613d = UserType;
+inputCredentialsAndroidPay#75fdcaf0 data:string = InputCredentials;
+checkAuthenticationCode#edfe44aa code:string = Ok;
+bytes = Bytes;
+//@description Returns favorite stickers
+//@message_id Identifier of the message
+//@description The position of a chat in a chat list has changed. Instead of this update updateChatLastMessage or updateChatDraftMessage might be sent
+help.getCdnConfig#52029342 = CdnConfig;
+//@description Represents a user contact
+callStateExchangingKeys#91d77a65 = CallState;
+updateReadChannelInbox#4214f37f channel_id:int max_id:int = Update;
+//@instant_view_version Version of instant view, available for the web page (currently, can be 1 or 2), 0 if none
+//@param_description Product description; 0-255 characters
+createPrivateChat user_id:int53 force:Bool = Chat;
+chatParticipant#c8d7493e user_id:int inviter_id:int date:int = ChatParticipant;
+invokeAfterMsgs#3dc4b4f0 {X:Type} msg_ids:Vector<long> query:!X = X;
+userPrivacySettingRuleAllowContacts = UserPrivacySettingRule;
+//@description Returns all updates needed to restore current TDLib state, i.e. all actual UpdateAuthorizationState/UpdateUser/UpdateNewChat and others. This is especially useful if TDLib is run in a separate process. Can be called before initialization
+//@marked_as_unread_count Total number of chats marked as unread
+//@photo_url Product photo URL; optional
+//@description Message content that is not supported in the current TDLib version
+privacyValueAllowContacts#fffe1bac = PrivacyRule;
+//@server Proxy server IP address
+//@can_post_messages True, if the administrator can create channel posts; applicable to channels only
+saveApplicationLogEvent#cfa6c20e type:string chat_id:int53 data:JsonValue = Ok;
+//@url HTTP or tg:// URL to be opened when the link is clicked
+//@http_only Pass true if the proxy supports only HTTP requests and doesn't support transparent TCP connections via HTTP CONNECT method
+updateStickerSet#70035dcc sticker_set:stickerSet = Update;
+//@description Adds or changes a custom local language pack to the current localization target @info Information about the language pack. Language pack ID must start with 'X', consist only of English letters, digits and hyphens, and must not exceed 64 characters. Can be called before authorization @strings Strings of the new language pack
+//@height Height of a bounding box in which the image must be shown; 0 if unknown
+chatEventMessagePinned message:message = ChatEventAction;
+//@ttl New account TTL
+//@description Represents information about a venue @id Unique identifier of the query result @venue Venue result @thumbnail_url URL of the result thumbnail, if it exists @thumbnail_width Thumbnail width, if known @thumbnail_height Thumbnail height, if known
+messages.sentEncryptedMessage#560f8935 date:int = messages.SentEncryptedMessage;
+topChatCategoryForwardChats = TopChatCategory;
+updateUserPrivacySettingRules#c99552f6 setting:UserPrivacySetting rules:userPrivacySettingRules = Update;
+//@name Background name
+//@has_animation True, if the photo has animated variant
+updateReadMessagesContents#68c13933 messages:Vector<int> pts:int pts_count:int = Update;
+getFileDownloadedPrefixSize file_id:int32 offset:int32 = Count;
+account.saveSecureValue#899fe31d value:InputSecureValue secure_secret_id:long = SecureValue;
+updateChatParticipantAdd#ea4b0e5c chat_id:int user_id:int inviter_id:int date:int version:int = Update;
+//@class CallState @description Describes the current call state
+//@setting The privacy setting
+inputBotInlineMessageMediaVenue#417bbf11 flags:# geo_point:InputGeoPoint title:string address:string provider:string venue_id:string venue_type:string reply_markup:flags.2?ReplyMarkup = InputBotInlineMessage;
+//@description Changes the period of inactivity after which the account of the current user will automatically be deleted @ttl New account TTL
+updateAnimationSearchParameters provider:string emojis:vector<string> = Update;
+//@invoice_payload Invoice payload
+//@expires_in Left time for which the location can be updated, in seconds. updateMessageContent is not sent when this field changes
+//@description Contains a list of chat members @total_count Approximate total count of chat members found @members A list of chat members
+//@heading For live locations, a direction in which the location moves, in degrees; 1-360. If 0 the direction is unknown

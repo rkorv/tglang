@@ -1,0 +1,387 @@
+
+subwallet-id (.) 1 ' $+ does : +subwallet
+
+
+dictnew
+0b1100 b{1100} 2 exch 4 udict! drop
+
+<b
+	11 32 u, // number
+b>
+
+{ base @ B#s } : Base#s
+
+drop  // Drop flags
+
+
+// c4 cell
+
+// { @ unpair } : 2@
+
+{ bl word 1 2 ' (create) } "::" 1 (create)
+
+{ bl word 1 { (def?) not } } :: undef?
+
+1 2 3 triple 4 5 6 triple 7 8 9 triple triple constant Matrix
+Matrix .dump cr
+| 1 "one" pair , 2 "two" pair , 3 "three" pair , .dump
+
+"Color.fif" include
+
+{ base @ B#s } : Base#s
+
+
+3 roll // In stack: collection address, owner_address, body, index
+
+{ dup * } : square
+
+{ bl word 0 2 ' (create) } :: :
+
+{ bl word 1 {
+  dup find { " -?" $+ abort } ifnot nip execute
+} } :: @'
+
+{ bl word 1 2 ' (create) } "::" 1 (create)
+
+^reset ."👿 NFT index: " ^green index (dump) type cr
+
+0b0000 b{0000} 2 exch 4 udict! drop
+
+<s
+2 u@+ swap 0<> abort"-1"
+4 u@+ swap 0 <> abort"0"
+8 u@+ swap 3 <> abort"0b111"
+16 u@+ swap 5 <> abort"0b01110101"
+32 u@+ swap 15 <> abort"0b111111111111110001"
+64 u@+ swap 27 <> abort"0b10111110000111111111111110001110101011"
+128 u@+ swap 36 <> abort"0xfffaaffa3445512"
+256 u@+ swap 16 <> abort"0b0111111111111011011"
+s>
+
+"Asm.fif" include
+
+// { true (atom) drop } : atom
+
+// TODO:
+
+{ base @ B# } : Base#
+
+
+boc>B Bx.
+
+{ minmax nip } : max
+
+60 =: timeout   // external message expires in 60 seconds
+
+// a b --
+{ swap ._ ."/" . } : R.
+1.7 2/3 R- R.
+
+sqrt PROCREF:<{
+    //  x
+    DUP	//  x x
+    0 EQINT	//  x _2
+    IFJMP:<{	//  x
+      DROP	//
+      0 PUSHINT	//  _3=0
+    }>	//  x
+    DUP	//  x x
+    4 LESSINT	//  x _5
+    IFJMP:<{	//  x
+      DROP	//
+      1 PUSHINT	//  _6=1
+    }>	//  x
+    DUP	//  x x
+    INC	//  x _9
+    1 RSHIFT#	//  x z
+    OVER	//  x z y
+    WHILE:<{
+      2DUP	//  x z y z y
+      LESS	//  x z y _13
+    }>DO<{	//  x z y
+      DROP	//  x z
+      s0 s1 s0 PUSH3	//  x z y x z
+      DIV	//  x z y _14
+      ROT	//  x y _14 z
+      ADD	//  x y _15
+      1 RSHIFT#	//  x y z
+      SWAP	//  x z y
+    }>	//  x z y
+    2 1 BLKDROP2	//  y
+  }>
+
+
+{ -1 swap +! } : 1-!
+
+{ find 0<> dup ' nip if } : (def?)
+
+1 PUSHINT	//  x n _52=1
+exp INLINECALLDICT	//  x n _53
+s1 s2 XCHG	//  n x _53
+GEQ	//  n _54
+IF:<{	//  n
+    INC	//  n
+}>	//  n
+}>
+
+// { 0 [] } : first
+
+#!/usr/bin/create-state -s
+
+{ 0 swap ! } : 0!
+
+<b subwallet-id 32 u, now timeout + 32 u, seqno 32 u, send-mode 8 u, swap ref, b>
+
+1000000000 constant send_amount
+
+"" constant <#
+
+0b0000 b{0000} 2 exch 4 udict! drop
+
+{ { # over 0<= } until } : #s
+
+{ base @ b#s } : base#s
+
+$6 "wallet-query" replace-if-null =: savefile
+
+{ 2 base ! } : binary
+
+{ 0x._ space } : 0x.
+
+// { 0 { 1+ dup 1 ' $() does over (.) "$" swap $+ 0 (create) } rot times drop } : :$1..n
+
+$1 =: file-path
+
+<b
+0 4 u,
+0b111 8 u,
+0b01110101 16 u,
+0b111111111111110001 32 u,
+0b10111110000111111111111110001110101011 64 u,
+0xfffaaffa3445512 128 u,
+0b0111111111111011011 256 u,
+b>
+
+{ s>c hashB } : shash
+
+"EQDRebAnF1pvH1YsKNp7mtpsz+CLs6WxaffUojt1ijyrazkg" constant receiver_address
+
+<b b{1000100} s, wallet_addr addr, 0 Gram, b{00} s,
+   swap B, swap <s s, b>
+dup ."resulting external message: " <s csr. cr
+2 boc+>B dup Bx. cr
+
+{ 16 B#s } : X#s
+
+<s
+2 u@+ swap 0<> abort"-1"
+4 u@+ swap 0 <> abort"0"
+8 u@+ swap 3 <> abort"0b111"
+16 u@+ swap 5 <> abort"0b01110101"
+32 u@+ swap 15 <> abort"0b111111111111110001"
+64 u@+ swap 27 <> abort"0b10111110000111111111111110001110101011"
+128 u@+ swap 36 <> abort"0xfffaaffa3445512"
+256 u@+ swap 16 <> abort"0b0111111111111011011"
+s>
+
+
+
+"build/contract.pk" load-generate-keypair // generate key pair
+constant private_key  // save private to constant
+constant public_key // save public to constant
+
+{ bl word 1 { find 0= abort"word not found" } } :: (')
+
+// { bl word atom 1 'nop } ::_ `
+
+^reset ."😏 NFT collection base content: " collection-nft-data B>$ ^cyan  (dump) type cr
+
+
+Gram 1000 / constant mGram
+mGram .
+
+avg PROCREF:<{
+//  x y
+ADD	//  _2
+1 RSHIFT#	//  _4
+}>
+
+"GetOpt.fif" include
+
+{ 2dup > ' swap if } : minmax
+
+
+Gram 1000 / constant mGram
+mGram .
+
+{ 8 base ! } : octal
+
+
+begin-options
+     " <filename-base> <dest-addr> <subwallet-id> <seqno> <amount> [-x <extra-amount>*<extra-currency-id>] [-n|-b] [-t<timeout>] [-B <body-boc>] [-C <comment>] [<savefile>]" +cr +tab
+    +"Creates a request to advanced wallet created by new-wallet-v3.fif, with private key loaded from file <filename-base>.pk "
+    +"and address from <filename-base>.addr, and saves it into <savefile>.boc ('wallet-query.boc' by default)"
+    disable-digit-options generic-help-setopt
+  "b" "--force-bounce" { true =: force-bounce } short-long-option
+    "Forces bounce flag" option-help
+  "t" "--timeout" { parse-int =: timeout } short-long-option-arg
+    "Sets expiration timeout in seconds (" timeout (.) $+ +" by default)" option-help
+  "C" "--comment" { =: comment } short-long-option-arg
+    "Sets the comment to be sent in the transfer message" option-help
+  "m" "--mode" { parse-int =: send-mode } short-long-option-arg
+    "Sets transfer mode (0..255) for SENDRAWMSG (" send-mode (.) $+ +" by default)"
+    option-help
+  "h" "--help" { usage } short-long-option
+    "Shows a help message" option-help
+parse-options
+
+{ char " word 1 ' type } ::_ ."
+
+{ rot swap /mod digit rot swap hold } : b#
+
+sqrt PROCREF:<{
+    //  x
+    DUP	//  x x
+    0 EQINT	//  x _2
+    IFJMP:<{	//  x
+      DROP	//
+      0 PUSHINT	//  _3=0
+    }>	//  x
+    DUP	//  x x
+    4 LESSINT	//  x _5
+    IFJMP:<{	//  x
+      DROP	//
+      1 PUSHINT	//  _6=1
+    }>	//  x
+    DUP	//  x x
+    INC	//  x _9
+    1 RSHIFT#	//  x z
+    OVER	//  x z y
+    WHILE:<{
+      2DUP	//  x z y z y
+      LESS	//  x z y _13
+    }>DO<{	//  x z y
+      DROP	//  x z
+      s0 s1 s0 PUSH3	//  x z y x z
+      DIV	//  x z y _14
+      ROT	//  x y _14 z
+      ADD	//  x y _15
+      1 RSHIFT#	//  x y z
+      SWAP	//  x z y
+    }>	//  x z y
+    2 1 BLKDROP2	//  y
+  }>
+
+
+$6 "wallet-query" replace-if-null =: savefile
+
+$4 parse-int =: seqno
+
+$>smca 0= abort"Specify valid send addr"
+
+// a b --
+{ swap ._ ."/" . } : R.
+1.7 2/3 R- R.
+
+1 2 3 4 .s
+
+256 1<<1- 15 / constant AllOnes
+
+{ char } word x>B 1 'nop } ::_ B{
+
+
+^reset ."😏 NFT collection base content: " dup sbits 8 / B@+ swap dup constant collection-nft-data ^cyan  (dump) type cr
+
+{ hole constant } : variable
+
+{ bl word 3 2 ' (create) } :: ::_
+
+"TonUtil.fif" include
+
+
+dictnew
+0b1100 b{1100} 2 exch 4 udict! drop
+
+{ 0 word drop 0 'nop } :: //
+
+
+^reset ."😏 NFT collection base content: " dup sbits 8 / B@+ swap dup constant collection-nft-data ^cyan  (dump) type cr
+
+3 =: send-mode  // mode for SENDRAWMSG: +1 - sender pays fees, +2 - ignore errors
+
+{ { # over 0<= } until } : #s
+
+{ 1 swap +! } : 1+!
+
+{ null swap ! } : null!
+
+get_total PROC:<{
+//
+c4 PUSH	//  _1
+CTOS	//  ds
+64 LDU	//  _8 _7
+DROP	//  total
+}>
+
+// { null ' cons rot times } : list
+
+{ bl word find not abort"-?" 0 swap } :: [compile]
+
+// { (.) type } : ._
+
+{ 1 swap +! } : 1+!
+
+{ 0x._ space } : 0x.
+
+"./collection-data.fif" include constant collection-data
+
+{ bl word 1 { (def?) not } } :: undef?
+
+<s dup 32 u@ // get seqno from cell
+swap ref@ // get ref on first cell
+
+
+1 2 3 triple 4 5 6 triple 7 8 9 triple triple constant Matrix
+Matrix .dump cr
+| 1 "one" pair , 2 "two" pair , 3 "three" pair , .dump
+
+1 2 3 triple 4 5 6 triple 7 8 9 triple triple constant Matrix
+Matrix .dump cr
+| 1 "one" pair , 2 "two" pair , 3 "three" pair , .dump
+
+{ bl word 1 { swap 1 'nop does swap 0 (create) }
+} :: =:
+
+' $reverse : #>
+
+1 2 3 triple 4 5 6 triple 7 8 9 triple triple constant Matrix
+Matrix .dump cr
+| 1 "one" pair , 2 "two" pair , 3 "three" pair , .dump
+
+
+begin-options
+     " <file-path> <dest-addr> <subwallet-id> <seqno> <amount> [-x <extra-amount>*<extra-currency-id>] [-n|-b] [-t<timeout>] [-B <body-boc>] [-C <comment>] [<savefile>]" +cr +tab
+    +"Creates a request to advanced wallet created by new-wallet-v3.fif, with private key loaded from file <file-path> "
+    +"and int validator-id (workchain -1), and saves it into <savefile>.boc ('wallet-query.boc' by default)"
+    disable-digit-options generic-help-setopt
+  "n" "--no-bounce" { false =: allow-bounce } short-long-option
+    "Clears bounce flag" option-help
+  "b" "--force-bounce" { true =: force-bounce } short-long-option
+    "Forces bounce flag" option-help
+  "x" "--extra" { $>xcc extra-cc+! } short-long-option-arg
+    "Indicates the amount of extra currencies to be transfered" option-help
+  "t" "--timeout" { parse-int =: timeout } short-long-option-arg
+    "Sets expiration timeout in seconds (" timeout (.) $+ +" by default)" option-help
+  "B" "--body" { =: body-boc-file } short-long-option-arg
+    "Sets the payload of the transfer message" option-help
+  "C" "--comment" { =: comment } short-long-option-arg
+    "Sets the comment to be sent in the transfer message" option-help
+  "m" "--mode" { parse-int =: send-mode } short-long-option-arg
+    "Sets transfer mode (0..255) for SENDRAWMSG (" send-mode (.) $+ +" by default)"
+    option-help
+  "h" "--help" { usage } short-long-option
+    "Shows a help message" option-help
+parse-options
+
+
+// { swap sbitrefs -rot + rot brembitrefs -rot <= -rot <= and } : s-fits-with?

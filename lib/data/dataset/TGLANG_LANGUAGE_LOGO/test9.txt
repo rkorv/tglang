@@ -1,0 +1,2 @@
+# the most basic logo command possible
+fd 50

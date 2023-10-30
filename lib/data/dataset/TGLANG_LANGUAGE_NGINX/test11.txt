@@ -1,0 +1,21 @@
+[www]
+user = www-data
+group = www-data
+
+listen = 127.0.0.1:9000
+#listen = /var/run/fastcgi.sock
+listen.backlog = -1
+listen.owner = www-data
+listen.group = www-data
+
+request_terminate_timeout = 1h
+
+rlimit_files = 131072
+rlimit_core = unlimited
+catch_workers_output = yes
+
+# 16G setting
+pm.max_requests = 320
+pm = static
+pm.max_children = 800
+

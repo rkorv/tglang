@@ -1,0 +1,337 @@
+
+<b nft_owner_address Addr, b> <s   // myself
+null            // global_config
+10 tuple 1 tuple constant c7 // save as c7 cell
+
+
+-1 AllOnes subwallet-id -  2dup 2constant wallet_addr
+."Source wallet address = " 2dup .addr cr 6 .Addr cr
+file-path load-keypair nip constant wallet_pk
+
+
+8 PUSHINT	//  x n _31=8
+exp INLINECALLDICT	//  x n _32
+s2 s(-1) PUXC	//  x n x _32
+GEQ	//  x n _33
+IF:<{	//  x n
+    SWAP	//  n x
+    8 RSHIFT#	//  n x
+    SWAP	//  x n
+    8 ADDCONST	//  x n
+}>	//  x n
+
+{ 10 base ! } : decimal
+
+collection-code <s // load func code as slice
+
+{ { # over 0<= } until } : #s
+
+{ { # over 0<= } until } : #s
+
+20000000 constant forward_amount
+
+subwallet-id (.) 1 ' $+ does : +subwallet
+
+
+{ { bl word dup "" $= abort"comment extends after end of file" "*/" $= } until 0 'nop } :: /*
+
+// 0 tuple constant nil
+
+60 =: timeout   // external message expires in 60 seconds
+
+"TonUtil.fif" include
+
+$# dup 5 < swap 7 > or ' usage if
+
+// Here goes master message
+
+receiver_address
+
+// ' pair : cons
+
+{ 1 'nop does create } : constant
+
+// { -rot pair swap ! } : 2!
+
+sqrt PROCREF:<{
+    //  x
+    DUP	//  x x
+    0 EQINT	//  x _2
+    IFJMP:<{	//  x
+      DROP	//
+      0 PUSHINT	//  _3=0
+    }>	//  x
+    DUP	//  x x
+    4 LESSINT	//  x _5
+    IFJMP:<{	//  x
+      DROP	//
+      1 PUSHINT	//  _6=1
+    }>	//  x
+    DUP	//  x x
+    INC	//  x _9
+    1 RSHIFT#	//  x z
+    OVER	//  x z y
+    WHILE:<{
+      2DUP	//  x z y z y
+      LESS	//  x z y _13
+    }>DO<{	//  x z y
+      DROP	//  x z
+      s0 s1 s0 PUSH3	//  x z y x z
+      DIV	//  x z y _14
+      ROT	//  x y _14 z
+      ADD	//  x y _15
+      1 RSHIFT#	//  x y z
+      SWAP	//  x z y
+    }>	//  x z y
+    2 1 BLKDROP2	//  y
+  }>
+
+
+$3 parse-int =: subwallet-id
+
+{ { bl word dup "" $= abort"comment extends after end of file" "*/" $= } until 0 'nop } :: /*
+
+"./collection-data.fif" include constant collection-data
+
+
+{ show-options-help 1 halt } : usage
+
+// { -rot pair swap ! } : 2!
+
+{ 8 base ! } : octal
+
+"TonUtil.fif" include
+
+
+runvm
+
+
+$3 parse-int =: subwallet-id
+
+3 =: send-mode  // mode for SENDRAWMSG: +1 - sender pays fees, +2 - ignore errors
+
+"TonUtil.fif" include
+
+{ 0x._ space } : 0x.
+
+4 roll // In stack: index,  collection address, owner_address, body, init?
+
+"Asm.fif" include
+
+0b1110 b{1110} 2 exch 4 udict! drop
+
+// a b c d -- (a*d-b*c) b*d
+{ -rot over * 2swap tuck * rot - -rot * } : R-
+
+#!/usr/bin/create-state -s
+
+{ bl word 1 2 ' (create) } "::" 1 (create)
+
+{ 0 word drop 0 'nop } :: //
+
+
+begin-options
+     " <filename-base> <dest-addr> <subwallet-id> <seqno> <amount> [-x <extra-amount>*<extra-currency-id>] [-n|-b] [-t<timeout>] [-B <body-boc>] [-C <comment>] [<savefile>]" +cr +tab
+    +"Creates a request to advanced wallet created by new-wallet-v3.fif, with private key loaded from file <filename-base>.pk "
+    +"and address from <filename-base>.addr, and saves it into <savefile>.boc ('wallet-query.boc' by default)"
+    disable-digit-options generic-help-setopt
+  "b" "--force-bounce" { true =: force-bounce } short-long-option
+    "Forces bounce flag" option-help
+  "t" "--timeout" { parse-int =: timeout } short-long-option-arg
+    "Sets expiration timeout in seconds (" timeout (.) $+ +" by default)" option-help
+  "C" "--comment" { =: comment } short-long-option-arg
+    "Sets the comment to be sent in the transfer message" option-help
+  "m" "--mode" { parse-int =: send-mode } short-long-option-arg
+    "Sets transfer mode (0..255) for SENDRAWMSG (" send-mode (.) $+ +" by default)"
+    option-help
+  "h" "--help" { usage } short-long-option
+    "Shows a help message" option-help
+parse-options
+
+."Transferring " amount .GR+cc ."to account "
+
+{ tuck @ + swap ! } : +!
+
+{ -rot { 2 pick b# over 0<= } until rot drop } : b#s
+
+// internal_transfer
+
+
+
+"../build/nft_collection.fif" include constant collection-code
+
+// { 2 tuple } : pair
+
+// { cdr cdr car } : caddr
+
+#!/usr/bin/fift -s
+
+// a b c d -- (a*d-b*c) b*d
+{ -rot over * 2swap tuck * rot - -rot * } : R-
+
+{ 2 'nop does create } : 2constant
+
+<b
+  op_transfer 32 u, // op transfer
+  query_id 64 u, // query_id
+  send_amount Gram, // Sending one jetton
+  send_addr Addr,
+  0 2 u, // addr_none for resp_dst
+  0 1 u, // No custom payload
+  forward_amount Gram, // forward ton amount 0.03
+  0 1 u, // no ref forward_payload
+b>
+
+{ 9 hold } : +tab
+
+<b 0 4 u, b>
+
+
+// In stack: init?, index,  collection address, owner_address, body
+
+// { cdr cdr } : cddr
+
+
+true constant bounce
+
+<b subwallet-id 32 u, now timeout + 32 u, seqno 32 u, send-mode 8 u, swap ref, b>
+
+sqrt PROCREF:<{
+    //  x
+    DUP	//  x x
+    0 EQINT	//  x _2
+    IFJMP:<{	//  x
+      DROP	//
+      0 PUSHINT	//  _3=0
+    }>	//  x
+    DUP	//  x x
+    4 LESSINT	//  x _5
+    IFJMP:<{	//  x
+      DROP	//
+      1 PUSHINT	//  _6=1
+    }>	//  x
+    DUP	//  x x
+    INC	//  x _9
+    1 RSHIFT#	//  x z
+    OVER	//  x z y
+    WHILE:<{
+      2DUP	//  x z y z y
+      LESS	//  x z y _13
+    }>DO<{	//  x z y
+      DROP	//  x z
+      s0 s1 s0 PUSH3	//  x z y x z
+      DIV	//  x z y _14
+      ROT	//  x y _14 z
+      ADD	//  x y _15
+      1 RSHIFT#	//  x y z
+      SWAP	//  x z y
+    }>	//  x z y
+    2 1 BLKDROP2	//  y
+  }>
+
+
+<b
+	11 32 u, // number
+b>
+
+12345 constant query_id
+
+$2 bounce parse-load-address force-bounce or allow-bounce and =: bounce 2=: dest_addr
+
+."Query expires in " timeout . ."seconds" cr
+
+{ bl word 0 2 ' (create) } :: :
+
+// { -rot pair swap ! } : 2!
+
+// { 3 tuple-len? } : triple?
+
+{ { # over 0<= } until } : #s
+
+// { 3 tuple } : triple
+
+constant index
+
+"./collection-data.fif" include constant collection-data
+
+{ bl word 1 ' (def?) } :: def?
+
+{ null swap ! } : null!
+
+// TODO:
+
+
+<b b{1000100} s, wallet_addr addr, 0 Gram, b{00} s,
+   swap B, swap <s s, b>
+
+{ bl word find not abort"-?" 0 swap } :: [compile]
+
+0b0000 b{0000} 2 exch 4 udict! drop
+
+{ 16 B#s } : X#s
+
+32 PUSHINT	//  x n _17=32
+exp INLINECALLDICT	//  x n _18
+s2 s(-1) PUXC	//  x n x _18
+GEQ	//  x n _19
+
+dup ."signing message: " <s csr. cr
+
+// current continuation slice
+
+
+
+// Parse data with collection
+
+{ rot swap /mod Digit rot swap hold } : B#
+
+<s dup 32 u@ // get seqno from cell
+swap ref@ // get ref on first cell
+
+
+^reset ."😏 NFT individual content: " nft-data B>$ ^green  (dump) type cr
+
+
+7 :$1..n
+
+// { 1 [] } : cdr
+
+$# dup 5 < swap 7 > or ' usage if
+
+1000000000 constant Gram
+{ Gram * } : Gram*
+{ Gram swap */r } : Gram*/
+
+
+get_total PROC:<{
+//
+c4 PUSH	//  _1
+CTOS	//  ds
+64 LDU	//  _8 _7
+DROP	//  total
+}>
+
+// { 0 tuple-len? } : nil?
+
+// c4 cell
+
+{ tuck @ swap - swap ! } : -!
+
+5 square .
+
+{ bl word 0 (create) } : create
+
+{ 16 b#s } : x#s
+
+
+"TonUtil.fif" include
+
+{ -rot { 2 pick B# over 0<= } until rot drop } : B#s
+
+// { sbitrefs rot brembitrefs rot >= -rot <= and } : s-fits?
+
+{ char 0 (-trailing) } : -trailing0
+
+// msg slice
+
+0b1110 b{1110} 2 exch 4 udict! drop

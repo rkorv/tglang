@@ -1,0 +1,26 @@
+"Asm.fif" include
+"TonUtil.fif" include
+
+// this will import the internal message that we just created
+// (it will be as internal_msg constant)
+"internal.fif" include
+
+<b
+ // Again we'll define CommonMsgInfo, we're gonna pick ext_in_msg_info$10 this time, so first two bits will be => '10'
+ // next is source address which we'll use addr_none so => '00' (from nowhere)
+// now we need to append destination which should be MsgAddressInt, we'll use:
+// addr_std$10 anycast:(Maybe Anycast) workchain_id:int8 address:bits256  = MsgAddressInt;
+// and it will not be anycast so we'll get => '100'
+// after concating all of them: '1000100'
+b{1000100} s,
+// Now we parse and append the destination address (workchain_id:int8 address:bits256)
+"EQBoOEfPe5LUnrXTPuUFIK9i4kMsltc63k3vFGkmbPpXcGo5" $>smca 2drop Addr,
+// Then append import_fee
+   0 Gram,
+   // Now we go through message body:
+   // we append a zero bit to indicate there is no init field => '0'
+   // later we append a 1 bit which indicates body is a cell ref (otherwise the whoule message won't fit in 1023-bits) => '1'
+   b{01} s,
+   // Now we append internal_msg as a cell reference
+   internal_msg ref,
+b>

@@ -1,0 +1,19 @@
+plugins {
+    id 'swift-application'
+}
+
+application {
+    targetMachines = [
+        machines.linux,
+        machines.macOS
+    ]
+    binaries.configureEach { 
+        dependencies { 
+            if (targetMachine.operatingSystemFamily.macOs) {
+                implementation project(':macos-console')
+            } else {
+                implementation project(':linux-console')
+            }
+        }
+    }
+}

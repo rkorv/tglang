@@ -1,0 +1,100 @@
+//@is_default True, if this is one of default backgrounds
+updateServiceNotification type:string content:MessageContent = Update;
+msg_resend_req#7d861a08 msg_ids:Vector<long> = MsgResendReq;
+//@description Returns saved animations
+inputBotInlineMessageMediaAuto#292fed13 flags:# caption:string reply_markup:flags.2?ReplyMarkup = InputBotInlineMessage;
+contacts.block#332b49fc id:InputUser = Bool;
+payments.clearSavedInfo#d83d70c1 flags:# credentials:flags.0?true info:flags.1?true = Bool;
+//@audio Preview of the content as an audio file, if available; may be null
+langPackStringPluralized#6c47ac9f flags:# key:string zero_value:flags.0?string one_value:flags.1?string two_value:flags.2?string few_value:flags.3?string many_value:flags.4?string other_value:string = LangPackString;
+//@message_thread_id If non-zero, the identifier of the message thread the message belongs to; unique within the chat to which the message belongs
+session id:int64 is_current:Bool is_password_pending:Bool can_accept_secret_chats:Bool can_accept_calls:Bool api_id:int32 application_name:string application_version:string is_official_application:Bool device_model:string platform:string system_version:string log_in_date:int32 last_active_date:int32 ip:string country:string region:string = Session;
+//@description The list of saved animations was updated @animation_ids The new list of file identifiers of saved animations
+//@description The content should be middle-aligned
+//@options Options to be used to send the message
+//@proxy_id Proxy identifier
+//@phone_number The new phone number of the user in international format
+chatMemberStatusCreator#f6764afe custom_title:string is_anonymous:Bool is_member:Bool = ChatMemberStatus;
+account.deleteAccount#418d4e0b reason:string = Bool;
+authenticationCodeInfo phone_number:string type:AuthenticationCodeType next_type:AuthenticationCodeType timeout:int32 = AuthenticationCodeInfo;
+//@type Type of the chat
+channels.editPhoto#f12e57c9 channel:InputChannel photo:InputChatPhoto = Updates;
+storage.fileJpeg#7efe0e = storage.FileType;
+internalLinkTypeThemeSettings = InternalLinkType;
+//@description Optimizes storage usage, i.e. deletes some files and returns new storage usage statistics. Secret thumbnails can't be deleted
+//@description A Telegram Passport element to be saved containing the user's passport registration
+chatParticipantsForbidden#fc900c2b flags:# chat_id:int self_participant:flags.0?ChatParticipant = ChatParticipants;
+//@text The text to parse
+textEntityTypeUnderline = TextEntityType;
+inputAppEvent#770656a8 time:double type:string peer:long data:string = InputAppEvent;
+channelAdminLogEventActionToggleSignatures#26ae0971 new_value:Bool = ChannelAdminLogEventAction;
+//@description Returns information about a file; this is an offline request @file_id Identifier of the file to get
+getRecentStickers is_attached:Bool = Stickers;
+//-Use the method getSuitableDiscussionChats to find all suitable groups. Basic group chats must be first upgraded to supergroup chats. If new chat members don't have access to old messages in the supergroup, then toggleSupergroupIsAllHistoryAvailable must be used first to change that
+draftMessage reply_to_message_id:int53 date:int32 input_message_text:InputMessageContent = DraftMessage;
+updateChatNotificationSettings#d020b456 chat_id:int53 notification_settings:chatNotificationSettings = Update;
+//@is_muted_for_all_users True, if the participant is muted for all users
+//@max_photo_file_size The maximum size of a photo file to be auto-downloaded
+destroy_session_ok#e22045fc session_id:long = DestroySessionRes;
+req_pq_multi#be7e8ef1 nonce:int128 = ResPQ;
+setSupergroupUsername supergroup_id:int53 username:string = Ok;
+//@url Related article URL
+tMeUrl url:string type:TMeUrlType = TMeUrl;
+editChatInviteLink chat_id:int53 invite_link:string name:string expiration_date:int32 member_limit:int32 creates_join_request:Bool = ChatInviteLink;
+encryptedMessage#ed18c118 random_id:long chat_id:int date:int bytes:bytes file:EncryptedFile = EncryptedMessage;
+//@description A token for web Push API @endpoint Absolute URL exposed by the push service where the application server can send push messages; may be empty to de-register a device
+//@description Contains information about an encrypted Telegram Passport element; for bots only @type Type of Telegram Passport element @data Encrypted JSON-encoded data about the user @front_side The front side of an identity document @reverse_side The reverse side of an identity document; may be null @selfie Selfie with the document; may be null @translation List of files containing a certified English translation of the document @files List of attached files @value Unencrypted data, phone number or email address @hash Hash of the entire element
+channelParticipantsRecent#de3f3c79 = ChannelParticipantsFilter;
+setPollAnswer chat_id:int53 message_id:int53 option_ids:vector<int32> = Ok;
+//@forward_text If non-empty, new text of the button in forwarded messages
+channelAdminLogEventActionChangeLocation#e6b76ae prev_value:ChannelLocation new_value:ChannelLocation = ChannelAdminLogEventAction;
+canTransferOwnershipResultPasswordTooFresh retry_after:int32 = CanTransferOwnershipResult;
+messageEntityHashtag#6f635b0d offset:int length:int = MessageEntity;
+messages.installStickerSet#c78fe460 stickerset:InputStickerSet archived:Bool = messages.StickerSetInstallResult;
+inputChatPhoto#8953ad37 id:InputPhoto = InputChatPhoto;
+//@class AuthorizationState @description Represents the current authorization state of the TDLib client
+remoteFile id:string unique_id:string is_uploading_active:Bool is_uploading_completed:Bool uploaded_size:int32 = RemoteFile;
+//@url URL to be opened
+messageAudio audio:audio caption:formattedText = MessageContent;
+//@reply_markup The message reply markup. Must be of type replyMarkupInlineKeyboard or null
+//@is_slow_mode_enabled True, if the slow mode is enabled in the supergroup
+getTopChats category:TopChatCategory limit:int32 = Chats;
+//@button_id Button identifier
+//@description Returns information about the next messages of the specified type in the chat split by days. Returns the results in reverse chronological order. Can return partial result for the last returned day. Behavior of this method depends on the value of the option "utc_time_offset"
+videoChat group_call_id:int32 has_participants:Bool default_participant_id:MessageSender = VideoChat;
+//@user_location User location; may be null
+//@user_id Chat member user identifier
+//@file_name Original name of the file; as defined by the sender
+help.getDeepLinkInfo#3fedc75f path:string = help.DeepLinkInfo;
+getRecoveryEmailAddress password:string = RecoveryEmailAddress;
+phoneCallRequested#83761ce4 id:long access_hash:long date:int admin_id:int participant_id:int g_a_hash:bytes protocol:PhoneCallProtocol = PhoneCall;
+//@class ChatList @description Describes a list of chats
+//@description A poll was updated; for bots only @poll New data about the poll
+//@description An animation message (GIF-style). @animation Animation file to be sent @thumbnail Animation thumbnail; pass null to skip thumbnail uploading @added_sticker_file_ids File identifiers of the stickers added to the animation, if applicable
+invokeWithMessagesRange#365275f2 {X:Type} range:MessageRange query:!X = X;
+getAuthorizationState#742dbe3d = AuthorizationState;
+//@allow_write_access True, if the user allowed the bot to send them messages
+//@proximity_alert_radius For live locations, a maximum distance to another chat member for proximity alerts, in meters (0-100000). 0 if the notification is disabled. Available only for the message sender
+//@description Returns an HTTPS link to a message in a chat. Available only for already sent messages in supergroups and channels. This is an offline request
+//@id Unique chat filter identifier
+updatePeerLocated#b4afcfb0 peers:Vector<PeerLocated> = Update;
+//-the download has succeeded, has failed, has been cancelled or a new downloadFile request with different offset/limit parameters was sent
+//@description Removes a chat from the list of recently found chats
+pageBlockSubheader#4b567326 subheader:RichText = PageBlock;
+messages.getCommonChats#d0a48c4 user_id:InputUser max_id:int limit:int = messages.Chats;
+//@class TextParseMode @description Describes the way the text should be parsed for TextEntities
+chatActionBarInviteMembers = ChatActionBar;
+sharePhoneNumber user_id:int53 = Ok;
+cancelUploadFile#60c53f90 file_id:int32 = Ok;
+updateDiceEmojis#9d0f91df emojis:vector<string> = Update;
+updateOption#35b17404 name:string value:OptionValue = Update;
+peerNotifySettings#8d5e11ee mute_until:int sound:string show_previews:Bool events_mask:int = PeerNotifySettings;
+channelMessagesFilter#cd77d957 flags:# exclude_new_messages:flags.1?true ranges:Vector<MessageRange> = ChannelMessagesFilter;
+//@description Currently establishing a connection with a proxy server
+//@sticker Sticker file to add
+bytes#e937bb82 = Bytes;
+deleteMessages chat_id:int53 message_ids:vector<int53> revoke:Bool = Ok;
+messageService#9e19a1f6 flags:# out:flags.1?true mentioned:flags.4?true media_unread:flags.5?true silent:flags.13?true post:flags.14?true id:int from_id:flags.8?int to_id:Peer reply_to_msg_id:flags.3?int date:int action:MessageAction = Message;
+//@description Clears draft messages in all chats @exclude_secret_chats If true, local draft messages in secret chats will not be cleared
+secureValueTypeAddress#cbe31e26 = SecureValueType;
+stickerSetInfo#8efbfcae id:int64 title:string name:string thumbnail:thumbnail is_installed:Bool is_archived:Bool is_official:Bool is_animated:Bool is_masks:Bool is_viewed:Bool size:int32 covers:vector<sticker> = StickerSetInfo;

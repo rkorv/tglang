@@ -1,0 +1,538 @@
+
+
+;; Send royalty parameters
+() send_royalty_params(slice to_address, int query_id, slice data) impure inline {
+  var msg = begin_cell()
+    .store_uint(0x10, 6) ;; nobounce - int_msg_info$0 ihr_disabled:Bool bounce:Bool bounced:Bool packages:MsgAddress -> 011000
+    .store_slice(to_address)
+    .store_coins(0)
+    .store_uint(0, 1 + 4 + 4 + 64 + 32 + 1 + 1)
+    .store_uint(op::report_royalty_params(), 32)
+    .store_uint(query_id, 64)
+    .store_slice(data);
+  send_raw_message(msg.end_cell(), 64); ;; carry all the remaining value of the inbound message
+}
+
+
+int playing() method_id {
+  var (_, _, playing, _) = load_data();
+  return playing;
+}
+
+
+;; message binary format is defined as TL-B in companion .tlb file
+
+(cell, (slice, slice, int)) ~dict::delete_get_max(cell dict, int key_len) asm(-> 0 2 1 3) "DICTREMMAX" "NULLSWAPIFNOT2";
+
+;;; Concatenates two builders
+
+tuple digitize_number(int value)
+  asm "NIL WHILE:<{ OVER }>DO<{ SWAP TEN DIVMOD s1 s2 XCHG TPUSH }> NIP";
+
+slice get_tracker_contract_addr() method_id {
+    load_data();
+    return ctx_tracker_contract_addr;
+}
+
+
+{--
+  # Debug primitives
+  Only works for local TVM execution with debug level verbosity
+-}
+;;; Dumps the stack (at most the top 255 values) and shows the total stack depth.
+() dump_stack() impure asm "DUMPSTK";
+
+
+() randomize(int x) impure asm "ADDRAND";
+
+;; Recreation functions
+
+
+cell udict_set_builder(cell dict, int key_len, int index, builder value) asm(value index dict key_len) "DICTUSETB";
+
+int op::transfer() asm "0xf8a7ea5 PUSHINT";
+
+;;; Creates an output action which would reserve exactly amount nanotoncoins (if mode = 0), at most amount nanotoncoins (if mode = 2), or all but amount nanotoncoins (if mode = 1 or mode = 3), from the remaining balance of the account. It is roughly equivalent to creating an outbound message carrying amount nanotoncoins (or b − amount nanotoncoins, where b is the remaining balance) to oneself, so that the subsequent output actions would not be able to spend more money than the remainder. Bit +2 in mode means that the external action does not fail if the specified amount cannot be reserved; instead, all remaining balance is reserved. Bit +8 in mode means `amount <- -amount` before performing any further actions. Bit +4 in mode means that amount is increased by the original balance of the current account (before the compute phase), including all extra currencies, before performing any other checks and actions. Currently, amount must be a non-negative integer, and mode must be in the range 0..15.
+
+;; custom sum function
+(int) sum(int a, int b) {
+    return a + b;
+}
+
+slice get_tracker_contract_addr() method_id {
+    load_data();
+    return ctx_tracker_contract_addr;
+}
+
+const op::deposit = 2;
+
+
+{-
+// This function starts a loan. It is called by the borrower.
+// The borrower sends the amount of the loan as a message value.
+// The loan is stored in the loan_pool dictionary, indexed by the item being loaned.
+// The borrower is the address of the sender of the message.
+// The lender is the address of the sender of the loan message.
+// The loan amount is the amount of the message value.
+// The repay amount is the amount of the message value.
+// The start time is the current time.
+// The duration is the duration of the loan, in seconds.
+// The borrower sends the item being loaned to the lender.
+-}
+() start_loan(slice in_msg_body) impure {
+    slice investor = in_msg_body~load_msg_addr();
+    slice item = in_msg_body~load_msg_addr();
+    int amount = in_msg_body~load_uint(120);
+    int repay_amount = in_msg_body~load_uint(120);
+    int duration = in_msg_body~load_uint(64);
+
+    var (loan_cell, ok) = dict_get_ref(loan_pool, 267, item);
+    throw_unless(409, null?(loan_cell));
+
+    transfer_bond(sender ,my_address() ,item);
+    withdraw(sender, investor, amount);
+
+    cell loan = begin_cell()
+    .store_slice(investor)
+    .store_slice(sender)
+    .store_uint(amount, 120)
+    .store_uint(repay_amount, 120)
+    .store_uint(now(), 64)
+    .store_uint(duration, 64)
+    .end_cell();
+    (loan_pool, _) = dict_set_ref(loan_pool ,267 ,item ,loan);
+    save_data();
+}
+
+
+;;; Returns the tail of lisp-style list.
+tuple cdr(tuple list) asm "CDR";
+
+const op::create_pool = 1;
+
+cell config_param(int x) asm "CONFIGOPTPARAM";
+
+() send_raw_message(cell msg, int mode) impure asm "SENDRAWMSG";
+
+
+{-
+  # Lisp-style lists
+
+  Lists can be represented as nested 2-elements tuples.
+  Empty list is conventionally represented as TVM `null` value (it can be obtained by calling [null()]).
+  For example, tuple `(1, (2, (3, null)))` represents list `[1, 2, 3]`. Elements of a list can be of different types.
+-}
+
+
+(int, int, slice, slice, cell) get_nft_data() method_id {
+  (int init?, int index, slice collection_address, slice owner_address, cell content) = load_data();
+  return (init?, index, collection_address, owner_address, content);
+}
+
+
+() load_data() impure {
+    slice ds = get_data().begin_parse();
+
+    ctx_owner = ds~load_msg_addr();
+    ctx_processing_price = ds~load_coins();
+    ctx_shares = ds~load_dict();
+    ctx_seed = ds~load_uint(16);
+
+    ds.end_parse();
+}
+
+;;; Returns the depth of `cell` [c].
+;;; If [c] has no references, then return `0`;
+;;; otherwise the returned value is one plus the maximum of depths of cells referred to from [c].
+;;; If [c] is a `null` instead of a cell, returns zero.
+int cell_depth(cell c) asm "CDEPTH";
+
+
+{-
+// This function returns a string containing the version of the contract
+// that is stored in the blockchain.
+-}
+slice get_version() method_id {
+    return "v0.1";
+}
+
+
+int __test_multiplication_128() {
+  return invoke_gas(mul, [(1 << 125) + (1 << 127), (1 << 126) + (1 << 125)]);
+}
+
+
+() load_data() impure {
+    var ds = get_data().begin_parse();
+
+    ctx_id = ds~load_uint(32);
+    ctx_tracker = ds~load_uint(32);
+
+    ds.end_parse();
+}
+
+;; Jettons
+
+;;; Mixes unsigned 256-bit integer x into the random seed r by setting the random seed to sha256 of the concatenation of two 32-byte strings: the first with the big-endian representation of the old seed r, and the second with the big-endian representation of x.
+
+cell config_param(int x) asm "CONFIGOPTPARAM";
+
+(cell, int) pfxdict_delete?(cell dict, int key_len, slice key) asm(key dict key_len) "PFXDICTDEL";
+
+(cell, ()) ~udict_set(cell dict, int key_len, int index, slice value) asm(value index dict key_len) "DICTUSET";
+
+global slice ctx_tracker_contract_addr;
+
+
+#include "imports/stdlib.fc";
+
+(cell, slice, int, int, int) load_date() inline {
+    slice ds = get_data().begin_parse();
+
+    cell contributors = ds~load_ref().begin_parse().preload_dict();
+    slice owner = ds~load_msg_addr();
+    int percentage_payoff = ds~load_uint(8);
+    int deadline = ds~load_uint();
+    int total_pledge = ds~load_coins();
+
+    return(contributors, owner, percentage_payoff, deadline, total_pledge);
+}
+
+{-
+  # Continuation primitives
+-}
+;;; Usually `c3` has a continuation initialized by the whole code of the contract. It is used for function calls.
+;;; The primitive returns the current value of `c3`.
+cont get_c3() impure asm "c3 PUSH";
+
+
+int equal_slices (slice a, slice b) asm "SDEQ";
+
+;; =============== storage =============================
+
+
+#include "imports/stdlib.fc";
+
+
+(int, int, slice, slice, cell) load_data() {
+    slice ds = get_data().begin_parse();
+    var (index, collection_address) = (ds~load_uint(64), ds~load_msg_addr());
+    if (ds.slice_bits() > 0) {
+      return (-1, index, collection_address, ds~load_msg_addr(), ds~load_ref());
+    } else {
+      return (0, index, collection_address, null(), null()); ;; nft not initialized yet
+    }
+}
+
+
+
+() force_chain(slice addr) impure {
+  (int wc, _) = parse_std_addr(addr);
+  throw_unless(333, wc == workchain());
+}
+
+
+;; ~load_body_header returns cell slice and tuple (opcode, query_id) stored in it.
+(slice, (int, int)) ~load_body_header(slice s) inline {
+    int op = s~load_uint(32);
+    int query_id = s~load_uint(64);
+    return (s, (op, query_id));
+}
+
+
+;;; A non-quiet version of [slice_compute_data_size?] that throws a cell overflow exception (8) on failure.
+(int, int, int, int) slice_compute_data_size?(cell c, int max_cells) asm "SDATASIZEQ NULLSWAPIFNOT2 NULLSWAPIFNOT";
+
+
+;;; Returns the first element of a tuple (with unknown element types).
+forall X -> X first(tuple t) asm "FIRST";
+
+slice get_tracker_contract_addr() method_id {
+    load_data();
+    return ctx_tracker_contract_addr;
+}
+
+const msg::mode::ignore_errors = 2;
+
+;;; Preloads an unsigned [len]-bit integer from a slice [s].
+;; int preload_uint(slice s, int len) asm "PLDUX";
+
+;; Deploy a single NFT
+() deploy_nft_item(int item_index, cell nft_item_code, int amount, cell item_content) impure {
+  cell state_init = calculate_nft_item_state_init(item_index, nft_item_code); ;; owner addres is in the state_init
+  slice item_address = calculate_nft_item_address(workchain(), state_init);
+  var msg = begin_cell()
+            .store_uint(0x18, 6)
+            .store_slice(item_address)
+            .store_coins(amount)  ;; value
+            .store_uint(4 + 2 + 1, 1 + 4 + 4 + 64 + 32 + 1 + 1 + 1)
+            .store_ref(state_init)
+            ;; msg_body
+            .store_ref(item_content);
+  send_raw_message(msg.end_cell(), 1); ;; pay transfer fees separately, revert on errors
+}
+
+
+
+#include "imports/stdlib.fc";
+
+
+;;; Push null element (casted to given type)
+;;; By the TVM type `Null` FunC represents absence of a value of some atomic type.
+;;; So `null` can actually have any atomic type.
+forall X -> X null() asm "PUSHNULL";
+
+() set_seed(int x) impure asm "SETRAND";
+
+cell udict_set_builder(cell dict, int key_len, int index, builder value) asm(value index dict key_len) "DICTUSETB";
+
+
+() glory_to_winner(slice winner_address) impure {
+  var (_, _, _, charity_address) = load_data();
+  var [balance, _] = get_balance();
+  ;; TODO Calculate fees for renting
+  var winner_amount = balance / 100 * 90;
+  var charity_amount = balance / 100 * 10;
+  send_grams(winner_address, winner_amount);
+  send_grams(charity_address, charity_amount);
+}
+
+
+int op::transfer() asm "0x5fcc3d14 PUSHINT";
+
+
+;;; Returns the second element of a triple tuple.
+forall X, Y, Z -> Y triple_second([X, Y, Z] p) asm "SECOND";
+
+(cell, ()) ~idict_set_builder(cell dict, int key_len, int index, builder value) asm(value index dict key_len) "DICTISETB";
+
+global int ctx_result; ;; the result of the add operation
+
+;;; Creates an output action that would change this smart contract code to that given by cell new_code. Notice that this change will take effect only after the successful termination of the current run of the smart contract
+
+
+;;; Computes sha256 of the data bits of `slice` [s]. If the bit length of `s` is not divisible by eight,
+;;; throws a cell underflow exception. The hash value is returned as a 256-bit unsigned integer `x`.
+int string_hash(slice s) asm "SHA256U";
+
+() emit_log (int event_id, cell data, int query_id) impure inline {
+    var msg = begin_cell()
+        .store_uint(12, 4)         ;; ext_out_msg_info$11 src:MsgAddressInt ()
+        .store_uint(1, 2)          ;; addr_extern$01
+        .store_uint(256, 9)        ;; len:(## 9)
+        .store_uint(event_id, 256); ;; external_address:(bits len)
+
+    if(null?(data)) {
+        msg = msg.store_uint(0, 64 + 32 + 2) ;; created_lt, created_at, init:Maybe, body:Either
+                 .store_uint(query_id, 64);
+    } else {
+        msg = msg.store_uint(1, 64 + 32 + 2) ;; created_lt, created_at, init:Maybe, body:Either
+                 .store_ref(data);
+    }
+
+    send_raw_message(msg.end_cell(), 0);
+}
+
+
+tuple digitize_number(int value)
+  asm "NIL WHILE:<{ OVER }>DO<{ SWAP TEN DIVMOD s1 s2 XCHG TPUSH }> NIP";
+
+
+;;; Returns the logical time of the current transaction.
+int cur_lt() asm "LTIME";
+
+
+{-
+  # Lisp-style lists
+
+  Lists can be represented as nested 2-elements tuples.
+  Empty list is conventionally represented as TVM `null` value (it can be obtained by calling [null()]).
+  For example, tuple `(1, (2, (3, null)))` represents list `[1, 2, 3]`. Elements of a list can be of different types.
+-}
+
+cell udict_set_builder(cell dict, int key_len, int index, builder value) asm(value index dict key_len) "DICTUSETB";
+
+cell new_dict() asm "NEWDICT";
+
+#include "treasury_utils.fc";
+
+;;; Checks whether `slice` [s] has no bits of data.
+int slice_data_empty?(slice s) asm "SDEMPTY";
+
+
+;;; Creates a tuple of length four with given arguments as elements.
+forall X, Y, Z, W -> [X, Y, Z, W] tuple4(X x, Y y, Z z, W w) asm "4 TUPLE";
+
+int op::editorship_assigned() asm "0x511a4463 PUSHINT";
+
+(cell, int, slice, int) idict_delete_get_max(cell dict, int key_len) asm(-> 0 2 1 3) "DICTIREMMAX" "NULLSWAPIFNOT2";
+
+
+() force_chain(slice addr) impure {
+  (int wc, _) = parse_std_addr(addr);
+  throw_unless(333, wc == workchain());
+}
+
+;;; Computes the maximum of two integers [x] and [y].
+int max(int x, int y) asm "MAX";
+
+;;; Transforms a `slice` [s] into a simple ordinary continuation `c`, with `c.code = s` and an empty stack and savelist.
+cont bless(slice s) impure asm "BLESS";
+
+int equal_slices(slice a, slice b) asm "SDEQ";
+
+
+(slice, int) idict_get?(cell dict, int key_len, int index) asm(index dict key_len) "DICTIGET" "NULLSWAPIFNOT";
+
+;; storage scheme
+;; default#_ royalty_factor:uint16 royalty_base:uint16 royalty_address:MsgAddress = RoyaltyParams; ;; 1.2 %  --> factor = 12; base = 100;
+;; storage#_ owner_address:MsgAddress next_item_index:uint64
+;;           ^[collection_content:^Cell common_content:^Cell]
+;;           nft_item_code:^Cell
+;;           royalty_params:^RoyaltyParams
+;;           = Storage;
+
+
+;;; Converts a `builder` into an ordinary `cell`.
+cell end_cell(builder b) asm "ENDC";
+
+#include "imports/op-codes.fc";
+
+(slice, int) idict_get?(cell dict, int key_len, int index) asm(index dict key_len) "DICTIGET" "NULLSWAPIFNOT";
+
+;;; Sets the random seed to unsigned 256-bit seed.
+
+
+slice owner_address() method_id {
+  var (owner_address, _, _, _) = load_data();
+  return owner_address;
+}
+
+const error::insufficient_register_fee = 105;
+
+
+slice owner() method_id {
+    load_data();
+    return ctx_owner;
+}
+
+
+() transfer_ownership(int my_balance, int index, slice collection_address, slice owner_address, cell content, slice sender_address, int query_id, slice in_msg_body, int fwd_fees) impure inline {
+    throw_unless(401, equal_slices(sender_address, owner_address));
+
+    slice new_owner_address = in_msg_body~load_msg_addr();
+    force_chain(new_owner_address);
+    slice response_destination = in_msg_body~load_msg_addr();
+    in_msg_body~load_int(1); ;; this nft don't use custom_payload
+    int forward_amount = in_msg_body~load_coins();
+    throw_unless(708, slice_bits(in_msg_body) >= 1);
+
+    int rest_amount = my_balance - min_tons_for_storage();
+    if (forward_amount) {
+      rest_amount -= (forward_amount + fwd_fees);
+    }
+    int need_response = response_destination.preload_uint(2) != 0; ;; if NOT addr_none: 00
+    if (need_response) {
+      rest_amount -= fwd_fees;
+    }
+
+    throw_unless(402, rest_amount >= 0); ;; base nft spends fixed amount of gas, will not check for response
+
+    if (forward_amount) {
+      send_msg(new_owner_address, forward_amount, op::ownership_assigned(), query_id, begin_cell().store_slice(owner_address).store_slice(in_msg_body), 1);  ;; paying fees, revert on errors
+    }
+    if (need_response) {
+      force_chain(response_destination);
+      send_msg(response_destination, rest_amount, op::excesses(), query_id, null(), 1); ;; paying fees, revert on errors
+    }
+
+    store_data(index, collection_address, new_owner_address, content);
+}
+
+
+int builder_null?(builder b) asm "ISNULL";
+
+() force_chain(slice addr) impure {
+  (int wc, _) = parse_std_addr(addr);
+  throw_unless(333, wc == workchain());
+}
+
+
+#include "imports/stdlib.fc";
+
+(cell, slice, slice, int) dict_delete_get_max(cell dict, int key_len) asm(-> 0 2 1 3) "DICTREMMAX" "NULLSWAPIFNOT2";
+
+
+(int, int, slice) royalty_params() method_id {
+     var (_, _, _, _, royalty) = load_data();
+     slice rs = royalty.begin_parse();
+     return (rs~load_uint(16), rs~load_uint(16), rs~load_msg_addr());
+}
+
+(int, int, slice) royalty_params() method_id {
+     var (_, _, _, _, royalty) = load_data();
+     slice rs = royalty.begin_parse();
+     return (rs~load_uint(16), rs~load_uint(16), rs~load_msg_addr());
+}
+
+
+
+;;; Extracts the head and the tail of lisp-style list.
+forall X -> (X, tuple) uncons(tuple list) asm "UNCONS";
+
+int op::internal_transfer() asm "0x178d4519 PUSHINT";
+
+
+int player_counter() method_id {
+  var (_, player_counter, _, _) = load_data();
+  return player_counter;
+}
+
+#include "imports/stdlib.fc"; ;; import the stdlib to have access to all standard functions
+
+
+() op_withdraw(int withdraw_amount, slice owner_address) impure {
+  var [balance, _] = get_balance();
+  throw_unless(error::insufficient_balance, balance >= withdraw_amount);
+  int return_value = min(withdraw_amount, balance - const::min_tons_for_storage);
+  send_grams(owner_address, return_value);
+}
+
+
+;;; Unpacks a tuple of length four
+forall X, Y, Z, W -> (X, Y, Z, W) untuple4([X, Y, Z, W] t) asm "4 UNTUPLE";
+
+() load_data() impure {
+    var ds = get_data().begin_parse();
+
+    ctx_owner = ds~load_msg_addr();
+    ctx_id = ds~load_uint(32);
+    ctx_result = ds~load_uint(32);
+    ctx_tracker_contract_addr = ds~load_msg_addr();
+
+    ds.end_parse();
+}
+
+
+
+(int, int, slice, slice, cell) get_nft_data() method_id {
+  (int init?, int index, slice collection_address, slice owner_address, cell content) = load_data();
+  return (init?, index, collection_address, owner_address, content);
+}
+
+() store_data(int index, slice collection_address, slice owner_address, slice nexton_address, cell content) impure {
+    set_data(
+        begin_cell()
+            .store_uint(index, 64)
+            .store_slice(collection_address)
+            .store_slice(owner_address)
+            .store_slice(nexton_address)
+            .store_ref(content)
+            .end_cell()
+    );
+}
+
+
+int mul_mod_best(int a, int b, int m) asm "x{A988} s,";
+
+

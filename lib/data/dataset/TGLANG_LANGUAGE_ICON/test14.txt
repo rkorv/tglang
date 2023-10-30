@@ -1,0 +1,11 @@
+# Find digits in string
+
+procedure main()
+  while w:=read() do{
+    i := 1
+    while j:=upto(&digits,w,i)do{
+      i := many(&digits,w,j)
+      write(w[j:i])
+    }
+  }
+end

@@ -1,0 +1,80 @@
+syntax = "proto3";
+package apipb;
+
+import "messages.proto";
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+
+option (gogoproto.marshaler_all) = true;
+option (gogoproto.sizer_all) = true;
+option (gogoproto.unmarshaler_all) = true;
+option (gogoproto.goproto_getters_all) = false;
+option (gogoproto.goproto_unrecognized_all) = false;
+option go_package = "otsimopb";
+option objc_class_prefix = "OTS";
+option java_package = "com.otsimo.grpc";
+option java_multiple_files = true;
+
+
+enum CatalogCategory{
+    NONE = 0;
+    FEATURED = 1;
+    NEW = 2;
+    RECOMMENDATION = 3;
+    POPULAR = 4;
+    RECENTLY_UPDATED = 5;
+}
+
+message CatalogItem{
+    string game_id = 1;
+    CatalogCategory category = 2;
+    int32 index = 3;
+}
+
+enum CatalogStatus{
+    DRAFT = 0;
+    APPROVED = 1;
+}
+
+message Catalog{
+    string title = 1;    
+    int64 created_at = 2;
+    int64 visible_at = 3;
+    int64 expires_at = 4;
+    CatalogStatus status = 5;
+    repeated CatalogItem items= 9;    
+}
+
+//Request-Response
+message CatalogPullRequest{
+    string profile_id = 1;
+    string client_version = 2;
+}
+
+message CatalogListRequest{
+    enum ListStatus{
+        BOTH = 0;
+        ONLY_DRAFT = 1;
+        ONLY_APPROVED = 2;
+    }
+    ListStatus status = 1;
+    bool hide_expired = 2;
+    int32 limit = 3;
+    int64 time = 4;
+    int32 offset = 5;
+}
+
+message CatalogListResponse{
+    repeated Catalog catalogs = 1;
+}
+
+message CatalogApproveRequest{
+    string title = 1;
+}
+
+service CatalogService{
+    rpc Pull(CatalogPullRequest) returns (Catalog);
+    rpc Push(Catalog) returns (Response);
+    rpc List(CatalogListRequest)returns(CatalogListResponse);
+    rpc Approve(CatalogApproveRequest) returns (Response);
+}
+

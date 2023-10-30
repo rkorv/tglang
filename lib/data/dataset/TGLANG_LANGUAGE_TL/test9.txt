@@ -1,0 +1,100 @@
+//@description Returns a string stored in the local database from the specified localization target and language pack by its key. Returns a 404 error if the string is not found. Can be called synchronously
+messages.setBotCallbackAnswer#d58f130a flags:# alert:flags.1?true query_id:long message:flags.0?string url:flags.2?string cache_time:int = Bool;
+//@description The call was ended before the conversation started. It was cancelled by the caller or missed by the other party
+help.getTermsOfServiceUpdate#2ca51fd1 = help.TermsOfServiceUpdate;
+//@description Resends phone number confirmation code
+pageBlockAuthorDate author:RichText publish_date:int32 = PageBlock;
+auth.sendCall#3c51564 phone_number:string phone_code_hash:string = Bool;
+removeContacts user_ids:vector<int32> = Ok;
+contacts.addContact#e8f463d0 flags:# add_phone_privacy_exception:flags.0?true id:InputUser first_name:string last_name:string phone:string = Updates;
+//@from_chat_id Identifier for the chat this forwarded message came from
+messageActionScreenshotTaken#4792929b = MessageAction;
+inputMediaDocument#23ab23d2 flags:# id:InputDocument ttl_seconds:flags.0?int = InputMedia;
+textEntityTypeStrikethrough#394fc4fa = TextEntityType;
+//@description A Telegram Passport element to be saved containing the user's bank statement
+messages.getPeerDialogs#e470bcfd peers:Vector<InputDialogPeer> = messages.PeerDialogs;
+sendMessageCancelAction#fd5ec8f5 = SendMessageAction;
+//@options Options to be used to send the message; pass null to use default options
+//@description Adds multiple new members to a chat. Currently, this method is only available for supergroups and channels. This method can't be used to join a chat. Members can't be added to a channel if it has more than 200 members
+//@provider_token Payment provider token
+//@total_count Number of messages in the album
+animation duration:int32 width:int32 height:int32 file_name:string mime_type:string has_stickers:Bool minithumbnail:minithumbnail thumbnail:thumbnail animation:file = Animation;
+//@description The selected background has changed @for_dark_theme True, if background for dark theme has changed @background The new selected background; may be null
+keyboardButtonRow#77608b83 buttons:Vector<KeyboardButton> = KeyboardButtonRow;
+foundMessages total_count:int32 messages:vector<message> next_offset:string = FoundMessages;
+//@description Returns all active live locations that should be updated by the application. The list is persistent across application restarts only if the message database is used
+messages.chats#64ff9fd5 chats:Vector<Chat> = messages.Chats;
+//@bot_commands List of commands of bots in the group
+chatJoinRequestsInfo total_count:int32 user_ids:vector<int53> = ChatJoinRequestsInfo;
+//@server Proxy server IP address
+//@description Contains information about one website the current user is logged in with Telegram
+peerChannel#bddde532 channel_id:int = Peer;
+//@description Resends phone number confirmation code
+//@description An email address
+messagePoll#d888b24d poll:poll = MessageContent;
+updates.getChannelDifference#3173d78 flags:# force:flags.0?true channel:InputChannel filter:ChannelMessagesFilter pts:int limit:int = updates.ChannelDifference;
+//@description Returns information about the current temporary password
+messageMediaInvoice#84551347 flags:# shipping_address_requested:flags.1?true test:flags.3?true title:string description:string photo:flags.0?WebDocument receipt_msg_id:flags.2?int currency:string total_amount:long start_param:string = MessageMedia;
+messages.setEncryptedTyping#791451ed peer:InputEncryptedChat typing:Bool = Bool;
+//@mean_view_count Mean number of times the recently sent messages was viewed
+contacts.link#3ace484c my_link:ContactLink foreign_link:ContactLink user:User = contacts.Link;
+//@description Checks phone number confirmation code @code The phone number confirmation code
+//@location The new location of the user
+//@supergroup_id Identifier of the supergroup to which the basic group was upgraded
+//@description The sign_messages setting of a channel was toggled @sign_messages New value of sign_messages
+//@disable_notification True, if there should be no notification about the pinned message. Notifications are always disabled in channels and private chats
+contactStatus#d3680c61 user_id:int status:UserStatus = ContactStatus;
+//@title Product title; 1-32 characters
+//@data_hash Current data hash
+//@location Location of the map center
+//@description Returns file downloaded prefix size from a given offset @file_id Identifier of the file @offset Offset from which downloaded prefix size should be calculated
+//@user_ids User identifiers by which to filter events. By default, events relating to all users will be returned
+botCommandScopeDefault = BotCommandScope;
+help.saveAppLog#6f02f748 events:Vector<InputAppEvent> = Bool;
+//@errors Errors in the elements that are already available
+dh_gen_ok#3bcbf734 nonce:int128 server_nonce:int128 new_nonce_hash1:int128 = Set_client_DH_params_answer;
+inputStickerAnimated#bccf4960 sticker:InputFile emojis:string = InputSticker;
+document file_name:string mime_type:string minithumbnail:minithumbnail thumbnail:thumbnail document:file = Document;
+double ? = Double;
+//@sender_chat_id Identifier of the chat that originally sent the message
+checkChangePhoneNumberCode#9976a263 code:string = Ok;
+messageCustomServiceAction text:string = MessageContent;
+//@count Number of bytes to read. An error will be returned if there are not enough bytes available in the file from the specified position. Pass 0 to read all available data from the specified position
+//@description A Telegram Passport element to be saved containing the user's driver license @driver_license The driver license to be saved
+//@description The user is uploading a voice note
+inlineQueryResultVideo id:string video:video title:string description:string = InlineQueryResult;
+searchStickers emoji:string limit:int32 = Stickers;
+//@description Sets the verbosity level for a specified TDLib internal log tag. Can be called synchronously
+invokeWithLayer#da9b0d0d {X:Type} layer:int query:!X = X;
+//@description A simple object containing a sequence of bytes; for testing only
+updateRecentStickers#9a422c20 = Update;
+textEntityTypeUnderline#2f39cf92 = TextEntityType;
+//@low Preset with lowest settings; supposed to be used by default when roaming
+upload.getWebFile#24e6818d location:InputWebFileLocation offset:int limit:int = upload.WebFile;
+//@filter Filter for message content in the search results
+//@animation The animation file to be added. Only animations known to the server (i.e. successfully sent via a message) can be added to the list
+//@chat_id Chat identifier
+//@url URL of the result, if it exists
+//@description Adds a message to TDLib internal log. Can be called synchronously
+inputPhoto#fb95c6c4 id:long access_hash:long = InputPhoto;
+//@members A list of chat members
+authorizationStateClosed = AuthorizationState;
+//@description Contains information about a country
+//@result_id Identifier of the chosen result
+updateChatParticipantAdd#ea4b0e5c chat_id:int user_id:int inviter_id:int date:int version:int = Update;
+//@description Computes time needed to receive a response from a Telegram server through a proxy. Can be called before authorization
+//@description A document message (a general file) @document Message content; may be null @is_pinned True, if the message is a pinned message with the specified content
+getMessageLocally#dc062b6c chat_id:int53 message_id:int53 = Message;
+//@for_comment True, if the message is linked as a channel post comment or from a message thread
+//@audio_source_id Screen sharing audio channel synchronization source identifier; received from tgcalls
+messages.peerDialogs#3371c354 dialogs:Vector<Dialog> messages:Vector<Message> chats:Vector<Chat> users:Vector<User> state:updates.State = messages.PeerDialogs;
+setChatMemberStatus chat_id:int53 member_id:MessageSender status:ChatMemberStatus = Ok;
+//@description The session was created recently, user needs to wait @retry_after Time left before the session can be used to transfer ownership of a chat, in seconds
+messageMediaDocument#7c4414d3 flags:# document:flags.0?Document caption:flags.1?string ttl_seconds:flags.2?int = MessageMedia;
+//@description The list of supported dice emojis has changed @emojis The new list of supported dice emojis
+//@class NotificationSettingsScope @description Describes the types of chats to which notification settings are applied
+//@description Creates a new call
+messages.saveDraft#bc39e14b flags:# no_webpage:flags.1?true reply_to_msg_id:flags.0?int peer:InputPeer message:string entities:flags.3?Vector<MessageEntity> = Bool;
+//@description The file is a wallpaper or a background pattern
+//@description A message with a location @is_live True, if the location is live @is_pinned True, if the message is a pinned message with the specified content
+checkRecoveryEmailAddressCode#88f7981b code:string = PasswordState;

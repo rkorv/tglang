@@ -1,0 +1,44 @@
+h2. Rtextile
+
+bq. Homepage: 	"Github":https://github.com/XFinger/rtextile
+Author: 	Thor Johnson
+Copyright: 	©2011 Central Cortex
+
+
+
+p. The rtextile gem creates a Rails 3 textile editor, enabling your users to add safe, rich text markup to your website.  
+
+p. Rtextile uses the RedCloth gem and a _gemified_ version of the textile_editor_helper plugin. It contains
+two generators, *rtextile* and *textile_editor_helper* that create all the files you need to get up and running
+quickly and easily.
+
+h4. rtextile generator:
+
+p. Generates scaffold. Files created: migration, controller, model, view templates and routes.
+	 	
+h4. Usage:
+
+p. The generator takes three arguments, name(model), the objects title and the object itself.
+
+bq. Example:
+rails generate rtextile document title post
+This will generate a migration for model(document) with title(string) and post(text), controller, model, view templates and routes. After running the generator, run your migration and run the textile_editor_helper generator:
+
+h4. textile_editor_helper generator:
+
+p. The textile_editor_helper generator is a gemified version of the plugin by the same name. Credit goes to   the original authors: Dave Olsen (Javascript) and Chris Scharf (Ruby/Rails) of West Virginia University Web Services (http://webservices.wvu.edu/) and to  ryanfelton (https://github.com/ryanfelton/textile-editor-helper) for making the plugin rails 3 compatable.        
+   
+p. *Notice:* The textile_editor_helper requires prototype. If you prefer to use jquery, edit the initialization line in the form partial to:
+
+pre. <%= textile_editor_initialize(:framework => :jQuery) %>
+
+bq. Example:
+rails generate textile_editor_helper
+This will create: Javascripts, css and image files.  
+
+h4. Links
+
+p(. "redcloth.org":http://redcloth.org
+"textile_editor_helper (original)":http://slatecms.wvu.edu/open_source
+"textile_editor_helper (upadated for rails 3)":https://github.com/ryanfelton/textile-editor-helper
+"more info on textile":http://www.textism.com/tools/textile/

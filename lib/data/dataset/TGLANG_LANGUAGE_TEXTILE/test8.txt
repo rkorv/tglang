@@ -1,0 +1,28 @@
+h1. The "Kitchen Sink"
+
+p. Sample table with summary, caption, colgroups, thead, tfoot, 2x tbody. Based on the example from the "docs":https://textile-lang.com/doc/tables, but I added more style markup.
+
+table(#dvds){border-collapse:collapse}. Great films on DVD employing Textile summary, caption, thead, tfoot, two tbody elements and colgroups
+|={font-size:140%;margin-bottom:15px}. DVDs with two Textiled tbody elements
+|:\3. 100 |{background:#ddd}|250||50|300|
+|^(header).
+|_. Title |_. Starring |_. Director |_. Writer |_. Notes |
+|~(footer).
+|\5=. This is the tfoot, centred |
+|-(toplist){background:#c5f7f6}.
+|{color:red}. _The Usual Suspects_ |^. Benicio Del Toro, Gabriel Byrne, Stephen Baldwin, Kevin Spacey | Bryan Singer | Chris McQuarrie |{color:red}. One of the finest films ever made |
+{color:orange}. | _Se7en_ |(classy). Morgan Freeman, Brad Pitt, Kevin Spacey |=. David Fincher | Andrew Kevin Walker | Great psychological thriller |
+(rowclass). | _Primer_ | David Sullivan, Shane Carruth |~. Shane Carruth |{color:green}. Shane Carruth | Amazing insight into trust and human psychology through science fiction. Terrific! |
+| _District 9_ | Sharlto Copley, Jason Cope | Neill Blomkamp | Neill Blomkamp, Terri Tatchell | Social commentary layered on thick, but boy is it done well |
+|-(medlist){background:#e7e895;}.
+| _Arlington Road_ | Tim Robbins, Jeff Bridges | Mark Pellington | Ehren Kruger | Awesome study in neighbourly relations |
+|>. _Phone Booth_ |^. Colin Farrell, Kiefer Sutherland, Forest Whitaker |[fr]. Joel Schumacher | Larry Cohen | Edge-of-the-seat stuff in this short but brilliantly executed thriller |
+
+| A | simple | table | row |
+| And | another | table | row |
+| With an | | empty | cell |
+| without the "table" | line above the table | this table is missing the | "markup.other.table.textile" scope |
+|{this:looks} like markup |[but] it's not |(without) a period after |= the "markup" it isn't |
+|> valid markup, so |_ should be treated as content | : similarly, a space before the colon | means that's not markup |
+|~(footer). |
+| that pipe ^ there means that's not a markup row, either. | though the |"~(footer)." is actually markup |(but not when quoted)|

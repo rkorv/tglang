@@ -1,0 +1,331 @@
+
+<s
+2 u@+ swap 0<> abort"-1"
+4 u@+ swap 0 <> abort"0"
+8 u@+ swap 3 <> abort"0b111"
+16 u@+ swap 5 <> abort"0b01110101"
+32 u@+ swap 15 <> abort"0b111111111111110001"
+64 u@+ swap 27 <> abort"0b10111110000111111111111110001110101011"
+128 u@+ swap 36 <> abort"0xfffaaffa3445512"
+256 u@+ swap 16 <> abort"0b0111111111111011011"
+s>
+
+
+// { cdr cdr } : cddr
+
+#!/usr/bin/create-state -s
+
+collection-data // add c4 cell lodaded from lite-client
+
+{ tuck @ + swap ! } : +!
+
+
+{ show-options-help 1 halt } : usage
+
+."Query expires in " timeout . ."seconds" cr
+
+// { 3 tuple-len? } : triple?
+
+<b 0 4 u, b>
+
+{ 2 base ! } : binary
+
+$1 =: file-path
+
+."Query expires in " timeout . ."seconds" cr
+
+
+"../build/nft_collection.fif" include constant collection-code
+
+// { 3 tuple } : triple
+
+// parse new c4 cell
+
+<b 0 4 u, b>
+
+1000000000 constant Gram
+{ Gram * } : Gram*
+{ Gram swap */r } : Gram*/
+
+
+{ 0 word -trailing scan-until-word 1 'nop } ::_ $<<
+
+{ 2 'nop does create } : 2constant
+
+recv_internal PROC:<{
+//  in_msg_body
+DUP	//  in_msg_body in_msg_body
+SBITS	//  in_msg_body _2
+32 LESSINT	//  in_msg_body _4
+35 THROWIF
+32 LDU	//  _24 _23
+DROP	//  n
+c4 PUSH	//  n _11
+CTOS	//  n ds
+64 LDU	//  n _26 _25
+DROP	//  n total
+SWAP	//  total n
+ADD	//  total
+NEWC	//  total _18
+64 STU	//  _20
+ENDC	//  _21
+c4 POP
+}>
+
+{ s>c hashB } : shash
+
+{ 0X._ space } : 0X.
+
+{ 0x._ space } : 0x.
+
+// { bl word atom 1 'nop } ::_ `
+
+#!/usr/bin/fift -s
+
+collection-data // add c4 cell lodaded from lite-client
+
+{ 0< { char - hold } if } : sign
+
+"Lists.fif" include
+
+8 PUSHINT	//  x n _31=8
+exp INLINECALLDICT	//  x n _32
+s2 s(-1) PUXC	//  x n x _32
+GEQ	//  x n _33
+IF:<{	//  x n
+    SWAP	//  n x
+    8 RSHIFT#	//  n x
+    SWAP	//  x n
+    8 ADDCONST	//  x n
+}>	//  x n
+
+
+<b
+  0 32 u, // seqno
+  0 32 u, // subwallet-id
+  public_key B, // add bin public key to cell
+b>
+
+{ 9 hold } : +tab
+
+def? body-boc-file { @' body-boc-file file>B B>boc } { comment simple-transfer-body } cond
+constant body-cell
+
+
+{ bl (-trailing) } : -trailing
+
+"TonUtil.fif" include
+
+
+{ dup =: x dup * =: y } : setxy
+3 setxy x . y . x y + .
+7 setxy x . y . x y + .
+
+{ bl word 1 2 ' (create) } "::" 1 (create)
+
+{ bl word 0 (create) } : create
+
+power PROCREF:<{
+    //  x exponent
+    OVER	//  x exponent x
+    0 EQINT	//  x exponent _3
+    IFJMP:<{	//  x exponent
+      2DROP	//
+      0 PUSHINT	//  _4=0
+    }>	//  x exponent
+    DUP	//  x exponent exponent
+    0 EQINT	//  x exponent _6
+    IFJMP:<{	//  x exponent
+      2DROP	//
+      1 PUSHINT	//  _7=1
+    }>	//  x exponent
+    OVER	//  x counter result
+    WHILE:<{
+      OVER	//  x counter result counter
+      1 GTINT	//  x counter result _11
+    }>DO<{	//  x counter result
+      s2 PUSH	//  x counter result x
+      MUL	//  x counter result
+      SWAP	//  x result counter
+      DEC	//  x result counter
+      SWAP	//  x counter result
+    }>	//  x counter result
+    2 1 BLKDROP2	//  result
+  }>
+
+."Body of transfer message is " body-cell <s csr. cr
+
+
+^reset ."😏 NFT individual content: " nft-data B>$ ^green  (dump) type cr
+
+
+variable base
+
+{ bl word (number) ?dup 0= abort"not a valid Gram amount"
+  1- { Gram swap */r } { Gram * } cond
+  1 ’nop
+} ::_ GR$
+
+{ s>c hashB } : shash
+
+{ minmax nip } : max
+
+"Hello, world!" constant hello
+hello type cr
+
+0b1110 b{1110} 2 exch 4 udict! drop
+
+{ rot swap /mod digit rot swap hold } : b#
+
+0xf8a7ea5 constant op_transfer
+
+
+
+<b b{1000100} s, wallet_addr addr, 0 Gram, b{00} s,
+   swap B, swap <s s, b>
+
+{ <b swap s, b> } : s>c
+
+$# dup 5 < swap 7 > or ' usage if
+
+20000000 constant forward_amount
+
+
+swap // get seqno as int on top of stack
+(dump) // dump to string
+type // print it to output
+cr // print endline
+
+
+"TonUtil.fif" include
+
+constant nft-body
+
+8 PUSHINT	//  x n _31=8
+exp INLINECALLDICT	//  x n _32
+s2 s(-1) PUXC	//  x n x _32
+GEQ	//  x n _33
+IF:<{	//  x n
+    SWAP	//  n x
+    8 RSHIFT#	//  n x
+    SWAP	//  x n
+    8 ADDCONST	//  x n
+}>	//  x n
+
+// internal_transfer
+
+
+^reset ."🤯 NFT Body: " nft-body <s ^cyan (dump) type cr //  In stack: owner_address, collection address SLICE, body SLICE
+
+{ bl word 1 {
+  dup find { " -?" $+ abort } ifnot nip execute
+} } :: @'
+
+"TonUtil.fif" include
+
+
+true constant bounce
+
+5 square .
+
+{ dup * } : square
+
+{ tuck @ swap - swap ! } : -!
+
+^reset ."👋 NFT is inited: " ^magenta (dump) type cr
+
+
+3 roll // In stack: collection address, owner_address, body, index
+
+
+nft-body <s dup sbits 8 / B@ constant nft-data
+
+
+dictnew
+0b1100 b{1100} 2 exch 4 udict! drop
+
+dup ."signing message: " <s csr. cr
+
+
+"../build/nft_collection.fif" include constant collection-code
+
+{ base @ B# } : Base#
+
+10 constant ten
+
+."Body of transfer message is " body-cell <s csr. cr
+
+
+{ 2 base ! } : binary
+
+// { ._ space } : .
+
+
+"build/contract.pk" load-generate-keypair // generate key pair
+constant private_key  // save private to constant
+constant public_key // save public to constant
+
+^reset ."🤯 NFT Body: " nft-body <s ^cyan (dump) type cr //  In stack: owner_address, collection address SLICE, body SLICE
+
+{ dup =: x dup * =: y } : setxy
+3 setxy x . y . x y + .
+7 setxy x . y . x y + .
+
+{ 0 word drop 0 'nop } :: //
+
+{ bl word find not abort"-?" 0 swap } :: [compile]
+
+{ null swap ! } : null!
+
+{ extra-currencies @ cc+ extra-currencies ! } : extra-cc+!
+
+// { bl word dup (def?) { drop skip-to-eof } { 'nop swap 0 (create) } cond } : library
+
+2constant send_addr // worchain and addr into single constant
+
+{ hole dup 1 { @ execute } does create } : recursive
+
+{ char 0 (-trailing) } : -trailing0
+
+
+^reset ."😏 NFT collection base content: " dup sbits 8 / B@+ swap dup constant collection-nft-data ^cyan  (dump) type cr
+
+
+.s
+^reset ."😏 NFT individual content: " ref@ <s dup sbits 8 / B@ dup constant nft-data ^green  (dump) type cr
+
+collection-data // add c4 cell lodaded from lite-client
+
+"Asm.fif" include
+
+<s 64 u@ // get message from second cell
+swap // get seqno from cell to top
+// you will see that integer and cell slice are in stack
+// print seqno (it is just int in stack)
+
+{ dup square square * } : **5
+3 **5 .
+
+."Transferring " amount .GR+cc ."to account "
+
+#!/usr/bin/create-state -s
+
+^reset ."😏 NFT individual content parsed: " nft-data B>$ (dump) type cr
+
+{ (0X.) type } : 0X._
+
+^reset ."👿 NFT index: " ^green index (dump) type cr
+
+// { bl word dup (def?) { drop skip-to-eof } { 'nop swap 0 (create) } cond } : library
+
+<b
+0 4 u,
+0b111 8 u,
+0b01110101 16 u,
+0b111111111111110001 32 u,
+0b10111110000111111111111110001110101011 64 u,
+0xfffaaffa3445512 128 u,
+0b0111111111111011011 256 u,
+b>
+
+// { 1 tuple } : single

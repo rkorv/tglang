@@ -1,0 +1,328 @@
+<%
+
+'
+' This files defines the Messaggi model
+'
+
+class Messaggi
+
+ '=============================
+ 'Private properties
+    private mId
+
+    private mMittente
+    private mDestinatario
+    private mOggetto
+    private mCorpo
+    private mData_invio
+    private mLetto
+    private mData_lettura
+    private mCancellato
+    private mLink_file
+    private mNome_file
+
+  private sub Class_Initialize()
+  end sub
+
+  private sub Class_Terminate()
+  end sub
+
+ '=============================
+ 'public properties
+
+    public property get Id()
+        Id = mId
+    end property
+
+    public property let Id(val)
+        mId = val
+    end property
+
+    public property get Mittente()
+        Mittente = mMittente
+    end property
+
+    public property let Mittente(val)
+        mMittente = val
+    end property
+
+    public property get Destinatario()
+        Destinatario = mDestinatario
+    end property
+
+    public property let Destinatario(val)
+        mDestinatario = val
+    end property
+
+    public property get Oggetto()
+        Oggetto = mOggetto
+    end property
+
+    public property let Oggetto(val)
+        mOggetto = val
+    end property
+
+    public property get Corpo()
+        Corpo = mCorpo
+    end property
+
+   public property let Corpo(val)
+        mCorpo = val
+    end property
+
+    public property get Data_invio()
+        Data_invio = mData_invio
+    end property
+
+    public property let Data_invio(val)
+        mData_invio = val
+    end property
+
+    public property get Letto()
+        Letto = mLetto
+    end property
+
+    public property let Letto(val)
+        mLetto = val
+    end property
+
+    public property get Data_lettura()
+        Data_lettura = mData_lettura
+    end property
+
+    public property let Data_lettura(val)
+        mData_lettura = val
+    end property
+
+    public property get Cancellato()
+        Cancellato = mCancellato
+    end property
+
+    public property let Cancellato(val)
+        mCancellato = val
+    end property
+
+    public property get Link_file()
+        Link_file = mLink_file
+    end property
+
+    public property let Link_file(val)
+        mLink_file = val
+    end property
+
+    public property get Nome_file()
+        Nome_file = mNome_file
+    end property
+
+    public property let Nome_file(val)
+        mNome_file = val
+    end property
+
+end class 'Messaggi
+
+'======================
+class MessaggiHelper
+
+  Dim selectSQL
+
+  private sub Class_Initialize()
+    selectSQL = " SELECT * FROM [Messaggi] "
+  end sub
+
+  private sub Class_Terminate()
+  end sub
+
+ '=============================
+ 'public Functions
+
+    public function Insert(obj)
+        Dim strSQL
+        strSQL=   " INSERT INTO [Messaggi] (mittente, destinatario, oggetto, corpo, data_invio, link_file, nome_file) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}') "
+        obj.Id = DbExecute (StringFormat(strSQL, array(obj.Mittente, obj.Destinatario, obj.Oggetto, obj.Corpo, obj.Data_invio, obj.Link_file, obj.Data_lettura)))
+        Insert = true
+        DbCloseConnection
+    end function
+
+    public function SignAsRead(obj)
+        Dim strSQL
+        strSQL = "UPDATE [Messaggi] SET letto = {0}, data_lettura = '{1}' WHERE id = {2}"
+        DbExecute StringFormat(strSQL, array(Abs(CInt(obj.Letto)), obj.Data_lettura, obj.Id))
+        UpdateRead = true
+        DbCloseConnection
+    end function
+
+    public function LogicDelete(obj)
+        Dim strSQL
+        strSQL= " UPDATE [Messaggi] SET cancellato = '{0}' WHERE id = {1} "
+        DbExecute StringFormat(strSQL, array( Abs(Cint(obj.Cancellato)), obj.Id))
+        LogicDelete = true
+        DbCloseConnection
+    end function
+
+    public function LogicUnDelete(obj)
+        Dim strSQL
+        strSQL= " UPDATE [Messaggi] SET cancellato = '{0}' WHERE id = {1} "
+        DbExecute StringFormat(strSQL, array( Abs(Cint(obj.Cancellato)), obj.Id))
+        LogicUnDelete = true
+        DbCloseConnection
+    end function
+
+    public function SelectAll()
+        Dim records
+        set records = DbExecute(selectSQL)
+        if records.eof then
+            Set SelectAll = Nothing
+        else
+            Dim results, obj, record
+            Set results = Server.CreateObject("Scripting.Dictionary")
+            while not records.eof
+                set obj = PopulateObjectFromRecord(records)
+                results.Add obj.Id, obj
+                records.movenext
+            wend
+            set SelectAll = results
+            records.Close
+        End If
+        set record = nothing
+        DbCloseConnection
+    end function
+
+    public function SelectById(id)
+        Dim record
+        set record = DbExecute(StringFormat(selectSQL + " WHERE id = {0}", array(id)))
+        Set SelectById = PopulateObjectFromRecord(record)
+        record.Close
+        set record = nothing
+        DbCloseConnection
+    end function
+
+    public function SelectSended(id)
+        Dim records
+        set records = DbExecute(StringFormat(selectSQL + " WHERE mittente = {0} AND cancellato = 0", array(id)))
+        if records.eof then
+            Set SelectSended = Nothing
+        else
+            Dim results, obj, record
+            Set results = Server.CreateObject("Scripting.Dictionary")
+            while not records.eof
+                set obj = PopulateObjectFromRecord(records)
+                results.Add obj.Id, obj
+                records.movenext
+            wend
+            set SelectSended = results
+            records.Close
+        End If
+        set record = nothing
+        DbCloseConnection
+    end function
+
+    public function SelectReceived(id)
+        Dim records
+        set records = DbExecute(StringFormat(selectSQL + " WHERE destinatario = {0} AND cancellato = 0", array(id)))
+        if records.eof then
+            Set SelectReceived = Nothing
+        else
+            Dim results, obj, record
+            Set results = Server.CreateObject("Scripting.Dictionary")
+            while not records.eof
+                set obj = PopulateObjectFromRecord(records)
+                results.Add obj.Id, obj
+                records.movenext
+            wend
+            set SelectReceived = results
+            records.Close
+        End If
+        set record = nothing
+        DbCloseConnection
+    end function
+
+    public function SelectDeleted(id)
+        Dim records
+        set records = DbExecute(StringFormat(selectSQL + " WHERE destinatario = {0} AND cancellato = 1", array(id)))
+        if records.eof then
+            Set SelectDeleted = Nothing
+        else
+            Dim results, obj, record
+            Set results = Server.CreateObject("Scripting.Dictionary")
+            while not records.eof
+                set obj = PopulateObjectFromRecord(records)
+                results.Add obj.Id, obj
+                records.movenext
+            wend
+            set SelectDeleted = results
+            records.Close
+        End If
+        set record = nothing
+        DbCloseConnection
+    end function
+
+    public function SelectByField(fieldName, value)
+        Dim records, txtSQL
+        txtSQL = StringFormat(selectSQL + " where " + fieldName + "={0}" , array(value))
+        set records = DbExecute(txtSQL)
+        if records.eof then
+            Set SelectByField = Nothing
+        else
+            Dim results, obj, record
+            Set results = Server.CreateObject("Scripting.Dictionary")
+                while not records.eof
+                    set obj = PopulateObjectFromRecord(records)
+                    results.Add obj.Id, obj
+                    records.movenext
+                wend
+            set SelectByField = results
+            records.Close
+        End If
+        set record = nothing
+        DbCloseConnection
+    end function
+
+    public function SelectCountInboxUnread(id)
+        Dim num
+        num = DbExecute(StringFormat("SELECT COUNT(*) AS Count FROM [Messaggi] WHERE destinatario = {0} AND letto = 0 AND cancellato = 0", array(id)))
+        SelectCountInboxUnread = num("Count")
+        set num = nothing
+        DbCloseConnection
+    end function
+
+    public function SelectCount()
+        Dim num
+        num = DbExecute("SELECT COUNT(*) AS Count FROM [Messaggi] WHERE cancellato = 0")
+        SelectCount = num("Count")
+        set num = nothing
+        DbCloseConnection
+    end function
+
+    public function SelectCestinoCount(id)
+        Dim num
+        num = DbExecute(StringFormat("SELECT COUNT(*) AS Count FROM [Messaggi] WHERE destinatario = {0} AND cancellato = 1", array(id)))
+        SelectCestinoCount = num("Count")
+        set num = nothing
+        DbCloseConnection
+    end function
+
+    private function PopulateObjectFromRecord(record)
+        if record.eof then
+        Set PopulateObjectFromRecord = Nothing
+            else
+            Dim obj
+                set obj = new Messaggi
+                    obj.Id = record("id")
+                    obj.Mittente = record("mittente")
+                    obj.Destinatario = record("destinatario")
+                    obj.Oggetto = record("oggetto")
+                    obj.Corpo = record("corpo")
+                    obj.Data_invio = record("data_invio")
+                    obj.Letto = record("letto")
+                    obj.Data_lettura = record("data_lettura")
+                    obj.Cancellato = record("cancellato")
+                    obj.Link_file = record("link_file")
+                    obj.Nome_file = record("nome_file")
+            set PopulateObjectFromRecord = obj
+        end if
+    end function
+
+end class 'MessaggiHelper
+
+
+%>

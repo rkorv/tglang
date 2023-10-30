@@ -1,0 +1,17 @@
+h2. TextileTemplate
+
+This plugin allows you to use Rails view files written in textile with ERB
+
+Name your views like this: index.html.textile
+
+Tested under Rails 2.3
+
+Requires RedCloth gem
+
+Example: config/environment.rb
+
+  config.gem "RedCloth", :version => '>= 4.0.1'
+
+Based on a code pattern presented at http://gist.github.com/66499
+
+Copyright (c) 2008-2009 GearheadForHire.com, LLC, released under the MIT license

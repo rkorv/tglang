@@ -1,0 +1,100 @@
+//@description An authentication code is delivered via a phone call to the specified phone number @length Length of the code
+//@description A voice note message
+//@description Represents an integer option @value The value of the option
+//@description The list of suggested to the user actions has changed @added_actions Added suggested actions @removed_actions Removed suggested actions
+//@id Remote file identifier; may be empty. Can be used by the current user across application restarts or even from other devices. Uniquely identifies a file, but a file can have a lot of different valid identifiers.
+//@description Changes the period of inactivity after which the account of the current user will automatically be deleted @ttl New account TTL
+testVectorInt value:vector<int32> = TestVectorInt;
+sendMessageTypingAction#16bf744e = SendMessageAction;
+//@id Unique identifier of the query result
+invokeAfterMsg#cb9f372d {X:Type} msg_id:long query:!X = X;
+inputMediaVenue#c13d1c11 geo_point:InputGeoPoint title:string address:string provider:string venue_id:string venue_type:string = InputMedia;
+deleteLanguagePack language_pack_id:string = Ok;
+//@path Path to the file to where the internal TDLib log will be written
+inputDocument#18798952 id:long access_hash:long = InputDocument;
+storageStatistics#69b98672 size:int53 count:int32 by_chat:vector<storageStatisticsByChat> = StorageStatistics;
+keyboardButtonCallback#683a5e46 text:string data:bytes = KeyboardButton;
+//@description A mask should be placed relatively to the chin
+contacts.block#332b49fc id:InputUser = Bool;
+updateChatParticipantAdmin#b6901959 chat_id:int user_id:int is_admin:Bool version:int = Update;
+tls.natVar dif:int var_num:int = tls.NatExpr;
+//@location Chat location if a location-based supergroup is being created; pass null to create an ordinary supergroup chat
+//@description The element contains an error in an unspecified place. The error will be considered resolved when new data is added @element_hash Current hash of the entire element
+//@last_name Last name of the user written in English; 1-255 characters
+//@description Returns information about the current localization target. This is an offline request if only_local is true. Can be called before authorization @only_local If true, returns only locally available information without sending network requests
+//@status Current online status of the user
+contactBlocked#561bc879 user_id:int date:int = ContactBlocked;
+disconnectAllWebsites = Ok;
+//@class CallState @description Describes the current call state
+editProxy proxy_id:int32 server:string port:int32 enable:Bool type:ProxyType = Proxy;
+chatActionUploadingDocument progress:int32 = ChatAction;
+messages.getPeerDialogs#e470bcfd peers:Vector<InputDialogPeer> = messages.PeerDialogs;
+updateContactRegistered#2575bbb9 user_id:int date:int = Update;
+messages.getInlineBotResults#514e999d flags:# bot:InputUser peer:InputPeer geo_point:flags.0?InputGeoPoint query:string offset:string = messages.BotResults;
+removeTopChat#8e481e55 category:TopChatCategory chat_id:int53 = Ok;
+//@description A new high score was achieved in a game @title Game title, empty for pinned message @score New score, 0 for pinned message @is_pinned True, if the message is a pinned message with the specified content
+getUserProfilePhotos user_id:int53 offset:int32 limit:int32 = ChatPhotos;
+updateUserPrivacySettingRules#c99552f6 setting:UserPrivacySetting rules:userPrivacySettingRules = Update;
+//@username Username of the user
+inputPeerNotifyEventsAll#e86a2c74 = InputPeerNotifyEvents;
+//@main_frame_timestamp Timestamp of the frame, used as a static chat photo
+//@description The message was originally sent by a known user
+//@description The selfie with the document contains an error. The error will be considered resolved when the file with the selfie changes
+getMessageLinkInfo url:string = MessageLinkInfo;
+openMessageContent chat_id:int53 message_id:int53 = Ok;
+searchChatMessages#9aa50c30 chat_id:int53 query:string sender:MessageSender from_message_id:int53 offset:int32 limit:int32 filter:SearchMessagesFilter message_thread_id:int53 = Messages;
+inputDialogPeer#fcaafeb7 peer:InputPeer = InputDialogPeer;
+messages.getAllChats#eba80ff0 except_ids:Vector<int> = messages.Chats;
+storage.filePartial#40bc6f52 = storage.FileType;
+//@description An italic text
+matrix {m : #} {n : #} (a : %Tuple %(AuxType n) m) = Matrix m n;
+audio#c7ac6496 id:long access_hash:long user_id:int date:int duration:int mime_type:string size:int dc_id:int = Audio;
+authorizationStateLoggingOut#934b576 = AuthorizationState;
+connectedWebsite#a444ec99 id:int64 domain_name:string bot_user_id:int32 browser:string platform:string log_in_date:int32 last_active_date:int32 ip:string location:string = ConnectedWebsite;
+//@description Returns only pinned messages
+updateChannelUserTyping#ff2abe9f flags:# channel_id:int top_msg_id:flags.0?int user_id:int action:SendMessageAction = Update;
+//@description Contains the description of an error in a Telegram Passport element @type Type of the Telegram Passport element which has the error @message Error message @source Error source
+//@location The location
+messages.sendMultiMedia#2095512f flags:# silent:flags.5?true background:flags.6?true clear_draft:flags.7?true peer:InputPeer reply_to_msg_id:flags.0?int multi_media:Vector<InputSingleMedia> = Updates;
+//@description Changes the ability of users to save, forward, or copy chat content. Supported only for basic groups, supergroups and channels. Requires owner privileges
+sendMessageRecordVideoAction#a187d66f = SendMessageAction;
+inputNotifyChats#4a95e84e = InputNotifyPeer;
+//@author_signature Original message author signature
+//@message_thread_id If not 0, a message thread identifier in which the messages will be sent
+//@is_dark True, if the background is dark and is recommended to be used with dark theme
+//@class PassportElementErrorSource @description Contains the description of an error in a Telegram Passport element
+//@description Returns the received vector of objects containing a number; for testing only. This is an offline method. Can be called before authorization @x Vector of objects to return
+supergroup#fffe6d4d id:int32 username:string date:int32 status:ChatMemberStatus member_count:int32 has_linked_chat:Bool has_location:Bool sign_messages:Bool is_slow_mode_enabled:Bool is_channel:Bool is_verified:Bool restriction_reason:string is_scam:Bool = Supergroup;
+//@description A Telegram Passport element containing the user's phone number @phone_number Phone number
+//@local_prefix_size The number of bytes already generated
+//@size Total size of the files in the chat
+updateActivation#6f690963 user_id:int = Update;
+account.deleteSecureValue#b880bc4b types:Vector<SecureValueType> = Bool;
+inputPassportElementErrorSourceFile file_hash:bytes = InputPassportElementErrorSource;
+help.acceptTermsOfService#ee72f79a id:DataJSON = Bool;
+//@description Clears the list of recently used stickers
+sendMessageGamePlayAction#dd6a8f48 = SendMessageAction;
+//@status Status of the current user in the supergroup or channel; custom title will be always empty
+editInlineMessageReplyMarkup#fbf906de inline_message_id:string reply_markup:ReplyMarkup = Ok;
+//@application_version Application version; must be non-empty
+//@client_data Application-specific data associated with the chat. (For example, the chat scroll position or local chat notification settings can be stored here.) Persistent if the message database is used
+account.updateNotifySettings#84be5b93 peer:InputNotifyPeer settings:InputPeerNotifySettings = Bool;
+//@description A non-standard action has happened in the chat @text Message text to be shown in the chat
+---types---
+//@exclude_chat_ids If not empty, files from the given chats are excluded. Use 0 as chat identifier to exclude all files not belonging to any chat (e.g., profile photos)
+maskCoords#aed6dbb2 n:int x:double y:double zoom:double = MaskCoords;
+destroy_session_ok#e22045fc session_id:long = DestroySessionRes;
+channels.reportSpam#fe087810 channel:InputChannel user_id:InputUser id:Vector<int> = Bool;
+//@chat_id Chat identifier @reply_markup_message_id Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat
+//@description Adds multiple new members to a chat. Currently this option is only available for supergroups and channels. This option can't be used to join a chat. Members can't be added to a channel if it has more than 200 members. Members will not be added until the chat state has been synchronized with the server
+updateChatLastMessage chat_id:int53 last_message:message positions:vector<chatPosition> = Update;
+//@description Represents a list of stickers @stickers List of stickers
+notifyPeer#9fd40bd8 peer:Peer = NotifyPeer;
+updateMessagePollVote#42f88f2c poll_id:long user_id:int options:Vector<bytes> = Update;
+//@can_get_statistics True, if the message statistics are available
+//@sticker_set_ids Identifiers of installed sticker sets in the new correct order
+//@ignore_file_names If set to true, original file names will be ignored. Otherwise, downloaded files will be saved under names as close as possible to the original name
+messages.getPollVotes#b86e380e flags:# peer:InputPeer id:int option:flags.0?bytes offset:flags.1?string limit:int = messages.VotesList;
+//@description The message failed to be sent @error_code An error code; 0 if unknown @error_message Error message
+//@description The link is a link to a sticker set. Call searchStickerSet with the given sticker set name to process the link and show the sticker set @sticker_set_name Name of the sticker set
+sendChatScreenshotTakenNotification#1aba0861 chat_id:int53 = Ok;

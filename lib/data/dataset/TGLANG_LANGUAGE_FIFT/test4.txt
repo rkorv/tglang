@@ -1,0 +1,302 @@
+
+32 PUSHINT	//  x n _17=32
+exp INLINECALLDICT	//  x n _18
+s2 s(-1) PUXC	//  x n x _18
+GEQ	//  x n _19
+
+"TonUtil.fif" include
+
+
+2constant send_addr // worchain and addr into single constant
+
+{ bl word 1 { swap 1 'nop does swap 0 (create) }
+} :: =:
+
+1000000000 constant Gram
+{ Gram * } : Gram*
+{ Gram swap */r } : Gram*/
+
+
+// { 3 untuple } : untriple
+
+<b 0 4 u, b>
+
+<b 0 4 u, b>
+
+PROGRAM{ "fif/0.fif" include }END>c <s
+
+$4 parse-int =: seqno
+
+// a b c d -- (a*d-b*c) b*d
+{ -rot over * 2swap tuck * rot - -rot * } : R-
+
+// create a message
+<b b{01} s, bounce 1 i, b{000} s, dest_addr Addr, amount Gram+cc, 0 9 64 32 + + u,
+  body-cell <s 2dup 1 s-fits-with? not rot over 1 i, -rot { drop body-cell ref, } { s, } cond
+b>
+
+{ 0 swap ! } : 0!
+
+^reset ."😏 NFT collection base content: " collection-nft-data B>$ ^cyan  (dump) type cr
+
+' $reverse : #>
+
+{ bl word 1 { -rot 2 'nop does swap 0 (create) }
+} :: 2=:
+
+// { bl word dup (def?) { 2drop skip-to-eof } { swap 1 'nop does swap 0 (create) } cond } : library-version
+
+0b1110 b{1110} 2 exch 4 udict! drop
+
+"Color.fif" include
+
+{ bl word 1 { (def?) not } } :: undef?
+
+{ null swap ! } : null!
+
+1000000000 constant Gram
+{ Gram * } : Gram*
+{ Gram swap */r } : Gram*/
+
+
+// { swap sbitrefs -rot + rot brembitrefs -rot <= -rot <= and } : s-fits-with?
+
+// { over tuple? { swap count = } { 2drop false } cond } : tuple-len?
+
+2constant send_addr // worchain and addr into single constant
+
+
+begin-options
+     " <filename-base> <dest-addr> <subwallet-id> <seqno> <amount> [-x <extra-amount>*<extra-currency-id>] [-n|-b] [-t<timeout>] [-B <body-boc>] [-C <comment>] [<savefile>]" +cr +tab
+    +"Creates a request to advanced wallet created by new-wallet-v3.fif, with private key loaded from file <filename-base>.pk "
+    +"and address from <filename-base>.addr, and saves it into <savefile>.boc ('wallet-query.boc' by default)"
+    disable-digit-options generic-help-setopt
+  "n" "--no-bounce" { false =: allow-bounce } short-long-option
+    "Clears bounce flag" option-help
+  "b" "--force-bounce" { true =: force-bounce } short-long-option
+    "Forces bounce flag" option-help
+  "x" "--extra" { $>xcc extra-cc+! } short-long-option-arg
+    "Indicates the amount of extra currencies to be transfered" option-help
+  "t" "--timeout" { parse-int =: timeout } short-long-option-arg
+    "Sets expiration timeout in seconds (" timeout (.) $+ +" by default)" option-help
+  "B" "--body" { =: body-fift-file } short-long-option-arg
+    "Sets the payload of the transfer message" option-help
+  "C" "--comment" { =: comment } short-long-option-arg
+    "Sets the comment to be sent in the transfer message" option-help
+  "m" "--mode" { parse-int =: send-mode } short-long-option-arg
+    "Sets transfer mode (0..255) for SENDRAWMSG (" send-mode (.) $+ +" by default)"
+    option-help
+  "h" "--help" { usage } short-long-option
+    "Shows a help message" option-help
+parse-options
+
+dictnew
+0b1100 b{1100} 2 exch 4 udict! drop
+
+// { 2 tuple } : pair
+
+<b
+0 4 u,
+0b111 8 u,
+0b01110101 16 u,
+0b111111111111110001 32 u,
+0b10111110000111111111111110001110101011 64 u,
+0xfffaaffa3445512 128 u,
+0b0111111111111011011 256 u,
+b>
+
+"Color.fif" include
+
+{ dup square square * } : **5
+3 **5 .
+
+
+{ show-options-help 1 halt } : usage
+
+{ not 2 pick @ and xor swap ! } : ~!
+
+// { bl word dup (def?) { drop skip-to-eof } { 'nop swap 0 (create) } cond } : library
+
+// current continuation slice
+
+$5 $>cc extra-cc+! extra-currencies @ 2=: amount
+
+{ 16 B#s } : X#s
+
+// { swap sbitrefs -rot + rot brembitrefs -rot <= -rot <= and } : s-fits-with?
+
+c7 // add c7 cell
+
+
+{ show-options-help 1 halt } : usage
+
+{ dup abs <# ’ # 9 times char . hold #s rot sign #>
+  nip -trailing0 } : (.GR)
+{ (.GR) ."GR$" type space } : .GR
+-17239000000 .GR
+
+// { 3 tuple } : triple
+
+{ base @ b# } : base#
+
+get_total PROC:<{
+//
+c4 PUSH	//  _1
+CTOS	//  ds
+64 LDU	//  _8 _7
+DROP	//  total
+}>
+
+// { swap sbitrefs -rot + rot brembitrefs -rot <= -rot <= and } : s-fits-with?
+
+{ char 0 (-trailing) } : -trailing0
+
+// a b c d -- a*c b*d
+{ rot * -rot * swap } : R*
+
+7 :$1..n
+
+{ 2 'nop does create } : 2constant
+
+dest_addr 2dup bounce 7 + .Addr ." = " .addr
+
+^reset ."👋 NFT is inited: " ^magenta (dump) type cr
+
+4 PUSHINT	//  x n _38=4
+exp INLINECALLDICT	//  x n _39
+s2 s(-1) PUXC	//  x n x _39
+GEQ	//  x n _40
+IF:<{	//  x n
+    SWAP	//  n x
+    4 RSHIFT#	//  n x
+    SWAP	//  x n
+    4 ADDCONST	//  x n
+}>	//  x n
+
+"TonUtil.fif" include
+
+index
+nft-body
+68445 // function selector (get_nft_content)
+
+{ 16 B# } : X#
+
+// { 1 tuple } : single
+
+<b
+  0x595f07bc 32 u, // op::burn
+  12345 64 u, // query_id
+  5000000000 Gram, // Burning 5 jettons
+  0 3 u, // addr_none for resp_dst and no custom payload
+b>
+
+
+-1 AllOnes subwallet-id -  2dup 2constant wallet_addr
+."Source wallet address = " 2dup .addr cr 6 .Addr cr
+file-path load-keypair nip constant wallet_pk
+
+
+#!/usr/bin/fift -s
+
+"Asm.fif" include
+
+1000000000 constant send_amount
+
+avg PROCREF:<{
+//  x y
+ADD	//  _2
+1 RSHIFT#	//  _4
+}>
+
+{ swap ({) over 2+ -roll swap (compile) (}) } : does
+
+
+{ show-options-help 1 halt } : usage
+
+{ -rot { 2 pick B# over 0<= } until rot drop } : B#s
+
+' $reverse : #>
+
+."Transferring " amount .GR+cc ."to account "
+
+
+"build/contract.pk" load-generate-keypair // generate key pair
+constant private_key  // save private to constant
+constant public_key // save public to constant
+
+// { bl word dup (def?) { 2drop skip-to-eof } { swap 1 'nop does swap 0 (create) } cond } : library-version
+
+// { 2 tuple-len? } : pair?
+
+3 =: send-mode  // mode for SENDRAWMSG: +1 - sender pays fees, +2 - ignore errors
+
+<b
+	11 32 u, // number
+b>
+
+#!/usr/bin/fift -s
+
+{ null swap ! } : null!
+
+#!/usr/bin/create-state -s
+
+
+"../build/nft_collection.fif" include constant collection-code
+
+3 =: send-mode  // mode for SENDRAWMSG: +1 - sender pays fees, +2 - ignore errors
+
+{ bl word 1 {
+  dup find { " -?" $+ abort } ifnot nip execute
+} } :: @'
+
+// parse new c4 cell
+
+
+"" =: comment  // comment for simple transfers
+
+// { 2 tuple } : pair
+
+"TonUtil.fif" include
+
+{ -rot { 2 pick b# over 0<= } until rot drop } : b#s
+
+index
+nft-body
+68445 // function selector (get_nft_content)
+
+{ char 0 (-trailing) } : -trailing0
+
+{ 8 base ! } : octal
+
+{ 10 hold } : +cr
+
+constant nft-body
+
+0x35 runvmx // Runvm, in stack now seqno
+2drop drop
+
+$>smca 0= abort"Specify valid send addr"
+
+0b1110 b{1110} 2 exch 4 udict! drop
+
+// { 0 [] } : car
+
+{ char } word x>B 1 'nop } ::_ B{
+
+
+.s
+^reset ."😏 NFT individual content: " ref@ <s dup sbits 8 / B@ dup constant nft-data ^green  (dump) type cr
+
+{ (0X.) type } : 0X._
+
+"Asm.fif" include
+
+{ 1 swap +! } : 1+!
+
+{ 0 word drop 0 'nop } :: //
+
+"Asm.fif" include
+
+1 2 3 triple 4 5 6 triple 7 8 9 triple triple constant Matrix
+Matrix .dump cr
+| 1 "one" pair , 2 "two" pair , 3 "three" pair , .dump

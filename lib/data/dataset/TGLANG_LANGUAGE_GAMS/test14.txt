@@ -1,0 +1,758 @@
+$TITLE SEDS calibration -- US version$
+
+* ------------------------------------------------------------------------------
+* Load raw SEDS data
+* ------------------------------------------------------------------------------
+
+sets
+sec sectors /res,com,ind,trans,ep,manuf,refine,ag,cons,mine/
+fuel fuels /crude,gas,coal,ref,elec/
+;
+sets
+res_sec(sec) /res/
+com_sec(sec) /com/
+ind_sec(sec) /ind/
+trans_sec(sec) /trans/
+ep_sec(sec) /ep/
+crude_fuel(fuel) /crude/
+gas_fuel(fuel) /gas/
+coal_fuel(fuel) /coal/
+ref_fuel(fuel) /ref/
+elec_fuel(fuel) /elec/
+sec2(sec) /res,com,ind,trans,manuf,refine,ag,cons,mine/
+fuel2(fuel) /ref,elec/
+fuel3(fuel) /ref/
+;
+
+
+parameter
+seds_ex00(fuel,sec)
+seds_q00(fuel,sec)
+seds_q00_refine(fuel)
+seds_p00(fuel,sec)
+seds_prod00(fuel)
+seds_co200(fuel,sec)
+;
+
+
+seds_ex00('coal','res') = 0;
+seds_ex00('coal','com') = 130.1/1000000;
+seds_ex00('coal','ind') = 4862.5/1000000;
+seds_ex00('coal','trans') = 0;
+seds_ex00('coal','ep') = 31585.3/1000000;
+
+seds_ex00('gas','res') = 47762/1000000;
+seds_ex00('gas','com') = 25933.6/1000000;
+seds_ex00('gas','ind') = 33579.3/1000000;
+seds_ex00('gas','trans') = 399.2/1000000;
+seds_ex00('gas','ep') = 32620.6/1000000;
+
+seds_ex00('ref','res') = 20770.7/1000000;
+seds_ex00('ref','com') = 14767.9/1000000;
+seds_ex00('ref','ind') = 79281.6/1000000;
+seds_ex00('ref','trans') = 506387.5/1000000;
+seds_ex00('ref','ep') = 2091.6/1000000;
+
+seds_ex00('elec','res') = 177623.6/1000000;
+seds_ex00('elec','com') = 144781.3/1000000;
+seds_ex00('elec','ind') = 65168.3/1000000;
+seds_ex00('elec','trans') = 770.4/1000000;
+
+
+
+seds_q00('coal','res') = 0;
+seds_q00('coal','com') = 31.072/1000;
+seds_q00('coal','ind') = 1379.678/1000;
+seds_q00('coal','trans') = 0;
+seds_q00('coal','ep') = 14138.236/1000;
+
+seds_q00('gas','res') = 4794.498/1000;
+seds_q00('gas','com') = 3326.694/1000;
+seds_q00('gas','ind') = 9427.121/1000;
+seds_q00('gas','trans') = 747.405/1000;
+seds_q00('gas','ep') = 9945.332/1000;
+
+seds_q00('ref','res') = 1006.103/1000;
+seds_q00('ref','com') = 889.1930/1000;
+seds_q00('ref','ind') = 8153.4200/1000;
+seds_q00('ref','trans') = 26421.453/1000;
+seds_q00('ref','ep') = 275.832/1000;
+
+seds_q00('elec','res') = 4790.778/1000;
+seds_q00('elec','com') = 4642.884/1000;
+seds_q00('elec','ind') = 3365.966/1000;
+seds_q00('elec','trans') = 26.054/1000;
+
+seds_q00('elec','manuf') = seds_q00('elec','ind')*0.70513;
+seds_q00('elec','refine') = seds_q00('elec','ind')*0.05991;
+seds_q00('elec','ag') = seds_q00('elec','ind')*(0.08176);
+seds_q00('elec','cons') = seds_q00('elec','ind')*(0.05275);
+seds_q00('elec','mine') = seds_q00('elec','ind')*(1-0.05991-0.70513-0.08176-0.05275);
+
+
+seds_q00_refine(fuel) = 0;
+seds_q00_refine('gas') = 1.43;
+seds_q00_refine('ref') = 2;
+
+seds_p00(fuel,sec)$(seds_q00(fuel,sec) ne 0) = seds_ex00(fuel,sec)/seds_q00(fuel,sec);
+
+seds_ex00('elec','manuf') = seds_q00('elec','manuf')*seds_p00('elec','ind');
+seds_ex00('elec','refine') = seds_q00('elec','refine')*seds_p00('elec','ind');
+seds_ex00('elec','ag') = seds_q00('elec','ag')*seds_p00('elec','ind');
+seds_ex00('elec','cons') = seds_q00('elec','cons')*seds_p00('elec','ind');
+seds_ex00('elec','mine') = seds_q00('elec','mine')*seds_p00('elec','ind');
+
+seds_co200('coal','res') = 0;
+seds_co200('coal','com') = 3/1000000;
+seds_co200('coal','ind') = 129/1000000;
+seds_co200('coal','trans') = 0;
+seds_co200('coal','ep') = 1350/1000000;
+
+seds_co200('gas','res') = 253/1000000;
+seds_co200('gas','com') = 176/1000000;
+seds_co200('gas','ind') = 487/1000000;
+seds_co200('gas','trans') = 40/1000000;
+seds_co200('gas','ep') = 527/1000000;
+
+seds_co200('ref','res') = 69/1000000;
+seds_co200('ref','com') = 61/1000000;
+seds_co200('ref','ind') = 338/1000000;
+seds_co200('ref','trans') = 1795/1000000;
+seds_co200('ref','ep') = 24/1000000;
+
+seds_prod00('coal') = 28660/1000000;
+seds_prod00('gas') = 74746/1000000;
+seds_prod00('crude') = 139638/1000000;
+
+
+
+* ------------------------------------------------------------------------------
+* Input supplemental national data
+* ------------------------------------------------------------------------------
+
+parameter
+refiner_oil_input
+refiner_oil_imports
+refiner_gas_input
+oil_produce
+oil_export
+oil_lease_share
+oil_lease
+gas_produce
+gas_lease_share
+gas_lease
+trans_res_share
+coal_export
+;
+
+refiner_oil_input = 285915/1000000;
+refiner_oil_imports = 134209/1000000;
+refiner_gas_input = 5207/1000000;
+
+oil_produce = 174062/1000000;
+oil_export = 8260/1000000;
+oil_lease_share = 323/3427;
+oil_lease = oil_lease_share*oil_produce;
+oil_lease = 0;
+
+gas_produce = 77464/1000000;
+gas_lease_share = (1576*2.72)/77464;
+gas_lease = gas_lease_share*gas_produce;
+
+trans_res_share = 0.5811;
+
+coal_export = 5448/1000000;
+
+* ------------------------------------------------------------------------------
+* Re-assign/allocate energy data to match SEDS
+* ------------------------------------------------------------------------------
+
+
+* Step 1: calculate domestic/foreign share
+* Step 2: Assign aggregate energy expenditures to match SEDS
+* Step 3: Allocate across domestic/foreign using IMPLAN share from step 1
+
+set
+c_ind(c) /c12*c17,c19*c30,c32*c34/
+c_indoth(c) /c1*c2,c5*c6,c11/
+c_ind2(c) /c1*c2,c5*c6,c11*c17,c19*c30,c32*c34/
+c_com(c) /c10,c35*c36,c45*c58/
+c_trans(c) /c37*c44/
+c_e(c) /c4,c8*c9,c18/
+
+c_td(c) /c8/
+c_ngd(c) /c9/
+c_refine(c) /c18/
+c_coal(c) /c4/;
+
+
+
+set
+in_ind(*)
+in_ind2(*)
+in_gen(*)
+in_gen_coal(*)
+in_gen_gas(*)
+in_gen_nuc(*)
+in_gen_hyd(*)
+in_gen_sol(*)
+in_gen_oth(*)
+in_gen_win(*)
+in_td(*)
+in_elec(*)
+in_ngd(*)
+in_refine(*)
+in_com(*)
+in_trans(*)
+in_ff(*)
+in_coal
+in_oil
+in_gas
+in_other
+in_indoth
+in_ag
+in_cons
+in_mine
+in_othmine
+
+;
+
+in_ind(c_ind) = yes;
+in_ind(mv) = yes;
+
+in_indoth(c_indoth) = yes;
+in_indoth(og) = yes;
+in_indoth(c_coal) = yes;
+
+in_ind2(c_ind2) = yes;
+in_ind2(mv) = yes;
+in_ind2(og) = yes;
+in_ind2(c_coal) = yes;
+in_ind2(c_ngd) = yes;
+in_ind2(c_refine) = yes;
+
+
+in_ag('c1') = yes;
+in_ag('c2') = yes;
+
+in_cons('c11') = yes;
+
+in_mine('c5') = yes;
+in_mine('c6') = yes;
+in_mine(og) = yes;
+in_mine(c_coal) = yes;
+
+in_othmine('c5') = yes;
+in_othmine('c6') = yes;
+
+in_gen(egen) = yes;
+in_gen_coal('c7a') = yes;
+in_gen_gas('c7b') = yes;
+in_gen_nuc('c7c') = yes;
+in_gen_hyd('c7d') = yes;
+in_gen_sol('c7e') = yes;
+in_gen_win('c7f') = yes;
+in_gen_oth('c7g') = yes;
+in_td(c_td) = yes;
+in_elec(c_td) = yes;
+in_elec(egen) = yes;
+in_ngd(c_ngd) = yes;
+in_refine(c_refine) = yes;
+in_com(c_com) = yes;
+in_trans(c_trans) = yes;
+in_ff(og) = yes;
+in_ff(c_coal) = yes;
+in_coal(c_coal) = yes;
+in_oil('c3a') = yes;
+in_gas('c3b') = yes;
+
+in_other(c)$(not sameas(c,'c3') and not sameas(c,'c7') and not sameas(c,'c31')) = yes;
+in_other(og) = yes;
+in_other(egen) = yes;
+in_other(mv) = yes;
+in_other(c_td) = no;
+in_other(c_ngd) = no;
+in_other(c_refine) = no;
+
+alias
+(in_ind,in2_ind)
+(in_ind2,in2_ind2)
+(in_com,in2_com)
+(in_trans,in2_trans)
+(in_refine,in_refine2)
+(in_gen,in_gen2)
+(in_indoth,in2_indoth)
+(in_ag,in2_ag)
+(in_cons,in2_cons)
+(in_mine,in2_mine)
+(in_othmine,in2_othmine)
+(in_gas,in_gas2)
+;
+
+
+parameter
+l_share_
+topi_share_
+io_share_
+temp_
+refine_db
+;
+
+* Calculate factor shares from SAM
+
+IO0_(in_coal,in_coal) = 0;
+io_share_(in_ne,in_coal) = IO0_(in_ne,in_coal)/(sum(in2,IO0_(in_coal,in2)-IO0_F_(in_coal,in2)) + EX0_(in_coal));
+l_share_(in_coal) = L0_(in_coal)/(sum(in2,IO0_(in_coal,in2)-IO0_F_(in_coal,in2)) + EX0_(in_coal));
+topi_share_(in_coal) = TOPI0_(in_coal)/(sum(in2,IO0_(in_coal,in2)-IO0_F_(in_coal,in2)) + EX0_(in_coal));
+
+io_share_(in_ne,in_oil) = IO0_(in_ne,in_oil)/(sum(in2,IO0_(in_oil,in2)-IO0_F_(in_oil,in2)) + EX0_(in_oil));
+l_share_(in_oil) = L0_(in_oil)/(sum(in2,IO0_(in_oil,in2)-IO0_F_(in_oil,in2)) + EX0_(in_oil));
+topi_share_(in_oil) = TOPI0_(in_oil)/(sum(in2,IO0_(in_oil,in2)-IO0_F_(in_oil,in2)) + EX0_(in_oil));
+
+io_share_(in_ne,in_gas) = IO0_(in_ne,in_gas)/(sum(in2,IO0_(in_gas,in2)-IO0_F_(in_gas,in2)) + EX0_(in_gas));
+l_share_(in_gas) = L0_(in_gas)/(sum(in2,IO0_(in_gas,in2)-IO0_F_(in_gas,in2)) + EX0_(in_gas));
+topi_share_(in_gas) = TOPI0_(in_gas)/(sum(in2,IO0_(in_gas,in2)-IO0_F_(in_gas,in2)) + EX0_(in_gas));
+
+io_share_(in_ne,in_ngd) = IO0_(in_ne,in_ngd)/(PCE0_(in_ngd) - PCE0_F_(in_ngd) + G_FED0_(in_ngd) - G_FED0_F_(in_ngd)  + G_REG0_(in_ngd) - G_REG0_F_(in_ngd) + sum(in2,IO0_(in_ngd,in2) - IO0_F_(in_ngd,in2)) + EX0_(in_ngd));
+l_share_(in_ngd) = L0_(in_ngd)/(PCE0_(in_ngd) - PCE0_F_(in_ngd) + G_FED0_(in_ngd) - G_FED0_F_(in_ngd)  + G_REG0_(in_ngd) - G_REG0_F_(in_ngd) + sum(in2,IO0_(in_ngd,in2) - IO0_F_(in_ngd,in2)) + EX0_(in_ngd));
+topi_share_(in_ngd) = TOPI0_(in_ngd)/(PCE0_(in_ngd) - PCE0_F_(in_ngd) + G_FED0_(in_ngd) - G_FED0_F_(in_ngd)  + G_REG0_(in_ngd) - G_REG0_F_(in_ngd) + sum(in2,IO0_(in_ngd,in2) - IO0_F_(in_ngd,in2)) + EX0_(in_ngd));
+
+io_share_(in_ne,in_gen) = IO0_(in_ne,in_gen)/(sum(in2,IO0_(in_gen,in2)-IO0_F_(in_gen,in2)) + EX0_(in_gen));
+l_share_(in_gen) = L0_(in_gen)/(sum(in2,IO0_(in_gen,in2)-IO0_F_(in_gen,in2)) + EX0_(in_gen));
+topi_share_(in_gen) = TOPI0_(in_gen)/(sum(in2,IO0_(in_gen,in2)-IO0_F_(in_gen,in2)) + EX0_(in_gen));
+
+io_share_(in_ne,in_td) = IO0_(in_ne,in_td)/(PCE0_(in_td) - PCE0_F_(in_td) + G_FED0_(in_td) - G_FED0_F_(in_td)  + G_REG0_(in_td) - G_REG0_F_(in_td) + sum(in2,IO0_(in_td,in2) - IO0_F_(in_td,in2)) + EX0_(in_td));
+l_share_(in_td) = L0_(in_td)/(PCE0_(in_td) - PCE0_F_(in_td) + G_FED0_(in_td) - G_FED0_F_(in_td)  + G_REG0_(in_td) - G_REG0_F_(in_td) + sum(in2,IO0_(in_td,in2) - IO0_F_(in_td,in2)) + EX0_(in_td));
+topi_share_(in_td) = TOPI0_(in_td)/(PCE0_(in_td) - PCE0_F_(in_td) + G_FED0_(in_td) - G_FED0_F_(in_td)  + G_REG0_(in_td) - G_REG0_F_(in_td) + sum(in2,IO0_(in_td,in2) - IO0_F_(in_td,in2)) + EX0_(in_td));
+
+io_share_(in_ne,in_refine) = IO0_(in_ne,in_refine)/(PCE0_(in_refine) - PCE0_F_(in_refine) + G_FED0_(in_refine) - G_FED0_F_(in_refine)  + G_REG0_(in_refine) - G_REG0_F_(in_refine) + sum(in2,IO0_(in_refine,in2) - IO0_F_(in_refine,in2)) + EX0_(in_refine));
+l_share_(in_refine) = L0_(in_refine)/(PCE0_(in_refine) - PCE0_F_(in_refine) + G_FED0_(in_refine) - G_FED0_F_(in_refine)  + G_REG0_(in_refine) - G_REG0_F_(in_refine) + sum(in2,IO0_(in_refine,in2) - IO0_F_(in_refine,in2)) + EX0_(in_refine));
+topi_share_(in_refine) = TOPI0_(in_refine)/(PCE0_(in_refine) - PCE0_F_(in_refine) + G_FED0_(in_refine) - G_FED0_F_(in_refine)  + G_REG0_(in_refine) - G_REG0_F_(in_refine) + sum(in2,IO0_(in_refine,in2) - IO0_F_(in_refine,in2)) + EX0_(in_refine));
+
+refine_db(in_coal) = sum(in_refine,IO0_(in_coal,in_refine));
+refine_db(in_gas) = sum(in_refine,IO0_(in_gas,in_refine));
+refine_db(in_refine2) = sum(in_refine,IO0_(in_refine2,in_refine));
+refine_db(in_td) = sum(in_refine,IO0_(in_td,in_refine));
+
+parameter
+pce0_tot0_
+pce0_tot1_
+;
+
+pce0_tot0_ = sum(in,pce0_(in)) + sum(margins,sum(in,pce0_mr_(in,margins)*pce0_(in))) ;
+
+display
+refine_db
+pce0_tot0_
+;
+
+* Coal Use
+
+PCE0_(in_coal) = 0;
+PCE0_DN_(in_coal) = 0;
+PCE0_F_(in_coal) = 0;
+G_FED0_(in_coal) = 0;
+G_FED0_DN_(in_coal) = 0;
+G_FED0_F_(in_coal) = 0;
+G_REG0_(in_coal) = 0;
+G_REG0_DN_(in_coal) = 0;
+G_REG0_F_(in_coal) = 0;
+
+
+
+IO0_(in_coal,in_refine) = 0;
+IO0_(in_coal,in_ag) = 0;
+IO0_(in_coal,in_cons) = 0;
+IO0_(in_coal,in_mine) = (0.08798*seds_ex00('coal','ind'))*IO0_(in_coal,in_mine)/sum(in2_mine,IO0_(in_coal,in2_mine));
+IO0_(in_coal,in_ind) = (0.91202*seds_ex00('coal','ind'))*IO0_(in_coal,in_ind)/sum(in2_ind,IO0_(in_coal,in2_ind));
+IO0_(in_coal,in_refine) = seds_q00_refine('coal')*seds_p00('coal','ind');
+IO0_(in_coal,in_com) = seds_ex00('coal','com')*IO0_(in_coal,in_com)/sum(in2_com,IO0_(in_coal,in2_com));
+IO0_(in_coal,in_gen) = 0;
+IO0_(in_coal,in_gen_coal) = seds_ex00('coal','ep');
+IO0_(in_coal,in_td) = 0;
+IO0_(in_coal,in_trans) = 0;
+
+IO0_(in_coal,in)  = IO0_(in_coal,in)/(1+sum(margins,io0_mr_(in_coal,margins)));
+IO0_F_(in_coal,in) = IO0_(in_coal,in)*xf0_(in_coal);
+IO0_DN_(in_coal,in) = IO0_(in_coal,in)*(1-xf0_(in_coal));
+
+EX0_(in_coal) = coal_export;
+
+IO0_(in_ne,in_coal) = io_share_(in_ne,in_coal)*(sum(in2,IO0_(in_coal,in2)-IO0_F_(in_coal,in2)) + EX0_(in_coal));
+IO0_F_(in_ne,in_coal) = IO0_(in_ne,in_coal)*xf0_(in_ne);
+IO0_DN_(in_ne,in_coal) = IO0_(in_ne,in_coal)*(1-xf0_(in_ne));
+L0_(in_coal) = l_share_(in_coal)*(sum(in2,IO0_(in_coal,in2)-IO0_F_(in_coal,in2)) + EX0_(in_coal));
+TOPI0_(in_coal) = topi_share_(in_coal)*(sum(in2,IO0_(in_coal,in2)-IO0_F_(in_coal,in2)) + EX0_(in_coal));
+
+
+* Crude Oil
+
+
+IO0_(in_oil,in) = 0;
+IO0_(in_oil,in_oil) = oil_lease/(1+sum(margins,io0_mr_(in_oil,margins)));
+IO0_(in_oil,in_refine) = refiner_oil_input/(1+sum(margins,io0_mr_(in_oil,margins)));
+
+IO0_F_(in_oil,in) = 0;
+IO0_F_(in_oil,in_refine) = refiner_oil_imports/(1+sum(margins,io0_mr_(in_oil,margins)));
+IO0_DN_(in_oil,in) = 0;
+IO0_DN_(in_oil,in_refine) = (IO0_(in_oil,in_refine)-IO0_F_(in_oil,in_refine));
+
+EX0_(in_oil) = oil_export;
+
+
+IO0_(in_ne,in_oil) = io_share_(in_ne,in_oil)*(sum(in2,IO0_(in_oil,in2)-IO0_F_(in_oil,in2)) + EX0_(in_oil));
+IO0_F_(in_ne,in_oil) = IO0_(in_ne,in_oil)*xf0_(in_ne);
+IO0_DN_(in_ne,in_oil) = IO0_(in_ne,in_oil)*(1-xf0_(in_ne));
+L0_(in_oil) = l_share_(in_oil)*(sum(in2,IO0_(in_oil,in2)-IO0_F_(in_oil,in2)) + EX0_(in_oil));
+TOPI0_(in_oil) = topi_share_(in_oil)*(sum(in2,IO0_(in_oil,in2)-IO0_F_(in_oil,in2)) + EX0_(in_oil));
+
+
+* Natural Gas
+
+
+IO0_(in_gas,in)$(not in_ind2(in)) = 0;
+IO0_(in_gas,in_ind) = (seds_ex00('gas','ind')*0.89985)*(IO0_(in_gas,in_ind)/sum(in2_ind,IO0_(in_gas,in2_ind)));
+IO0_(in_gas,in_oil) = 0;
+IO0_(in_gas,in_gas) = 0;
+IO0_(in_gas,in_othmine) = (seds_ex00('gas','ind')*0.06773)*(IO0_(in_gas,in_othmine)/sum(in2_othmine,IO0_(in_gas,in2_othmine)));
+IO0_(in_gas,in_gas) = gas_lease;
+IO0_(in_gas,in_gen) = 0;
+IO0_(in_gas,in_gen_gas) = seds_ex00('gas','ep');
+IO0_(in_gas,in_ngd) = (seds_q00('gas','res') + seds_q00('gas','com'))*2.72/1000;
+IO0_(in_gas,in_refine) = seds_q00_refine('gas')*seds_p00('gas','ind');
+
+* Assign gas transportation emissions to pipeline
+IO0_(in_gas,'c42') = seds_ex00('gas','trans');
+
+
+
+IO0_(in_gas,in)  = IO0_(in_gas,in)/(1+sum(margins,io0_mr_(in_gas,margins)));
+IO0_F_(in_gas,in) = IO0_(in_gas,in)*xf0_(in_gas);
+IO0_DN_(in_gas,in) = IO0_(in_gas,in)*(1-xf0_(in_gas));
+
+
+IO0_(in_ne,in_gas) = io_share_(in_ne,in_gas)*(sum(in2,IO0_(in_gas,in2)-IO0_F_(in_gas,in2)) + EX0_(in_gas));
+IO0_F_(in_ne,in_gas) = IO0_(in_ne,in_gas)*xf0_(in_ne);
+IO0_DN_(in_ne,in_gas) = IO0_(in_ne,in_gas)*(1-xf0_(in_ne));
+L0_(in_gas) = l_share_(in_gas)*(sum(in2,IO0_(in_gas,in2)-IO0_F_(in_gas,in2)) + EX0_(in_gas));
+TOPI0_(in_gas) = topi_share_(in_gas)*(sum(in2,IO0_(in_gas,in2)-IO0_F_(in_gas,in2)) + EX0_(in_gas));
+
+
+* NGD
+
+temp_(in_ngd) = (G_FED0_(in_ngd) + G_REG0_(in_ngd)+ sum(in_com,IO0_(in_ngd,in_com)));
+
+IO0_(in_ngd,in_ag) = (seds_ex00('gas','ind')*0.03048)*(IO0_(in_ngd,in_ag)/sum(in2_ag,IO0_(in_ngd,in2_ag)));
+IO0_(in_ngd,in_cons) = (seds_ex00('gas','ind')*0.00194)*(IO0_(in_ngd,in_cons)/sum(in2_cons,IO0_(in_ngd,in2_cons)));
+IO0_(in_ngd,in_ind) = 0;
+IO0_(in_ngd,in_ngd) = 0;
+IO0_(in_ngd,in_mine) = 0;
+IO0_(in_ngd,in_elec) = 0;
+IO0_(in_ngd,in_trans) = 0;
+IO0_(in_ngd,in_com) = seds_ex00('gas','com')* (IO0_(in_ngd,in_com)/temp_(in_ngd));
+PCE0_(in_ngd) = seds_ex00('gas','res');
+G_FED0_(in_ngd) = seds_ex00('gas','com')* (G_FED0_(in_ngd)/temp_(in_ngd));
+G_REG0_(in_ngd) = seds_ex00('gas','com')* (G_REG0_(in_ngd)/temp_(in_ngd));
+
+
+
+
+pce0_(in_ngd) =  pce0_(in_ngd)/(1+sum(margins,pce0_mr_(in_ngd,margins)));
+pce0_f_(in_ngd) = pce0_(in_ngd)*xf0_(in_ngd);
+pce0_dn_(in_ngd) = pce0_(in_ngd)*(1-xf0_(in_ngd));
+g_fed0_(in_ngd) =  g_fed0_(in_ngd)/(1+sum(margins,g_fed0_mr_(in_ngd,margins)));
+g_fed0_f_(in_ngd) =  g_fed0_(in_ngd)*xf0_(in_ngd);
+g_fed0_dn_(in_ngd) =  g_fed0_(in_ngd)*(1-xf0_(in_ngd));
+g_reg0_(in_ngd) =  g_reg0_(in_ngd)/(1+sum(margins,g_reg0_mr_(in_ngd,margins)));
+g_reg0_f_(in_ngd) =  g_reg0_(in_ngd)*xf0_(in_ngd);
+g_reg0_dn_(in_ngd) =  g_reg0_(in_ngd)*(1-xf0_(in_ngd));
+io0_(in_ngd,in)  = io0_(in_ngd,in)/(1+sum(margins,io0_mr_(in_ngd,margins)));
+io0_f_(in_ngd,in)  = io0_(in_ngd,in)*xf0_(in_ngd);
+io0_dn_(in_ngd,in)  = io0_(in_ngd,in)*(1-xf0_(in_ngd));
+
+
+IO0_(in_ne,in_ngd) = io_share_(in_ne,in_ngd)*(PCE0_(in_ngd) - PCE0_F_(in_ngd) + G_FED0_(in_ngd) - G_FED0_F_(in_ngd)  + G_REG0_(in_ngd) - G_REG0_F_(in_ngd) + sum(in2,IO0_(in_ngd,in2) - IO0_F_(in_ngd,in2)) + EX0_(in_ngd));
+IO0_F_(in_ne,in_ngd) = IO0_(in_ne,in_ngd)*xf0_(in_ne);
+IO0_DN_(in_ne,in_ngd) = IO0_(in_ne,in_ngd)*(1-xf0_(in_ne));
+L0_(in_ngd) = l_share_(in_ngd)*(PCE0_(in_ngd) - PCE0_F_(in_ngd) + G_FED0_(in_ngd) - G_FED0_F_(in_ngd)  + G_REG0_(in_ngd) - G_REG0_F_(in_ngd) + sum(in2,IO0_(in_ngd,in2) - IO0_F_(in_ngd,in2)) + EX0_(in_ngd));
+TOPI0_(in_ngd) = topi_share_(in_ngd)*(PCE0_(in_ngd) - PCE0_F_(in_ngd) + G_FED0_(in_ngd) - G_FED0_F_(in_ngd)  + G_REG0_(in_ngd) - G_REG0_F_(in_ngd) + sum(in2,IO0_(in_ngd,in2) - IO0_F_(in_ngd,in2)) + EX0_(in_ngd));
+
+
+* Generation
+
+
+temp_(in_gen) = sum(in_gen2,sum(in_elec,IO0_(in_gen2,in_elec)));
+IO0_(in_gen,in_td) = shr_gen_prod(in_gen)*temp_(in_gen);
+IO0_(in_gen,in_gen) = 0;
+
+IO0_(in_gen,in_td)  = IO0_(in_gen,in_td)/(1+sum(margins,io0_mr_(in_gen,margins)));
+IO0_F_(in_gen,in_td) = IO0_(in_gen,in_td)*xf0_(in_gen);
+IO0_DN_(in_gen,in_td) = IO0_(in_gen,in_td)*(1-xf0_(in_gen));
+
+EX0_(in_gen) = 0;
+
+IO0_(in_ne,in_gen) = io_share_(in_ne,in_gen)*(sum(in2,IO0_(in_gen,in2)-IO0_F_(in_gen,in2)) + EX0_(in_gen));
+IO0_F_(in_ne,in_gen) = IO0_(in_ne,in_gen)*xf0_(in_ne);
+IO0_DN_(in_ne,in_gen) = IO0_(in_ne,in_gen)*(1-xf0_(in_ne));
+L0_(in_gen) = l_share_(in_gen)*(sum(in2,IO0_(in_gen,in2)-IO0_F_(in_gen,in2)) + EX0_(in_gen));
+TOPI0_(in_gen) = topi_share_(in_gen)*(sum(in2,IO0_(in_gen,in2)-IO0_F_(in_gen,in2)) + EX0_(in_gen));
+
+
+* Transmission
+
+temp_(in_td) = ( sum(in2_com,IO0_(in_td,in2_com)) + G_FED0_(in_td) + G_REG0_(in_td));
+
+IO0_(in_td,in_refine) = 0;
+IO0_(in_td,in_ind) = (seds_ex00('elec','manuf'))*(IO0_(in_td,in_ind)/sum(in2_ind,IO0_(in_td,in2_ind)));
+IO0_(in_td,in_refine) = seds_ex00('elec','refine');
+IO0_(in_td,in_ag) = (seds_ex00('elec','ag'))*(IO0_(in_td,in_ag)/sum(in2_ag,IO0_(in_td,in2_ag)));
+IO0_(in_td,in_cons) = (seds_ex00('elec','cons'))*(IO0_(in_td,in_cons)/sum(in2_cons,IO0_(in_td,in2_cons)));
+IO0_(in_td,in_mine) = (seds_ex00('elec','mine'))*(IO0_(in_td,in_mine)/sum(in2_mine,IO0_(in_td,in2_mine)));
+IO0_(in_td,in_com) = seds_ex00('elec','com')*IO0_(in_td,in_com)/temp_(in_td);
+G_FED0_(in_td) = seds_ex00('elec','com')*G_FED0_(in_td)/temp_(in_td);
+G_REG0_(in_td) = seds_ex00('elec','com')*G_REG0_(in_td)/temp_(in_td);
+PCE0_(in_td) = seds_ex00('elec','res') + seds_ex00('elec','trans');
+IO0_(in_td,in_trans) = 0;
+IO0_(in_td,in_elec) = 0;
+
+
+
+pce0_(in_td) =  pce0_(in_td)/(1+sum(margins,pce0_mr_(in_td,margins)));
+pce0_f_(in_td) = 0;
+pce0_dn_(in_td) = pce0_(in_td);
+g_fed0_(in_td) =  g_fed0_(in_td)/(1+sum(margins,g_fed0_mr_(in_td,margins)));
+g_fed0_f_(in_td) =  0;
+g_fed0_dn_(in_td) =  g_fed0_(in_td);
+g_reg0_(in_td) =  g_reg0_(in_td)/(1+sum(margins,g_reg0_mr_(in_td,margins)));
+g_reg0_f_(in_td) =  0;
+g_reg0_dn_(in_td) =  g_reg0_(in_td);
+io0_(in_td,in)  = io0_(in_td,in)/(1+sum(margins,io0_mr_(in_td,margins)));
+io0_f_(in_td,in)  = 0;
+io0_dn_(in_td,in)  = io0_(in_td,in);
+
+
+EX0_(in_td) = 0;
+
+IO0_(in_ne,in_td) = io_share_(in_ne,in_td)*(PCE0_(in_td) - PCE0_F_(in_td) + G_FED0_(in_td) - G_FED0_F_(in_td)  + G_REG0_(in_td) - G_REG0_F_(in_td) + sum(in2,IO0_(in_td,in2) - IO0_F_(in_td,in2)) + EX0_(in_td));
+IO0_F_(in_ne,in_td) = IO0_(in_ne,in_td)*xf0_(in_ne);
+IO0_DN_(in_ne,in_td) = IO0_(in_ne,in_td)*(1-xf0_(in_ne));
+L0_(in_td) = l_share_(in_td)*(PCE0_(in_td) - PCE0_F_(in_td) + G_FED0_(in_td) - G_FED0_F_(in_td)  + G_REG0_(in_td) - G_REG0_F_(in_td) + sum(in2,IO0_(in_td,in2) - IO0_F_(in_td,in2)) + EX0_(in_td));
+TOPI0_(in_td) = topi_share_(in_td)*(PCE0_(in_td) - PCE0_F_(in_td) + G_FED0_(in_td) - G_FED0_F_(in_td)  + G_REG0_(in_td) - G_REG0_F_(in_td) + sum(in2,IO0_(in_td,in2) - IO0_F_(in_td,in2)) + EX0_(in_td));
+
+
+
+
+seds_ex00('elec','ag') = sum(in_td,sum(in_ag,IO0_(in_td,in_ag)));
+seds_q00('elec','ag') = seds_ex00('elec','ag') /seds_p00('elec','ind');
+seds_ex00('elec','cons') = sum(in_td,sum(in_cons,IO0_(in_td,in_cons)));
+seds_q00('elec','cons') = seds_ex00('elec','cons') /seds_p00('elec','ind');
+seds_ex00('elec','mine') = sum(in_td,sum(in_mine,IO0_(in_td,in_mine)));
+seds_q00('elec','mine') = seds_ex00('elec','mine') /seds_p00('elec','ind');
+*
+
+
+* Refined Petroleum Products Use
+
+temp_(in_refine) = (sum(in2_trans,IO0_(in_refine,in2_trans)) + G_FED0_(in_refine) + G_REG0_(in_refine));
+
+IO0_(in_refine,in_oil) = 0;
+IO0_(in_refine,in_refine2) = 0;
+IO0_(in_refine,in_ind) = (0.18929*seds_ex00('ref','ind'))*IO0_(in_refine,in_ind)/sum(in2_ind,IO0_(in_refine,in2_ind));
+IO0_(in_refine,in_ag) = (0.19955*seds_ex00('ref','ind'))*IO0_(in_refine,in_ag)/sum(in2_ag,IO0_(in_refine,in2_ag));
+IO0_(in_refine,in_cons) = (0.53771*seds_ex00('ref','ind'))*IO0_(in_refine,in_cons)/sum(in2_cons,IO0_(in_refine,in2_cons));
+IO0_(in_refine,in_mine) = (0.07345*seds_ex00('ref','ind'))*IO0_(in_refine,in_mine)/sum(in2_mine,IO0_(in_refine,in2_mine));
+IO0_(in_refine,in_refine2) = seds_q00_refine('ref')*seds_p00('ref','ind');
+IO0_(in_refine,in_gen) = shr_gen_prod(in_gen)*seds_ex00('ref','ep')*0;
+IO0_(in_refine,in_gen_gas) = seds_ex00('ref','ep');
+IO0_(in_refine,in_td) = seds_ex00('ref','ep')*0;
+IO0_(in_refine,in_com) = seds_ex00('ref','com')*IO0_(in_refine,in_com)/sum(in2_com,IO0_(in_refine,in2_com));
+IO0_(in_refine,in_trans) = ((1-trans_res_share)*seds_ex00('ref','trans'))*(IO0_(in_refine,in_trans)/temp_(in_refine));
+PCE0_(in_refine) = seds_ex00('ref','res') + trans_res_share*seds_ex00('ref','trans');
+G_FED0_(in_refine) = ((1-trans_res_share)*seds_ex00('ref','trans'))*(G_FED0_(in_refine)/temp_(in_refine));
+G_REG0_(in_refine) = ((1-trans_res_share)*seds_ex00('ref','trans'))*(G_REG0_(in_refine)/temp_(in_refine));
+
+
+
+pce0_(in_refine) =  pce0_(in_refine)/(1+sum(margins,pce0_mr_(in_refine,margins)));
+pce0_f_(in_refine) = pce0_(in_refine)*xf0_(in_refine);
+pce0_dn_(in_refine) = pce0_(in_refine)*(1-xf0_(in_refine));
+g_fed0_(in_refine) =  g_fed0_(in_refine)/(1+sum(margins,g_fed0_mr_(in_refine,margins)));
+g_fed0_f_(in_refine) =  g_fed0_(in_refine)*xf0_(in_refine);
+g_fed0_dn_(in_refine) =  g_fed0_(in_refine)*(1-xf0_(in_refine));
+g_reg0_(in_refine) =  g_reg0_(in_refine)/(1+sum(margins,g_reg0_mr_(in_refine,margins)));
+g_reg0_f_(in_refine) =  g_reg0_(in_refine)*xf0_(in_refine);
+g_reg0_dn_(in_refine) =  g_reg0_(in_refine)*(1-xf0_(in_refine));
+io0_(in_refine,in)  = io0_(in_refine,in)/(1+sum(margins,io0_mr_(in_refine,margins)));
+io0_f_(in_refine,in)  = io0_(in_refine,in)*xf0_(in_refine);
+io0_dn_(in_refine,in)  = io0_(in_refine,in)*(1-xf0_(in_refine));
+
+
+IO0_(in_ne,in_refine) = io_share_(in_ne,in_refine)*(PCE0_(in_refine) - PCE0_F_(in_refine) + G_FED0_(in_refine) - G_FED0_F_(in_refine)  + G_REG0_(in_refine) - G_REG0_F_(in_refine) + sum(in2,IO0_(in_refine,in2) - IO0_F_(in_refine,in2)) + EX0_(in_refine));
+IO0_F_(in_ne,in_refine) = IO0_(in_ne,in_refine)*xf0_(in_ne);
+IO0_DN_(in_ne,in_refine) = IO0_(in_ne,in_refine)*(1-xf0_(in_ne));
+L0_(in_refine) = l_share_(in_refine)*(PCE0_(in_refine) - PCE0_F_(in_refine) + G_FED0_(in_refine) - G_FED0_F_(in_refine)  + G_REG0_(in_refine) - G_REG0_F_(in_refine) + sum(in2,IO0_(in_refine,in2) - IO0_F_(in_refine,in2)) + EX0_(in_refine));
+TOPI0_(in_refine) = topi_share_(in_refine)*(PCE0_(in_refine) - PCE0_F_(in_refine) + G_FED0_(in_refine) - G_FED0_F_(in_refine)  + G_REG0_(in_refine) - G_REG0_F_(in_refine) + sum(in2,IO0_(in_refine,in2) - IO0_F_(in_refine,in2)) + EX0_(in_refine));
+
+
+refine_db(in_coal) = sum(in_refine,IO0_(in_coal,in_refine));
+refine_db(in_gas) = sum(in_refine,IO0_(in_gas,in_refine));
+refine_db(in_refine2) = sum(in_refine,IO0_(in_refine2,in_refine));
+refine_db(in_td) = sum(in_refine,IO0_(in_td,in_refine));
+
+display
+refine_db
+in_ind2
+;
+
+
+
+* ------------------------------------------------------------------------------
+* Adjust margin demands to account for SEDS expenditures
+* ------------------------------------------------------------------------------
+
+
+dm0_(margins) = sum(in,pce0_mr_(in,margins)*pce0_(in) + pfi0_mr_(in,margins)*pfi0_(in)
++g_fed0_mr_(in,margins)*g_fed0_(in) + g_reg0_mr_(in,margins)*g_reg0_(in) + io0_mr_(in,margins)*sum(in2,IO0_(in,in2)));
+
+
+
+* ------------------------------------------------------------------------------
+* Load Emissions Data and Calibrate Emissions Factors
+* ------------------------------------------------------------------------------
+display seds_ex00;
+
+seds_ex00('ref','ind') = seds_ex00('ref','ind') + seds_q00_refine('ref')*seds_p00('ref','ind');
+seds_ex00('gas','ind') = seds_ex00('gas','ind') + seds_q00_refine('gas')*seds_p00('gas','ind') + gas_lease;
+
+seds_p00('ref','ind') = seds_ex00('ref','ind')/seds_q00('ref','ind');
+seds_p00('gas','ind') = seds_ex00('gas','ind')/seds_q00('gas','ind');
+
+
+
+parameter
+esector00_(fuel,sec)
+mu_sector_
+mu_sector_q_
+mu_(*,*)
+muc_(*)
+mug_(*)
+esector0_
+esector_db_
+;
+
+esector00_('coal','res') = 0;
+esector00_('coal','com') = 2.899/1000000;
+esector00_('coal','ind') = 126.908/1000000;
+esector00_('coal','trans') = 0;
+esector00_('coal','ep') = 1306.763/1000000;
+
+esector00_('gas','res') = 253.730/1000000;
+esector00_('gas','com') = 176.943/1000000;
+esector00_('gas','ind') = 492.928/1000000;
+esector00_('gas','trans') = 37.397/1000000;
+esector00_('gas','ep') = 522.134/1000000;
+
+esector00_('ref','res') = 68.464/1000000;
+esector00_('ref','com') = 67.047/1000000;
+esector00_('ref','ind') = 313.572/1000000;
+esector00_('ref','trans') = 1805.380/1000000;
+esector00_('ref','ep') = 23.908/1000000;
+
+mu_sector_(fuel,sec)$(seds_ex00(fuel,sec) gt 0) = esector00_(fuel,sec)/seds_ex00(fuel,sec);
+mu_sector_q_(fuel,sec)$(seds_q00(fuel,sec) gt 0) = esector00_(fuel,sec)/seds_q00(fuel,sec);
+
+
+mu_(in,in2) = 0;
+muc_(in) = 0;
+mug_(in) = 0;
+
+
+
+* Natural Gas
+mu_(in_gas,in_ind2) = mu_sector_('gas','ind');
+mu_(in_gas,in_gen_gas) = mu_sector_('gas','ep');
+mu_(in_gas,in_ngd) = 0;
+mu_(in_gas,in_trans) = mu_sector_('gas','trans');
+
+* Coal
+mu_(in_coal,in_ind2) = mu_sector_('coal','ind');
+mu_(in_coal,in_gen_coal) = mu_sector_('coal','ep');
+mu_(in_coal,in_com) = mu_sector_('coal','com');
+
+* Natural Gas Distribution
+mu_(in_ngd,in_ag) = mu_sector_('gas','ind');
+mu_(in_ngd,in_cons) = mu_sector_('gas','ind');
+mu_(in_ngd,in_com) = mu_sector_('gas','com');
+muc_(in_ngd) = mu_sector_('gas','res');
+mug_(in_ngd) = mu_sector_('gas','com');
+
+* Refined Products
+mu_(in_refine,in_ind2) = mu_sector_('ref','ind');
+mu_(in_refine,in_gen_gas) = mu_sector_('ref','ep');
+mu_(in_refine,in_com) = mu_sector_('ref','com');
+mu_(in_refine,in_trans) = mu_sector_('ref','trans');
+muc_(in_refine) = (seds_ex00('ref','res')/PCE0_(in_refine)*(1+sum(margins,pce0_mr_(in_refine,margins))))*mu_sector_('ref','res') + (1-(seds_ex00('ref','res')/PCE0_(in_refine)*(1+sum(margins,pce0_mr_(in_refine,margins)))))*mu_sector_('ref','trans');
+mug_(in_refine) = mu_sector_('ref','trans');
+
+
+
+esector0_('coal','res') = 0;
+esector0_('coal','com') = sum(in_coal,sum(in_com,mu_(in_coal,in_com)*IO0_(in_coal,in_com)*(1+sum(margins,io0_mr_(in_coal,margins))))*1000);
+esector0_('coal','ind') = sum(in_coal,sum(in_ind2,mu_(in_coal,in_ind2)*IO0_(in_coal,in_ind2)*(1+sum(margins,io0_mr_(in_coal,margins))))*1000);
+esector0_('coal','trans') = 0;
+esector0_('coal','ep') = sum(in_coal,sum(in_gen,mu_(in_coal,in_gen)*IO0_(in_coal,in_gen)*(1+sum(margins,io0_mr_(in_coal,margins))))*1000);
+
+esector0_('gas','res') = sum(in_ngd,muc_(in_ngd)*PCE0_(in_ngd)*(1+sum(margins,pce0_mr_(in_ngd,margins)))*1000);
+esector0_('gas','com') = sum(in_ngd,sum(in_com,mu_(in_ngd,in_com)*IO0_(in_ngd,in_com)*(1+sum(margins,io0_mr_(in_ngd,margins))))*1000 + mug_(in_ngd)*(G_FED0_(in_ngd)*(1+sum(margins,g_fed0_mr_(in_ngd,margins)))+G_REG0_(in_ngd)*(1+sum(margins,g_reg0_mr_(in_ngd,margins))))*1000);
+esector0_('gas','ind') = sum(in_gas,sum(in_ind2,mu_(in_gas,in_ind2)*IO0_(in_gas,in_ind2)*(1+sum(margins,io0_mr_(in_gas,margins))))*1000)
+    + sum(in_ngd,sum(in_ind2,mu_(in_ngd,in_ind2)*IO0_(in_ngd,in_ind2)*(1+sum(margins,io0_mr_(in_ngd,margins))))*1000);
+esector0_('gas','trans') = sum(in_gas,sum(in_trans,mu_(in_gas,in_trans)*IO0_(in_gas,in_trans)*(1+sum(margins,io0_mr_(in_gas,margins))))*1000);
+esector0_('gas','ep') = sum(in_gas,sum(in_gen,mu_(in_gas,in_gen)*IO0_(in_gas,in_gen)*(1+sum(margins,io0_mr_(in_gas,margins))))*1000);
+
+esector0_('ref','res') = (seds_ex00('ref','res')/sum(in_refine,PCE0_(in_refine)*(1+sum(margins,pce0_mr_(in_refine,margins)))))*mu_sector_('ref','res')*sum(in_refine,PCE0_(in_refine)*(1+sum(margins,pce0_mr_(in_refine,margins)))*1000);
+esector0_('ref','com') = sum(in_refine,sum(in_com,mu_(in_refine,in_com)*IO0_(in_refine,in_com)*(1+sum(margins,io0_mr_(in_refine,margins))))*1000);
+esector0_('ref','ind') = sum(in_refine,sum(in_ind2,mu_(in_refine,in_ind2)*IO0_(in_refine,in_ind2)*(1+sum(margins,io0_mr_(in_refine,margins))))*1000) ;
+esector0_('ref','trans') = sum(in_refine,sum(in_trans,mu_(in_refine,in_trans)*IO0_(in_refine,in_trans)*(1+sum(margins,io0_mr_(in_refine,margins))))*1000) + (1-(seds_ex00('ref','res')/sum(in_refine,PCE0_(in_refine)*(1+sum(margins,pce0_mr_(in_refine,margins))))))*mu_sector_('ref','trans')*sum(in_refine,PCE0_(in_refine)*(1+sum(margins,pce0_mr_(in_refine,margins)))*1000) + sum(in_refine,mug_(in_refine)*(G_FED0_(in_refine)*(1+sum(margins,g_fed0_mr_(in_refine,margins)))+G_REG0_(in_refine)*(1+sum(margins,g_reg0_mr_(in_refine,margins))))*1000) ;
+esector0_('ref','ep') = sum(in_refine,sum(in_gen,mu_(in_refine,in_gen)*IO0_(in_refine,in_gen)*(1+sum(margins,io0_mr_(in_refine,margins))))*1000);
+
+esector_db_(fuel,sec) = esector00_(fuel,sec)*1000 - esector0_(fuel,sec);
+
+
+display
+esector00_
+esector0_
+esector_db_
+mu_sector_
+;
+
+
+Parameter
+seds_q_check
+;
+
+seds_q_check('coal','res') = 0;
+seds_q_check('coal','com') = sum(in_coal,sum(in_com,IO0_(in_coal,in_com)*(1+sum(margins,io0_mr_(in_coal,margins)))))/seds_p00('coal','com');
+seds_q_check('coal','ind') = sum(in_coal,sum(in_ind2,IO0_(in_coal,in_ind2)*(1+sum(margins,io0_mr_(in_coal,margins)))))/seds_p00('coal','ind');
+seds_q_check('coal','trans') = 0;
+seds_q_check('coal','ep') = sum(in_coal,sum(in_gen,IO0_(in_coal,in_gen)*(1+sum(margins,io0_mr_(in_coal,margins)))))/seds_p00('coal','ep');
+
+seds_q_check('gas','res') = sum(in_ngd,PCE0_(in_ngd)*(1+sum(margins,pce0_mr_(in_ngd,margins))))/seds_p00('gas','res');
+seds_q_check('gas','com') = sum(in_ngd,sum(in_com,IO0_(in_ngd,in_com)*(1+sum(margins,io0_mr_(in_ngd,margins)))) + (G_FED0_(in_ngd)*(1+sum(margins,g_fed0_mr_(in_ngd,margins)))+G_REG0_(in_ngd)*(1+sum(margins,g_reg0_mr_(in_ngd,margins)))))/seds_p00('gas','com');
+seds_q_check('gas','ind') = sum(in_gas,sum(in_ind2,IO0_(in_gas,in_ind2)*(1+sum(margins,io0_mr_(in_gas,margins)))))/seds_p00('gas','ind')
+    + sum(in_ngd,sum(in_ind2,IO0_(in_ngd,in_ind2)*(1+sum(margins,io0_mr_(in_ngd,margins)))))/seds_p00('gas','ind');
+seds_q_check('gas','ind') = seds_q_check('gas','ind') - sum(in_gas,sum(in_ngd,IO0_(in_gas,in_ngd)*(1+sum(margins,io0_mr_(in_gas,margins)))))/seds_p00('gas','ind');
+seds_q_check('gas','trans') = sum(in_gas,sum(in_trans,IO0_(in_gas,in_trans)*(1+sum(margins,io0_mr_(in_gas,margins)))))/seds_p00('gas','trans');
+seds_q_check('gas','ep') = sum(in_gas,sum(in_gen,IO0_(in_gas,in_gen)*(1+sum(margins,io0_mr_(in_gas,margins)))))/seds_p00('gas','ep');
+
+seds_q_check('ref','res') = (seds_ex00('ref','res')/sum(in_refine,PCE0_(in_refine)*(1+sum(margins,pce0_mr_(in_refine,margins)))))*sum(in_refine,PCE0_(in_refine)*(1+sum(margins,pce0_mr_(in_refine,margins))))/seds_p00('ref','res');
+seds_q_check('ref','com') = sum(in_refine,sum(in_com,IO0_(in_refine,in_com)*(1+sum(margins,io0_mr_(in_refine,margins)))))/seds_p00('ref','com');
+seds_q_check('ref','ind') = sum(in_refine,sum(in_ind2,IO0_(in_refine,in_ind2)*(1+sum(margins,io0_mr_(in_refine,margins)))))/seds_p00('ref','ind'); 
+seds_q_check('ref','trans') = sum(in_refine,sum(in_trans,IO0_(in_refine,in_trans)*(1+sum(margins,io0_mr_(in_refine,margins)))))/seds_p00('ref','trans') + (1-(seds_ex00('ref','res')/sum(in_refine,PCE0_(in_refine)*(1+sum(margins,pce0_mr_(in_refine,margins))))))*sum(in_refine,PCE0_(in_refine)*(1+sum(margins,pce0_mr_(in_refine,margins))))/seds_p00('ref','trans') + sum(in_refine,(G_FED0_(in_refine)*(1+sum(margins,g_fed0_mr_(in_refine,margins)))+G_REG0_(in_refine)*(1+sum(margins,g_reg0_mr_(in_refine,margins)))))/seds_p00('ref','trans') ;
+seds_q_check('ref','ep') = sum(in_refine,sum(in_gen,IO0_(in_refine,in_gen)*(1+sum(margins,io0_mr_(in_refine,margins)))))/seds_p00('ref','ep');
+
+display
+seds_q00
+seds_q_check
+;
+
+

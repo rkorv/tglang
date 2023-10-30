@@ -1,0 +1,12 @@
+
+h1. Textile document for vim.
+
+This is "textile":http://www.textism.com/tools/textile/ document for vim.
+you can copy doc/textile.txt(En) or doc/textile.cnx(zh-cn)
+into $VIM\vimfiles\doc\ (for Windows) or .vim/doc/ (fox *nix) folder.
+
+h2. Resource
+* "textile":http://www.textism.com/tools/textile/
+* "textile.vim":https://github.com/timcharper/textile.vim
+* "A Textile Reference":http://redcloth.org/hobix.com/textile/
+* "Textile (markup language)":http://en.wikipedia.org/wiki/Textile_%28markup_language%29

@@ -1,0 +1,100 @@
+contacts.getTopPeers#d4982db5 flags:# correspondents:flags.0?true bots_pm:flags.1?true bots_inline:flags.2?true phone_calls:flags.3?true groups:flags.10?true channels:flags.15?true offset:int limit:int hash:int = contacts.TopPeers;
+//@description Searches for a sticker set by its name
+textEntities#cf89c258 entities:vector<textEntity> = TextEntities;
+messages.editInlineBotMessage#adc3e828 flags:# no_webpage:flags.1?true stop_geo_live:flags.12?true id:InputBotInlineMessageID message:flags.11?string media:flags.14?InputMedia reply_markup:flags.2?ReplyMarkup entities:flags.3?Vector<MessageEntity> geo_point:flags.13?InputGeoPoint = Bool;
+//@description The user is recording a voice note
+//@bottom_color A bottom color of the background in the RGB24 format
+updateChatParticipants#7761198 participants:ChatParticipants = Update;
+topPeerCategoryBotsInline#148677e2 = TopPeerCategory;
+//@description Marks all mentions in a chat as read @chat_id Chat identifier
+langpack.getStrings#efea3803 lang_pack:string lang_code:string keys:Vector<string> = Vector<LangPackString>;
+inputGeoPointEmpty#e4c123d6 = InputGeoPoint;
+networkStatistics since_date:int32 entries:vector<NetworkStatisticsEntry> = NetworkStatistics;
+//@chat_id Chat identifier
+channelFull#76af5481 flags:# can_view_participants:flags.3?true can_set_username:flags.6?true can_set_stickers:flags.7?true hidden_prehistory:flags.10?true id:int about:string participants_count:flags.0?int admins_count:flags.1?int kicked_count:flags.2?int banned_count:flags.2?int read_inbox_max_id:int read_outbox_max_id:int unread_count:int chat_photo:Photo notify_settings:PeerNotifySettings exported_invite:ExportedChatInvite bot_info:Vector<BotInfo> migrated_from_chat_id:flags.4?int migrated_from_max_id:flags.4?int pinned_msg_id:flags.5?int stickerset:flags.8?StickerSet available_min_id:flags.9?int = ChatFull;
+sendMessageChooseContactAction#628cbc6f = SendMessageAction;
+//@description Changes the database encryption key. Usually the encryption key is never changed and is stored in some OS keychain
+//@description Sends a code to verify an email address to be added to a user's Telegram Passport @email_address Email address
+//@class ChatActionBar @description Describes actions which must be possible to do through a chat action bar
+vectorTotal {t:Type} total_count:int vector:%(Vector t) = VectorTotal t;
+authorizationStateClosed = AuthorizationState;
+channels.deleteHistory#af369d42 channel:InputChannel max_id:int = Bool;
+//@description Options to be used when a message content is copied without a link to the original message
+//@input_message_content The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
+auth.exportLoginToken#b1b41517 api_id:int api_hash:string except_ids:Vector<int> = auth.LoginToken;
+updateMessageInteractionInfo#ab803bfe chat_id:int53 message_id:int53 interaction_info:messageInteractionInfo = Update;
+//@description Contains the storage usage statistics for a specific chat @chat_id Chat identifier; 0 if none @size Total size of the files in the chat @count Total number of files in the chat @by_file_type Statistics split by file types
+//@input_message_content New content of the message. Must be one of the following types: inputMessageAnimation, inputMessageAudio, inputMessageDocument, inputMessagePhoto or inputMessageVideo
+messages.getDialogUnreadMarks#22e24e22 = Vector<DialogPeer>;
+getTrendingStickerSets offset:int32 limit:int32 = StickerSets;
+messages.uninstallStickerSet#f96e55de stickerset:InputStickerSet = Bool;
+encryptedMessageService#23734b06 random_id:long chat_id:int date:int bytes:bytes = EncryptedMessage;
+fileTypeNone = FileType;
+//@countries The list of countries
+inputNotifyUsers#193b4417 = InputNotifyPeer;
+//@description Reports some messages from a user in a supergroup as spam; requires administrator rights in the supergroup @supergroup_id Supergroup identifier @user_id User identifier @message_ids Identifiers of messages sent in the supergroup by the user. This list must be non-empty
+//@start_parameter Unique invoice bot start_parameter. To share an invoice use the URL https://t.me/{bot_username}?start={start_parameter}
+//@linked_chat_id Chat identifier of a discussion group for the channel, or a channel, for which the supergroup is the designated discussion group; 0 if none or unknown
+//@contact Contact to send
+messageCopyOptions send_copy:Bool replace_caption:Bool new_caption:formattedText = MessageCopyOptions;
+getFileDownloadedPrefixSize#9c8724a0 file_id:int32 offset:int32 = Count;
+//@last_message_id Identifier of the last reply to the message
+//@class PublicChatType @description Describes a type of public chats
+removeContacts#d47cddcc user_ids:vector<int32> = Ok;
+//@description Returns a Telegram Passport authorization form for sharing data with a service @bot_user_id User identifier of the service's bot @scope Telegram Passport element types requested by the service @public_key Service's public_key @nonce Authorization form nonce provided by the service
+userProfilePhotoEmpty#4f11bae1 = UserProfilePhoto;
+searchChatMessages#9aa50c30 chat_id:int53 query:string sender:MessageSender from_message_id:int53 offset:int32 limit:int32 filter:SearchMessagesFilter message_thread_id:int53 = Messages;
+//@type Type of the poll
+//@description Sends phone number confirmation code. Should be called when user presses "https://t.me/confirmphone?phone=*******&hash=**********" or "tg://confirmphone?phone=*******&hash=**********" link @hash Value of the "hash" parameter from the link
+//@reverse_side Reverse side of the document; only for driver license and identity card; pass null otherwise @selfie Selfie with the document; pass null if unavailable @translation List of files containing a certified English translation of the document
+sendMessageChooseContactAction#628cbc6f = SendMessageAction;
+//@description The best available video quality
+encryptedChatDiscarded#13d6dd27 id:int = EncryptedChat;
+new_session_created#9ec20908 first_msg_id:long unique_id:long server_salt:long = NewSession;
+//@limit The maximum number of chats to be returned. It is possible that fewer chats than the limit are returned even if the end of the list is not reached
+messages.messagesSlice#b446ae3 count:int messages:Vector<Message> chats:Vector<Chat> users:Vector<User> = messages.Messages;
+//@description An identity document
+callDiscardReasonDisconnected#aff563a2 = CallDiscardReason;
+pageBlockSlideshow#130c8963 items:Vector<PageBlock> caption:RichText = PageBlock;
+//@query Text of the query
+invokeWithLayer#da9b0d0d {X:Type} layer:int query:!X = X;
+connectedWebsites#f0c8b5ea websites:vector<connectedWebsite> = ConnectedWebsites;
+//@class BackgroundType @description Describes the type of a background
+channels.channelParticipant#d0d9b163 participant:ChannelParticipant users:Vector<User> = channels.ChannelParticipant;
+updateAnimationSearchParameters provider:string emojis:vector<string> = Update;
+inputSecureFileLocation#cbc7ee28 id:long access_hash:long = InputFileLocation;
+//@new_content New message content
+//@description Searches for recently used hashtags by their prefix
+//@description Returns information about a tg:// deep link. Use "tg://need_update_for_some_feature" or "tg:some_unsupported_feature" for testing. Returns a 404 error for unknown links. Can be called before authorization
+//@description Represents the results of the inline query. Use sendInlineQueryResultMessage to send the result of the query @inline_query_id Unique identifier of the inline query @next_offset The offset for the next request. If empty, there are no more results @results Results of the query
+//@description A privacy setting for managing whether the user can be invited to chats
+setGroupCallParticipantVolumeLevel group_call_id:int32 participant_id:MessageSender volume_level:int32 = Ok;
+setChatNotificationSettings#2e531ffe chat_id:int53 notification_settings:chatNotificationSettings = Ok;
+//@user_id User identifier
+account.privacyRules#50a04e45 rules:Vector<PrivacyRule> chats:Vector<Chat> users:Vector<User> = account.PrivacyRules;
+processPushNotification#2ee3c890 payload:string = Ok;
+//@minithumbnail Document minithumbnail; may be null @thumbnail Document thumbnail in JPEG or PNG format (PNG will be used only for background patterns); as defined by the sender; may be null @document File containing the document
+richTextEmailAddress#262a2f7 text:RichText email_address:string = RichText;
+chat#3bda1bde flags:# creator:flags.0?true kicked:flags.1?true left:flags.2?true deactivated:flags.5?true id:int title:string photo:ChatPhoto participants_count:int date:int version:int migrated_to:flags.6?InputChannel admin_rights:flags.14?ChatAdminRights default_banned_rights:flags.18?ChatBannedRights = Chat;
+messages.migrateChat#15a3b8e3 chat_id:int = Updates;
+passportRequiredElement suitable_elements:vector<passportSuitableElement> = PassportRequiredElement;
+contacts.blocked#ade1591 blocked:Vector<PeerBlocked> chats:Vector<Chat> users:Vector<User> = contacts.Blocked;
+//@chat_list Chat list in which to search messages; pass null to search in all chats regardless of their chat list
+//@message_id Identifier of the removed pinned message
+//@chat_id Chat identifier
+messageCalendar total_count:int32 days:vector<messageCalendarDay> = MessageCalendar;
+//@height Thumbnail height
+---functions---
+//@right_reel The animated sticker with the right reel
+//@id Remote file identifier
+//@title Option title
+channels.getParticipants#123e05e9 channel:InputChannel filter:ChannelParticipantsFilter offset:int limit:int hash:int = channels.ChannelParticipants;
+richTextIcon document:document width:int32 height:int32 = RichText;
+messages.toggleDialogPin#a731e257 flags:# pinned:flags.0?true peer:InputDialogPeer = Bool;
+messageFwdHeader#559ebe6d flags:# from_id:flags.0?int date:int channel_id:flags.1?int channel_post:flags.2?int post_author:flags.3?string saved_from_peer:flags.4?Peer saved_from_msg_id:flags.4?int = MessageFwdHeader;
+//@translation_url Link to language translation interface; empty for custom local language packs
+updateSavedAnimations animation_ids:vector<int32> = Update;
+botCommandScopeAllPrivateChats = BotCommandScope;
+messages.getPeerDialogs#e470bcfd peers:Vector<InputDialogPeer> = messages.PeerDialogs;
+messages.stickerSetInstallResultSuccess#38641628 = messages.StickerSetInstallResult;
+pushMessageContentGameScore title:string score:int32 is_pinned:Bool = PushMessageContent;
